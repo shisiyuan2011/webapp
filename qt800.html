@@ -188,176 +188,85 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <!-- search -->
+              <!-- predict images -->
               <div class="card">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label class="col-form-label" for="appendedInputButton">Search</label>
-                    <div class="controls">
-                      <div class="input-group">
-                        <input class="form-control" id="appendedInputButton" size="16" type="text">
-                        <span class="input-group-append">
-                          <button class="btn btn-secondary" type="button">
-                            <span><img height="16" src="/assets/icons/magnifying-glass.svg"></img></span>Go!
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer px-3 py-2">
-                  <a class="btn-block text-muted d-flex justify-content-between align-items-center" href="main.html">
-                    <span class="small font-weight-bold">Advanced Search</span>
-                    <svg class="c-icon">
-                      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chevron-right"></use>
-                    </svg>
-                  </a>
+                    <img src="/images/qt800.png" width="98%"></img>
                 </div>
               </div>
-              <!-- Materials GCr15, QT800 -->
-              <div class="row">
-                <div class="col-sm-6 col-lg-3">
-                  <div class="card text-white bg-gradient-primary">
-                    <div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
-                      <div>
-                        <div class="text-value-lg" id="name_of_material">GCr15</div>
-                        <div>Details</div>
-                      </div>
-                      <div class="btn-group">
-                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <svg class="c-icon">
-                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="main.html">Raw Data</a>
-                          <a class="dropdown-item" href="main.html">Hysteresis Loops</a>
-                          <a class="dropdown-item" href="main.html">Prediction</a></div>
-                      </div>
-                    </div>
-                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                      <canvas class="chart" id="card-chart1" height="70"></canvas>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-->
-                <div class="col-sm-6 col-lg-3">
-                  <div class="card text-white bg-gradient-info">
-                    <div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
-                      <div>
-                        <div class="text-value-lg">QT800</div>
-                        <div>Details</div>
-                      </div>
-                      <div class="btn-group">
-                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <svg class="c-icon">
-                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
-                          </svg>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="main.html">Raw Data</a>
-                          <a class="dropdown-item" href="main.html">Hysteresis Loops</a>
-                          <a class="dropdown-item" href="main.html">Prediction</a></div>
-                      </div>                        
-                    </div>
-                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                      <canvas class="chart" id="card-chart2" height="70"></canvas>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-->
-              </div>
-              <!-- Materials GCr15, QT800 -->
-              <!-- /.row-->
-              <div class="row">
-                <div class="col-6 col-lg-3">
-                  <div class="card">
-                    <div class="card-body p-3 d-flex align-items-center">
-                      <div class="bg-primary p-3 mfe-3">
-                        <svg class="c-icon c-icon-xl">
-                          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-aperture"></use>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-value text-primary">2</div>
-                        <div class="text-muted text-uppercase font-weight-bold small">Materials</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                  <div class="card">
-                    <div class="card-body p-3 d-flex align-items-center">
-                      <div class="bg-info p-3 mfe-3">
-                        <svg class="c-icon c-icon-xl">
-                          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-spreadsheet"></use>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-value text-info">5000</div>
-                        <div class="text-muted text-uppercase font-weight-bold small">Experiment Datas</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-->
-                <div class="col-6 col-lg-3">
-                  <div class="card">
-                    <div class="card-body p-3 d-flex align-items-center">
-                      <div class="bg-warning p-3 mfe-3">
-                        <svg class="c-icon c-icon-xl">
-                          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chart-line"></use>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-value text-warning">10</div>
-                        <div class="text-muted text-uppercase font-weight-bold small">Analyse Methods</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-->
-                <div class="col-6 col-lg-3">
-                  <div class="card">
-                    <div class="card-body p-3 d-flex align-items-center">
-                      <div class="bg-danger p-3 mfe-3">
-                        <svg class="c-icon c-icon-xl">
-                          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-value text-danger">5</div>
-                        <div class="text-muted text-uppercase font-weight-bold small">Online Experiments</div>
-                      </div>
-                    </div>
-                  </div>
+              <!-- data table -->
+
+              <!-- 
+                编号	寿命	应力	应变	塑性应变	弹性应变	应力_1	应变_1
+                1	3053	293.5	0.0087	0.0053	0.003576164	322.0000 	0.0087 
+                2	6997	273.415	0.0064	0.0031	0.003534709	294.0000 	0.0064 
+                <td>3</td>	<td>39106</td>	<td>229.995</td>	<td>0.0041</td>	<td>0.0018</td>	<td>0.002985568</td>	<td>286.0000</td> 	<td>0.0041</td> 
+                <td>4</td>	<td>1543</td>	<td>304.665</td>	<td>0.0106</td>	<td>0.0071</td>	<td>0.004232444</td>	<td>328.0000</td> 	<td>0.0106</td> 
+                <td>5</td>	<td>1272</td>	<td>351.112</td>	<td>0.0129</td>	<td>0.0088</td>	<td>0.004367136</td>	<td>366.0000</td> 	<td>0.0129</td> 
+                <td>6</td>	<td>1240</td>	<td>352.5</td>	<td>0.0153</td>	<td>0.0111</td>	<td>0.004497542</td>	<td>359.0000</td> 	<td>0.0153</td> 
+                <td>7</td>	<td>624</td>	<td>377</td>	<td>0.0176</td>	<td>0.0127</td>	<td>0.004559778</td>	<td>374.0000</td> 	<td>0.0176</td> 
+              !-->
+
+              <div class="card">
+                <div class="card-header"><i class="fa fa-align-justify"></i> Combined All Table</div>
+                <div class="card-body">
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>编号</th>
+                        <th>寿命</th>
+                        <th>应力</th>
+                        <th>应变</th>
+                        <th>塑性应变</th>
+                        <th>弹性应变</th>
+                        <th>应力_1</th>
+                        <th>应变_1</th>
+                        <th>详情</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>	<td>3053</td>	<td>293.5</td>	<td>0.0087</td>	<td>0.0053</td>	<td>0.003576164</td>	<td>322.0000</td> 	<td>0.0087</td>
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>	<td>6997</td>	<td>273.415</td>	<td>0.0064</td>	<td>0.0031</td>	<td>0.003534709</td>	<td>294.0000</td> 	<td>0.0064</td>
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>	<td>39106</td>	<td>229.995</td>	<td>0.0041</td>	<td>0.0018</td>	<td>0.002985568</td>	<td>286.0000</td> 	<td>0.0041</td>                         <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>	<td>1543</td>	<td>304.665</td>	<td>0.0106</td>	<td>0.0071</td>	<td>0.004232444</td>	<td>328.0000</td> 	<td>0.0106</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>5</td>	<td>1272</td>	<td>351.112</td>	<td>0.0129</td>	<td>0.0088</td>	<td>0.004367136</td>	<td>366.0000</td> 	<td>0.0129</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>6</td>	<td>1240</td>	<td>352.5</td>	<td>0.0153</td>	<td>0.0111</td>	<td>0.004497542</td>	<td>359.0000</td> 	<td>0.0153</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>	<td>624</td>	<td>377</td>	<td>0.0176</td>	<td>0.0127</td>	<td>0.004559778</td>	<td>374.0000</td> 	<td>0.0176</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <nav>
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="qt800.html">Prev</a></li>
+                      <li class="page-item active"><a class="page-link" href="qt800.html">1</a></li>
+                      <li class="page-item"><a class="page-link" href="qt800.html">2</a></li>
+                      <li class="page-item"><a class="page-link" href="qt800.html">3</a></li>
+                      <li class="page-item"><a class="page-link" href="qt800.html">4</a></li>
+                      <li class="page-item"><a class="page-link" href="qt800.html">Next</a></li>
+                    </ul>
+                  </nav>
                 </div>
               </div>
-              <!-- /.row-->
-              <div class="card border-primary">
-                <div class="card-header">Advanced Search</div>
-                <div class="card-body">.</div>
-              </div>
-              <div class="card border-success">
-                <div class="card-header">Experiments Data</div>
-                <div class="card-body">.</div>
-              </div>
-              <!-- /.row-->
-              <div class="card border-info">
-                <div class="card-header">Algorithm</div>
-                <div class="card-body">.</div>
-              </div>
-              <!-- /.row-->
-              <div class="card border-warning">
-                <div class="card-header">Online Analysis</div>
-                <div class="card-body">.</div>
-              </div>
-              <!-- /.row-->
-              <div class="card border-danger">
-                <div class="card-header">Online Experiment</div>
-                <div class="card-body">.</div>
-              </div>
-              <!-- /.row-->
+
             </div>
           </div>
         </main>
