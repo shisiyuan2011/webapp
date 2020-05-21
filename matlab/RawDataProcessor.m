@@ -72,6 +72,9 @@ classdef RawDataProcessor
             self = force_strain_(self, Angle, Torque);
             plot_loops_(self);
             plot_specified_loop_(self);
+            
+            [Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLoop_DH(self.Shearstrain, self.Shearforce, 10);
+            [tauMax_temp,a1,a2,a3,N_all] = G_Tau_N(self.Shearstrain, self.Shearforce, 365);
         end % raw_data
 
         function self = raw_data(self)
@@ -120,6 +123,7 @@ classdef RawDataProcessor
                     Angle=[Angle;data3];
                 end %if
             end % for
+            Angle = Angle * pi / 180;
         end % function read_raw_data
 
         function [path, ftype, ename] = get_path_by_eid_(self, eid)
@@ -138,9 +142,8 @@ classdef RawDataProcessor
         end %get_all_eid_
         
         function self = process_rawdata_(self, Angle, Torque)
-            Angle = Angle * pi / 180;
             self.sf = self.sampling_/self.frequency_;
-            
+
             %处理Theta, Torque
             Num=length(Angle);
             self.Number_period = 0;
@@ -215,7 +218,7 @@ classdef RawDataProcessor
             %扭矩转为应力
             self.radius_ = self.radius_ * 10^(-3);
             self.length_ = self.length_ * 10^(-3);
-            Wp=(((2 * self.radius_) ^3) * pi) / self.sampling_;
+            Wp=(((2 * self.radius_)^3) * pi) / self.sampling_;
 
             self.max_shearforce_per = zeros(size(self.max_torque_per));
             self.min_shearforce_per = zeros(size(self.max_torque_per));
@@ -343,6 +346,12 @@ classdef RawDataProcessor
 
             self.Shearforce = [];
             self.Shearstrain = [];
+            
+            
+            self.frequency_ =0.1;
+            self.sampling_ = 16;
+            self.radius_ = 3;
+            self.length_ = 20;
         end % init_
         
     end % private methods
