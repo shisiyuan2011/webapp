@@ -12,14 +12,14 @@ classdef RawDataProcessor
         theta_8;
         torque_8;
 
-        max_Shearforceper;
-        min_Shearforceper;
-        mean_Shearforceper;
+        max_shearforce_per;
+        min_shearforce_per;
+        mean_shearforce_per;
         bpoint;
 
-        max_Shearstrainper;
-        min_Shearstrainper;
-        mean_Shearstrainper;
+        max_shearstrain_per;
+        min_shearstrain_per;
+        mean_shearstrain_per;
 
         TauMaxMPa;
         TauMinMPa;
@@ -29,8 +29,8 @@ classdef RawDataProcessor
         Strain_TotMean;
         StrainRate;
 
-        max_Shearforceperimproved;
-        min_Shearforceperimproved;
+        max_shearforce_perimproved;
+        min_shearforce_perimproved;
         
         Shearforce;
         Shearstrain;
@@ -41,8 +41,8 @@ classdef RawDataProcessor
     properties (Access=private)
         frequncy_ =0.1;
         sampling_ = 16;
-        sradius_ = 3;
-        slength_ = 20;
+        radius_ = 3;
+        length_ = 20;
 
         datasource_ = 'cloudlab';
         username_ = 'cloudlab';
@@ -51,48 +51,46 @@ classdef RawDataProcessor
     end %private properties
 
     methods (Access=public)        
-        function this = raw_data_by_param(this, path, ftype)
-            [Ts, Angle, Torque] = read_raw_data_(this, path, ftype);
-            insert_to_db(this, Ts, Angle, Torque);
-            this.len = length(Torque);
+        function self = raw_data_by_param(self, path, ftype)
+            [Angle, Torque] = read_raw_data_(self, path, ftype);
+            self.len = length(Torque);
+            self = process_rawdata_(self, Angle, Torque);
+            self =  force_strain_(self);
         end % raw_data
 
-        function this = raw_data_from_db_by_eid(this, eid)
-            this.conn_ = database(this.datasource_, this.username_, ...,
-                this.passwd_);
+        function self = raw_data_from_db_by_eid(self, eid)
+            self.conn_ = database(self.datasource_, self.username_, ...,
+                self.passwd_);
             
-            [path, ftype, this.ename] = get_path_by_eid_(this, eid);            
-            [Angle, Torque] = read_raw_data_(this, path, ftype);
-            close(this.conn_);
+            [path, ftype, self.ename] = get_path_by_eid_(self, eid);
+            [Angle, Torque] = read_raw_data_(self, path, ftype);
+            close(self.conn_);
 
-            this.len = length(Torque);
-
-            this = process_rawdata_(this, Angle, Torque);
-
-            plot_original_(this, this.max_angle_per, this.min_angle_per, 'o');
-            plot_original_(this, this.max_torque_per, this.min_torque_per, 'v');            
+            self.len = length(Torque);
+            self = process_rawdata_(self, Angle, Torque);
+            self = force_strain_(self, Angle, Torque);
         end % raw_data
 
-        function this = raw_data(this)
-            this.conn_ = database(this.datasource_, this.username_, ...,
-                this.passwd_);
+        function self = raw_data(self)
+            self.conn_ = database(self.datasource_, self.username_, ...,
+                self.passwd_);
 
-            eid = get_all_eid_(this);
+            eid = get_all_eid_(self);
             for i = 1 : length(eid)
                 fprintf("Experiment %d ... ", i);
-                [path, ftype, ename] = get_path_by_eid_(this, eid(i));
-                [Angle, Torque] = read_raw_data_(this, path, ftype);
+                [path, ftype, self.ename] = get_path_by_eid_(self, eid(i));
+                [Angle, Torque] = read_raw_data_(self, path, ftype);
                 fprintf("Length is %d ... ", length(Torque));
-                % insert_to_rawdata_table(this, eid(i), rawtable, Angle, Torque);
+                % insert_to_rawdata_table(self, eid(i), rawtable, Angle, Torque);
                 fprintf("Done.\n");
             end
             
-            close(this.conn_);
+            close(self.conn_);
         end % raw_data
     end % public methods
 
     methods (Access=private)
-        function [Angle, Torque] = read_raw_data_(this, path, ftype)
+        function [Angle, Torque] = read_raw_data_(self, path, ftype)
             path=[path, '\'];
             file_list_new = dir([path,'*.txt']);
             l=length(file_list_new);
@@ -121,200 +119,160 @@ classdef RawDataProcessor
             end % for
         end % function read_raw_data
 
-        function [path, ftype, rawtable] = get_path_by_eid_(this, eid)
-            sql = ['SELECT `datapath`, `datatype`, `rawtable` FROM `experiment` WHERE `eid` = ', ... ,
+        function [path, ftype, ename] = get_path_by_eid_(self, eid)
+            sql = ['SELECT `ename`, `datapath`, `datatype` FROM `experiment` WHERE `eid` = ', ... ,
                 int2str(eid)];
-            res = fetch(this.conn_, sql);
+            res = fetch(self.conn_, sql);
             path = char(res.datapath(1));
             ftype = res.datatype(1);
-            rawtable = char(res.rawtable(1));
+            ename = char(res.ename(1));
         end
 
-        function eid = get_all_eid_(this)
+        function eid = get_all_eid_(self)
             sql = 'SELECT `eid` FROM `experiment`';
-            res = fetch(this.conn_, sql);
+            res = fetch(self.conn_, sql);
             eid = res.eid;
         end %get_all_eid_
         
-        function good = insert_to_rawdata_table(this, eid, rawtable, ...,
-                Angle, Torque)
-            Eid = ones(length(Torque), 1) * eid;
-            data = table(Eid, Angle, Torque, 'VariableNames',{'eid', 'torque', 'angle'});
-            sqlwrite(this.conn_, rawtable, data);
-            commit(this.conn_);
-            good = 1;
-        end
-        
-        function this = process_rawdata_(this, Angle, Torque)
+        function self = process_rawdata_(self, Angle, Torque)
             Angle = Angle * pi / 180;
-            this.sampling_frequency = this.sampling_/this.frequncy_;
+            self.sampling_frequency = self.sampling_/self.frequncy_;
             
             %处理Theta, Torque
             Num=length(Angle);
-            this.Number_period = 0;
+            self.Number_period = 0;
             for period = 1:Num
-                if period * this.sampling_frequency <= Num
-                    this.max_angle_per(period,1)=max(Angle((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.max_angle_per(period,2)=period;
+                if period * self.sampling_frequency <= Num
+                    self.max_angle_per(period,1)=max(Angle((period-1) * self.sampling_frequency + 1:period * self.sampling_frequency));
+                    self.max_angle_per(period,2)=period;
 
-                    this.min_angle_per(period,1)=min(Angle((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.min_angle_per(period,2)=period;
+                    self.min_angle_per(period,1)=min(Angle((period-1) * self.sampling_frequency + 1:period * self.sampling_frequency));
+                    self.min_angle_per(period,2)=period;
 
-                    this.max_torque_per(period,1)=max(Torque((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.max_torque_per(period,2)=period;
+                    self.max_torque_per(period,1)=max(Torque((period-1) * self.sampling_frequency + 1:period * self.sampling_frequency));
+                    self.max_torque_per(period,2)=period;
 
-                    this.min_torque_per(period,1)=min(Torque((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.min_torque_per(period,2)=period;
+                    self.min_torque_per(period,1)=min(Torque((period-1) * self.sampling_frequency + 1:period * self.sampling_frequency));
+                    self.min_torque_per(period,2)=period;
 
-                    this.Number_period = period;
+                    self.Number_period = period;
                 else
-                    this.max_angle_per(period,1)=max(Angle((period-1) * this.sampling_frequency + 1:Num));
-                    this.max_angle_per(period,2)=period;
+                    self.max_angle_per(period,1)=max(Angle((period-1) * self.sampling_frequency + 1:Num));
+                    self.max_angle_per(period,2)=period;
 
-                    this.min_angle_per(period,1)=min(Angle((period-1) * this.sampling_frequency + 1:Num));
-                    this.min_angle_per(period,2)=period;
+                    self.min_angle_per(period,1)=min(Angle((period-1) * self.sampling_frequency + 1:Num));
+                    self.min_angle_per(period,2)=period;
 
-                    this.max_torque_per(period,1)=max(Torque((period-1) * this.sampling_frequency + 1:Num));
-                    this.max_torque_per(period,2)=period;
+                    self.max_torque_per(period,1)=max(Torque((period-1) * self.sampling_frequency + 1:Num));
+                    self.max_torque_per(period,2)=period;
 
-                    this.min_torque_per(period,1)=min(Torque((period-1) * this.sampling_frequency + 1:Num));
-                    this.min_torque_per(period,2)=period;
+                    self.min_torque_per(period,1)=min(Torque((period-1) * self.sampling_frequency + 1:Num));
+                    self.min_torque_per(period,2)=period;
                     break;
                 end
             end
+        
+            self.theta_8 = (self.max_angle_per(100,1) - self.min_angle_per(100,1))/2;
+            self.torque_8= (self.max_torque_per(100,1) - self.min_torque_per(100,1))/2;
+
+            plot_original_(self, self.max_angle_per, self.min_angle_per, 'o');
             
-            %去除坏点 Angle
-            max_angle_permean=mean(this.max_angle_per);
-            max_angle_perstd=std(this.max_angle_per);
-            min_angle_permean=mean(this.min_angle_per);
-            min_angle_perstd=std(this.min_angle_per);
-            for i=1:this.Number_period + 1
-                if (this.max_angle_per(i,1)>(max_angle_permean(1,1) + 3 * max_angle_perstd(1,1))) || (this.max_angle_per(i,1)<(max_angle_permean(1,1)-3*max_angle_perstd(1,1)))
-                    this.max_angle_per(i,1) = max_angle_permean(1,1);
+            %去除坏点
+            max_angle_per_mean=mean(self.max_angle_per);
+            max_angle_per_std=std(self.max_angle_per);
+            min_angle_per_mean=mean(self.min_angle_per);
+            min_angle_per_std=std(self.min_angle_per);
+            for i=1:self.Number_period+1
+                if (self.max_angle_per(i,1)>(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))||(self.max_angle_per(i,1)<(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))
+                    self.max_angle_per(i,1)=max_angle_per_mean(1,1);
                 end
-                if (this.min_angle_per(i,1)>(min_angle_permean(1,1) + 3 * min_angle_perstd(1,1))) || (this.min_angle_per(i,1)<(min_angle_permean(1,1)-3*min_angle_perstd(1,1)))
-                    this.min_angle_per(i,1) = min_angle_permean(1,1);
+                if (self.min_angle_per(i,1)>(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))||(self.min_angle_per(i,1)<(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))
+                    self.min_angle_per(i,1)=min_angle_per_mean(1,1);
                 end
             end
+           
+            plot_original_(self, self.max_angle_per, self.min_angle_per, 'o');
 
             % Torque 对中操作
-            move_distance = 0.5 * (this.max_torque_per(:,1) - this.min_torque_per(:,1)) - this.max_torque_per(:,1);
-            this.max_torque_per(:,1) = this.max_torque_per(:,1) + move_distance(:,1);
-            this.min_torque_per(:,1) = this.min_torque_per(:,1) + move_distance(:,1);
+            move_distance = 0.5 * (self.max_torque_per(:,1) - self.min_torque_per(:,1)) - self.max_torque_per(:,1);
+            self.max_torque_per(:,1) = self.max_torque_per(:,1) + move_distance(:,1);
+            self.min_torque_per(:,1) = self.min_torque_per(:,1) + move_distance(:,1);
+            
+            plot_original_(self, self.max_torque_per, self.min_torque_per, 'v');
+            
+            % 平滑 torque
+            self.max_torque_per(:,1)=smoothdata(self.max_torque_per(:,1), 'movmedian');
+            self.min_torque_per(:,1)=smoothdata(self.min_torque_per(:,1), 'movmedian');
+            
+            plot_original_(self, self.max_torque_per, self.min_torque_per, 'v');
         end % process_rawdata_
 
-        function this = process_rawdata_1_(this, Angle, Torque)
-            Angle = Angle * pi / 180;
-            this.sampling_frequency = this.sampling_/this.frequncy_;
-            
-            %处理Theta, Torque
-            Num=length(Angle);
-            this.Number_period = 0;
-            for period = 1:Num
-                if period * this.sampling_frequency <= Num
-                    this.max_angle_per(period,1)=max(Angle((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.max_angle_per(period,2)=period;
-
-                    this.min_angle_per(period,1)=min(Angle((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.min_angle_per(period,2)=period;
-
-                    this.max_torque_per(period,1)=max(Torque((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.max_torque_per(period,2)=period;
-
-                    this.min_torque_per(period,1)=min(Torque((period-1) * this.sampling_frequency + 1:period * this.sampling_frequency));
-                    this.min_torque_per(period,2)=period;
-
-                    this.Number_period = period;
-                    period = period + 1;
-                else
-                    this.max_angle_per(period,1)=max(Angle((period-1) * this.sampling_frequency + 1:Num));
-                    this.max_angle_per(period,2)=period;
-
-                    this.min_angle_per(period,1)=min(Angle((period-1) * this.sampling_frequency + 1:Num));
-                    this.min_angle_per(period,2)=period;
-
-                    this.max_torque_per(period,1)=max(Torque((period-1) * this.sampling_frequency + 1:Num));
-                    this.max_torque_per(period,2)=period;
-
-                    this.min_torque_per(period,1)=min(Torque((period-1) * this.sampling_frequency + 1:Num));
-                    this.min_torque_per(period,2)=period;
-                    break;
-                end
-            end
-
-            % Torque 对中操作
-            move_distance = 0.5 * (this.max_torque_per - this.min_torque_per) - this.max_torque_per;
-            this.max_torque_per = this.max_torque_per + move_distance;
-            this.min_torque_per = this.min_torque_per + move_distance;
-            
-            %去除坏点 Angle
-            max_angle_permean=mean(this.max_angle_per);
-            max_angle_perstd=std(this.max_angle_per);
-            min_angle_permean=mean(this.min_angle_per);
-            min_angle_perstd=std(this.min_angle_per);
-            for i=1:this.Number_period + 1
-                if (this.max_angle_per(i,1)>(max_angle_permean(1,1) + 3 * max_angle_perstd(1,1))) || (this.max_angle_per(i,1)<(max_angle_permean(1,1)-3*max_angle_perstd(1,1)))
-                    this.max_angle_per(i,1)=max_angle_permean(1,1);
-                end
-                if (this.min_angle_per(i,1)>(min_angle_permean(1,1) + 3 * min_angle_perstd(1,1))) || (this.min_angle_per(i,1)<(min_angle_permean(1,1)-3*min_angle_perstd(1,1)))
-                    this.min_angle_per(i,1)=min_angle_permean(1,1);
-                end
-            end
-
-            % 平滑 torque
-            this.max_torque_per(:,1)=smoothdata(this.max_torque_per(:,1), 'movmedian');
-            this.min_torque_per(:,1)=smoothdata(this.min_torque_per(:,1), 'movmedian');
-
-            this.theta_8 = (this.max_angle_per(100,1) - this.min_angle_per(100,1))/2;
-            this.torque_8= (this.max_torque_per(100,1) - this.min_torque_per(100,1))/2;
-
+        function self = force_strain_(self, Angle, Torque)
             %扭矩转为应力
-            D = 2 * this.sradius_ * 10^(-3);
-            Len = this.slength_ * 10^(-3);
-            Wp=((D^3)*pi)/16;
+            self.radius_ = self.radius_ * 10^(-3);
+            self.length_ = self.length_ * 10^(-3);
+            Wp=(((2 * self.radius_) ^3) * pi) / self.sampling_;
 
-            this.max_Shearforceper = zeros(size(this.max_torque_per));
-            this.max_Shearforceper(:, 1) = 10^(-6) * this.max_torque_per(:, 1)/Wp;
-            this.max_Shearforceper(:, 2) = this.max_torque_per(:, 2);
-            this.min_Shearforceper(:, 1) = 10^(-6) * this.min_torque_per(:, 1)/Wp;
-            this.min_Shearforceper(:, 2) = this.min_torque_per(:, 2);
-            this.mean_Shearforceper(:, 1) = 0.5 * (this.max_Shearforceper(:, 1) + this.min_Shearforceper(:, 1));
-            this.mean_Shearforceper(:, 2) = this.min_torque_per(:, 2);
+            self.max_shearforce_per = zeros(size(self.max_torque_per));
+            self.min_shearforce_per = zeros(size(self.max_torque_per));
+            self.mean_shearforce_per = zeros(size(self.max_torque_per));
+            self.max_shearforce_per(:, 1) = 10^(-6) * self.max_torque_per(:, 1)/Wp;
+            self.max_shearforce_per(:, 2) = self.max_torque_per(:, 2);
+            self.min_shearforce_per(:, 1) = 10^(-6) * self.min_torque_per(:, 1)/Wp;
+            self.min_shearforce_per(:, 2) = self.min_torque_per(:, 2);
+            self.mean_shearforce_per(:, 1) = 0.5 * (self.max_shearforce_per(:, 1) + self.min_shearforce_per(:, 1));
+            self.mean_shearforce_per(:, 2) = self.min_torque_per(:, 2);
 
             %寻找断点
-            bpointmaxtirx = this.max_Shearforceper(this.max_Shearforceper(:,1) - 0.7 * this.max_Shearforceper(1,1) < 2, :);
-            this.bpoint=bpointmaxtirx(1,2);
+            self.bpoint = 0;
+            bpointmaxtirx = self.max_shearforce_per(self.max_shearforce_per(:,1) - 0.7 * self.max_shearforce_per(1,1) < 2, :);
+            s = size(bpointmaxtirx);
+            if s(1) == 0
+                self.bpoint = self.Number_period;
+            else
+                self.bpoint = bpointmaxtirx(1,2);
+            end
+            
+            % remove the recordes after break point
+            self.max_shearforce_per([self.bpoint : self.Number_period + 1], : ) = [];
+            self.min_shearforce_per([self.bpoint : self.Number_period + 1], : ) = [];
+            self.mean_shearforce_per([self.bpoint : self.Number_period + 1], : ) =[];
 
             %角度转为应变
-            this.max_Shearstrainper(:,1) = 0.5*D * this.max_angle_per(:,1)/Len;
-            this.max_Shearstrainper(:,2) = this.max_angle_per(:,2);
-            this.min_Shearstrainper(:,1) = 0.5*D * this.min_angle_per(:,1)/Len;
-            this.min_Shearstrainper(:,2) = this.min_angle_per(:,2);
-            this.mean_Shearstrainper(:,1)= 0.5*(this.max_Shearstrainper(:,1) + this.min_Shearstrainper(:,1));
-            this.mean_Shearstrainper(:,2)= this.min_angle_per(:,2);
+            self.max_shearstrain_per = zeros(size(self.max_angle_per));
+            self.min_shearstrain_per = zeros(size(self.max_angle_per));
+            self.mean_shearstrain_per = zeros(size(self.max_angle_per));
+            self.max_shearstrain_per(:,1) = self.radius_ * self.max_angle_per(:,1)/self.length_;
+            self.max_shearstrain_per(:,2) = self.max_angle_per(:,2);
+            self.min_shearstrain_per(:,1) = self.radius_ * self.min_angle_per(:,1)/self.length_;
+            self.min_shearstrain_per(:,2) = self.min_angle_per(:,2);
+            self.mean_shearstrain_per(:,1)= 0.5*(self.max_shearstrain_per(:,1) + self.min_shearstrain_per(:,1));
+            self.mean_shearstrain_per(:,2)= self.min_angle_per(:,2);
+            
+            % remove the recordes after break point
+            self.max_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
+            self.min_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
+            self.mean_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
 
             % 平滑应力
-            this.max_Shearforceperimproved = smoothdata(this.max_Shearforceper(:,1),'movmedian');
-            this.min_Shearforceperimproved = smoothdata(this.min_Shearforceper(:,1),'movmedian');
+            self.max_shearforce_perimproved = smoothdata(self.max_shearforce_per(:,1),'movmedian');
+            self.min_shearforce_perimproved = smoothdata(self.min_shearforce_per(:,1),'movmedian');
             
-            this.TauMaxMPa = max(this.max_Shearforceperimproved);
-            this.TauMinMPa = min(this.min_Shearforceperimproved);
-            this.TauMeanMPa = mean(this.mean_Shearforceper(:,1));
-            this.Strain_TotMax = max(this.max_Shearstrainper(:,1));
-            this.Strain_TotMin_ = min(this.min_Shearstrainper(:,1));
-            this.Strain_TotMean = mean(this.mean_Shearstrainper(:,1));
-            this.StrainRate = 2 * this.sampling_frequency * (this.Strain_TotMax - this.Strain_TotMin_);
+            self.TauMaxMPa = max(self.max_shearforce_perimproved);
+            self.TauMinMPa = min(self.min_shearforce_perimproved);
+            self.TauMeanMPa = mean(self.mean_shearforce_per(:,1));
+            self.Strain_TotMax = max(self.max_shearstrain_per(:,1));
+            self.Strain_TotMin_ = min(self.min_shearstrain_per(:,1));
+            self.Strain_TotMean = mean(self.mean_shearstrain_per(:,1));
+            self.StrainRate = 2 * self.sampling_frequency * (self.Strain_TotMax - self.Strain_TotMin_);
 
             %环
-            this.Shearforce  = 10^(-6) * Torque(:,1)/Wp;
-            this.Shearstrain = 0.5 * D * Angle(:,1)/Len;
-
-            plot_original_(this, this.max_angle_per, this.min_angle_per, ...,
-                            this.max_torque_per, this.min_torque_per);
+            self.Shearforce  = 10^(-6) * Torque(:,1)/Wp;
+            self.Shearstrain = self.radius_ * Angle(:,1)/self.length_;
         end % process_rawdata_
 
-        function plot_original_(this, A, B, type)
-            figure           
+        function plot_original_(self, A, B, type)
+            figure
             plot(A(:,2), A(:,1), [type 'b']);
             hold on;
             plot(B(:,2), B(:,1), [type 'r']);
