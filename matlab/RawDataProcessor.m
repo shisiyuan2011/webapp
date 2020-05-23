@@ -4,22 +4,23 @@ classdef RawDataProcessor
 
         Number_period;
         sf % sampling_frequency;
-        max_angle_per;
-        min_angle_per;
+        bpoint;
 
-        max_torque_per;
-        min_torque_per;
+        max_angle;
+        min_angle;
+
+        max_torque;
+        min_torque;
         theta_8;
         torque_8;
 
-        max_shearforce_per;
-        min_shearforce_per;
-        mean_shearforce_per;
-        bpoint;
+        max_shearforce;
+        min_shearforce;
+        max_shearstrain;
+        min_shearstrain;
 
-        max_shearstrain_per;
-        min_shearstrain_per;
-        mean_shearstrain_per;
+        max_shearforce_improved;
+        min_shearforce_per_improved;
 
         TauMaxMPa;
         TauMinMPa;
@@ -29,11 +30,23 @@ classdef RawDataProcessor
         Strain_TotMean;
         StrainRate;
 
-        max_shearforce_perimproved;
-        min_shearforce_perimproved;
-        
-        Shearforce;
-        Shearstrain;
+        G_right;
+        G_left;
+        G_mean;
+        Tao_max;
+
+        G_left_value;
+        G_right_alue;
+        nHardening;
+        KMPa;
+        Strain_Plastic;
+        Strain_Elastic;
+        Strain_amplitude;
+        Tau_MaxMPa;
+        Tau_amplitudeMPa;
+        strain_total;
+        g_mean_mean;
+        tau_max_mean;
         
         ename;
     end %public properties
@@ -59,23 +72,11 @@ classdef RawDataProcessor
         end % raw_data
 
         function self = raw_data_from_db_by_eid(self, eid)
-            self = init_(self);
             self.conn_ = database(self.datasource_, self.username_, ...,
                 self.passwd_);
-            
-            [path, ftype, self.ename] = get_path_by_eid_(self, eid);
-            [Angle, Torque] = read_raw_data_(self, path, ftype);
+            self = raw_data_from_db_by_eid_(self, eid);
             close(self.conn_);
-
-            self.len = length(Torque);
-            self = process_rawdata_(self, Angle, Torque);
-            self = force_strain_(self, Angle, Torque);
-            plot_loops_(self);
-            plot_specified_loop_(self);
-            
-            [Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLoop_DH(self.Shearstrain, self.Shearforce, 10);
-            [tauMax_temp,a1,a2,a3,N_all] = G_Tau_N(self.Shearstrain, self.Shearforce, 365);
-        end % raw_data
+        end % raw_data_from_db_by_eid
 
         function self = raw_data(self)
             self.conn_ = database(self.datasource_, self.username_, ...,
@@ -96,6 +97,18 @@ classdef RawDataProcessor
     end % public methods
 
     methods (Access=private)
+        function self = raw_data_from_db_by_eid_(self, eid)
+            self = init_(self);
+            
+            [path, ftype, self.ename] = get_path_by_eid_(self, eid);
+            [Angle, Torque] = read_raw_data_(self, path, ftype);
+
+            self.len = length(Torque);
+            self = process_rawdata_(self, Angle, Torque);
+            self = force_strain_(self, Angle, Torque);
+            self = plot_loops_(self, Torque, Angle);
+        end % raw_data
+
         function [Angle, Torque] = read_raw_data_(self, path, ftype)
             path=[path, '\'];
             file_list_new = dir([path,'*.txt']);
@@ -149,69 +162,68 @@ classdef RawDataProcessor
             self.Number_period = 0;
             for period = 1:Num
                 if period * self.sf <= Num
-                    self.max_angle_per(period,1)=max(Angle((period-1) * self.sf + 1:period * self.sf));
-                    self.max_angle_per(period,2)=period;
+                    self.max_angle(period,1)=max(Angle((period-1) * self.sf + 1:period * self.sf));
+                    self.max_angle(period,2)=period;
 
-                    self.min_angle_per(period,1)=min(Angle((period-1) * self.sf + 1:period * self.sf));
-                    self.min_angle_per(period,2)=period;
+                    self.min_angle(period,1)=min(Angle((period-1) * self.sf + 1:period * self.sf));
+                    self.min_angle(period,2)=period;
 
-                    self.max_torque_per(period,1)=max(Torque((period-1) * self.sf + 1:period * self.sf));
-                    self.max_torque_per(period,2)=period;
+                    self.max_torque(period,1)=max(Torque((period-1) * self.sf + 1:period * self.sf));
+                    self.max_torque(period,2)=period;
 
-                    self.min_torque_per(period,1)=min(Torque((period-1) * self.sf + 1:period * self.sf));
-                    self.min_torque_per(period,2)=period;
+                    self.min_torque(period,1)=min(Torque((period-1) * self.sf + 1:period * self.sf));
+                    self.min_torque(period,2)=period;
 
                     self.Number_period = period;
-                    period = period + 1;
                 else
-                    self.max_angle_per(period,1)=max(Angle((period-1) * self.sf + 1:Num));
-                    self.max_angle_per(period,2)=period;
+                    self.max_angle(period,1)=max(Angle((period-1) * self.sf + 1:Num));
+                    self.max_angle(period,2)=period;
 
-                    self.min_angle_per(period,1)=min(Angle((period-1) * self.sf + 1:Num));
-                    self.min_angle_per(period,2)=period;
+                    self.min_angle(period,1)=min(Angle((period-1) * self.sf + 1:Num));
+                    self.min_angle(period,2)=period;
 
-                    self.max_torque_per(period,1)=max(Torque((period-1) * self.sf + 1:Num));
-                    self.max_torque_per(period,2)=period;
+                    self.max_torque(period,1)=max(Torque((period-1) * self.sf + 1:Num));
+                    self.max_torque(period,2)=period;
 
-                    self.min_torque_per(period,1)=min(Torque((period-1) * self.sf + 1:Num));
-                    self.min_torque_per(period,2)=period;
+                    self.min_torque(period,1)=min(Torque((period-1) * self.sf + 1:Num));
+                    self.min_torque(period,2)=period;
                     break;
                 end
             end
         
-            self.theta_8 = (self.max_angle_per(100,1) - self.min_angle_per(100,1))/2;
-            self.torque_8= (self.max_torque_per(100,1) - self.min_torque_per(100,1))/2;
+            self.theta_8 = (self.max_angle(100,1) - self.min_angle(100,1))/2;
+            self.torque_8= (self.max_torque(100,1) - self.min_torque(100,1))/2;
 
-            plot_original_(self, self.max_angle_per, self.min_angle_per, 'o');
+            plot_two_variable_(self, self.max_angle, self.min_angle, 'o');
             
             %去除坏点
-            max_angle_per_mean=mean(self.max_angle_per);
-            max_angle_per_std=std(self.max_angle_per);
-            min_angle_per_mean=mean(self.min_angle_per);
-            min_angle_per_std=std(self.min_angle_per);
+            max_angle_per_mean=mean(self.max_angle);
+            max_angle_per_std=std(self.max_angle);
+            min_angle_per_mean=mean(self.min_angle);
+            min_angle_per_std=std(self.min_angle);
             for i=1:self.Number_period+1
-                if (self.max_angle_per(i,1)>(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))||(self.max_angle_per(i,1)<(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))
-                    self.max_angle_per(i,1)=max_angle_per_mean(1,1);
+                if (self.max_angle(i,1)>(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))||(self.max_angle(i,1)<(max_angle_per_mean(1,1)+3*max_angle_per_std(1,1)))
+                    self.max_angle(i,1)=max_angle_per_mean(1,1);
                 end
-                if (self.min_angle_per(i,1)>(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))||(self.min_angle_per(i,1)<(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))
-                    self.min_angle_per(i,1)=min_angle_per_mean(1,1);
+                if (self.min_angle(i,1)>(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))||(self.min_angle(i,1)<(min_angle_per_mean(1,1)+3*min_angle_per_std(1,1)))
+                    self.min_angle(i,1)=min_angle_per_mean(1,1);
                 end
             end
            
-            plot_original_(self, self.max_angle_per, self.min_angle_per, 'o');
+            plot_two_variable_(self, self.max_angle, self.min_angle, 'o');
 
             % Torque 对中操作
-            move_distance = 0.5 * (self.max_torque_per(:,1) - self.min_torque_per(:,1)) - self.max_torque_per(:,1);
-            self.max_torque_per(:,1) = self.max_torque_per(:,1) + move_distance(:,1);
-            self.min_torque_per(:,1) = self.min_torque_per(:,1) + move_distance(:,1);
+            move_distance = 0.5 * (self.max_torque(:,1) - self.min_torque(:,1)) - self.max_torque(:,1);
+            self.max_torque(:,1) = self.max_torque(:,1) + move_distance(:,1);
+            self.min_torque(:,1) = self.min_torque(:,1) + move_distance(:,1);
             
-            plot_original_(self, self.max_torque_per, self.min_torque_per, 'v');
+            plot_two_variable_(self, self.max_torque, self.min_torque, 'v');
             
             % 平滑 torque
-            self.max_torque_per(:,1)=smoothdata(self.max_torque_per(:,1), 'movmedian');
-            self.min_torque_per(:,1)=smoothdata(self.min_torque_per(:,1), 'movmedian');
+            self.max_torque(:,1)=smoothdata(self.max_torque(:,1), 'movmedian');
+            self.min_torque(:,1)=smoothdata(self.min_torque(:,1), 'movmedian');
             
-            plot_original_(self, self.max_torque_per, self.min_torque_per, 'v');
+            plot_two_variable_(self, self.max_torque, self.min_torque, 'v');           
         end % process_rawdata_
 
         function self = force_strain_(self, Angle, Torque)
@@ -220,19 +232,18 @@ classdef RawDataProcessor
             self.length_ = self.length_ * 10^(-3);
             Wp=(((2 * self.radius_)^3) * pi) / self.sampling_;
 
-            self.max_shearforce_per = zeros(size(self.max_torque_per));
-            self.min_shearforce_per = zeros(size(self.max_torque_per));
-            self.mean_shearforce_per = zeros(size(self.max_torque_per));
-            self.max_shearforce_per(:, 1) = 10^(-6) * self.max_torque_per(:, 1)/Wp;
-            self.max_shearforce_per(:, 2) = self.max_torque_per(:, 2);
-            self.min_shearforce_per(:, 1) = 10^(-6) * self.min_torque_per(:, 1)/Wp;
-            self.min_shearforce_per(:, 2) = self.min_torque_per(:, 2);
-            self.mean_shearforce_per(:, 1) = 0.5 * (self.max_shearforce_per(:, 1) + self.min_shearforce_per(:, 1));
-            self.mean_shearforce_per(:, 2) = self.min_torque_per(:, 2);
+            self.max_shearforce = zeros(size(self.max_torque));
+            self.min_shearforce = zeros(size(self.max_torque));
+            mean_shearforce_per = zeros(size(self.max_torque));
+            self.max_shearforce(:, 1) = (10^(-6) /Wp) * self.max_torque(:, 1);
+            self.max_shearforce(:, 2) = self.max_torque(:, 2);
+            self.min_shearforce(:, 1) = (10^(-6) /Wp) * self.min_torque(:, 1);
+            self.min_shearforce(:, 2) = self.min_torque(:, 2);
+            mean_shearforce_per(:, 1) = 0.5 * (self.max_shearforce(:, 1) + self.min_shearforce(:, 1));
+            mean_shearforce_per(:, 2) = self.min_torque(:, 2);
 
             %寻找断点
-            self.bpoint = 0;
-            % bpointmaxtirx = self.max_shearforce_per(self.max_shearforce_per(:,1) - 0.7 * self.max_shearforce_per(1,1) < 2, :);
+            % bpointmaxtirx = self.max_shearforce(self.max_shearforce(:,1) - 0.7 * self.max_shearforce(1,1) < 2, :);
             % s = size(bpointmaxtirx);
             % if s(1) == 0
             %     self.bpoint = self.Number_period;
@@ -242,70 +253,101 @@ classdef RawDataProcessor
             self.bpoint = self.Number_period;
             
             % remove the recordes after break point
-            self.max_shearforce_per([self.bpoint : self.Number_period + 1], : ) = [];
-            self.min_shearforce_per([self.bpoint : self.Number_period + 1], : ) = [];
-            self.mean_shearforce_per([self.bpoint : self.Number_period + 1], : ) =[];
+            self.max_shearforce((self.bpoint : self.Number_period + 1), : ) = [];
+            self.min_shearforce((self.bpoint : self.Number_period + 1), : ) = [];
+            mean_shearforce_per((self.bpoint : self.Number_period + 1), : ) =[];
 
             %角度转为应变
-            self.max_shearstrain_per = zeros(size(self.max_angle_per));
-            self.min_shearstrain_per = zeros(size(self.max_angle_per));
-            self.mean_shearstrain_per = zeros(size(self.max_angle_per));
-            self.max_shearstrain_per(:,1) = self.radius_ * self.max_angle_per(:,1)/self.length_;
-            self.max_shearstrain_per(:,2) = self.max_angle_per(:,2);
-            self.min_shearstrain_per(:,1) = self.radius_ * self.min_angle_per(:,1)/self.length_;
-            self.min_shearstrain_per(:,2) = self.min_angle_per(:,2);
-            self.mean_shearstrain_per(:,1)= 0.5*(self.max_shearstrain_per(:,1) + self.min_shearstrain_per(:,1));
-            self.mean_shearstrain_per(:,2)= self.min_angle_per(:,2);
+            self.max_shearstrain = zeros(size(self.max_angle));
+            self.min_shearstrain = zeros(size(self.max_angle));
+            mean_shearstrain_per = zeros(size(self.max_angle));
+            self.max_shearstrain(:,1) = (self.radius_ / self.length_) * self.max_angle(:,1);
+            self.max_shearstrain(:,2) = self.max_angle(:,2);
+            self.min_shearstrain(:,1) = (self.radius_ / self.length_) * self.min_angle(:,1);
+            self.min_shearstrain(:,2) = self.min_angle(:,2);
+            mean_shearstrain_per(:,1)= 0.5*(self.max_shearstrain(:,1) + self.min_shearstrain(:,1));
+            mean_shearstrain_per(:,2)= self.min_angle(:,2);
             
             % remove the recordes after break point
-            self.max_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
-            self.min_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
-            self.mean_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
+            self.max_shearstrain([self.bpoint : self.Number_period + 1], : ) = [];
+            self.min_shearstrain([self.bpoint : self.Number_period + 1], : ) = [];
+            mean_shearstrain_per([self.bpoint : self.Number_period + 1], : ) = [];
 
             % 平滑应力
-            self.max_shearforce_perimproved = smoothdata(self.max_shearforce_per(:,1),'movmedian');
-            self.min_shearforce_perimproved = smoothdata(self.min_shearforce_per(:,1),'movmedian');
+            self.max_shearforce_improved = smoothdata(self.max_shearforce(:,1),'movmedian');
+            self.min_shearforce_per_improved = smoothdata(self.min_shearforce(:,1),'movmedian');
             
-            self.TauMaxMPa = max(self.max_shearforce_perimproved);
-            self.TauMinMPa = min(self.min_shearforce_perimproved);
-            self.TauMeanMPa = mean(self.mean_shearforce_per(:,1));
-            self.Strain_TotMax = max(self.max_shearstrain_per(:,1));
-            self.Strain_TotMin_ = min(self.min_shearstrain_per(:,1));
-            self.Strain_TotMean = mean(self.mean_shearstrain_per(:,1));
+            self.TauMaxMPa = max(self.max_shearforce_improved);
+            self.TauMinMPa = min(self.min_shearforce_per_improved);
+            self.TauMeanMPa = mean(mean_shearforce_per(:,1));
+            self.Strain_TotMax = max(self.max_shearstrain(:,1));
+            self.Strain_TotMin_ = min(self.min_shearstrain(:,1));
+            self.Strain_TotMean = mean(mean_shearstrain_per(:,1));
             self.StrainRate = 2 * self.sf * (self.Strain_TotMax - self.Strain_TotMin_);
-
-            %环
-            self.Shearforce  = 10^(-6) * Torque(:,1)/Wp;
-            self.Shearstrain = self.radius_ * Angle(:,1)/self.length_;
+            
+            plot_two_lines_2_(self, self.max_shearforce, self.max_shearforce_improved);
+            plot_two_lines_2_(self, self.min_shearforce, self.min_shearforce_per_improved);
+            plot_two_lines_1_(self, self.max_shearstrain, self.min_shearstrain);
         end % process_rawdata_
 
-        function plot_original_(self, A, B, type)
+        function plot_two_variable_(self, A, B, type)
             figure
             plot(A(:,2), A(:,1), [type 'b']);
             hold on;
             plot(B(:,2), B(:,1), [type 'r']);
-        end % plot_original_
+        end % plot_two_variable_
+        
+        function plot_line_1_(self, A)
+            figure
+            plot(A(:,2), A(:,1));
+        end % plot_two_line_1_
 
-        function plot_loops_(self)
+        function plot_line_2_(self, A, B)
+            figure
+            plot(A(:,2), B);
+        end % plot_two_line_1_
+
+        function plot_two_lines_2_(self, A, B)
+            figure
+            plot(A(:,2), A(:,1));
+            hold on;
+            plot(A(:,2), B);
+        end % plot_two_lines_2_
+
+        function plot_two_lines_1_(self, A, B)
+            figure
+            plot(A(:,2), A(:,1));
+            hold on;
+            plot(B(:,2), B(:,1));
+        end % plot_two_lines_1_
+
+        function self = plot_loops_(self, Torque, Angle)
+            Wp=(((2 * self.radius_)^3) * pi) / self.sampling_;
+
+            %环
+            Shearforce  = 10^(-6) * Torque(:,1)/Wp;
+            Shearstrain = self.radius_ * Angle(:,1)/self.length_;
+
             figure
             for period=1:self.Number_period
-                plot(self.Shearstrain((period-1)*self.sf + 1:period * self.sf),self.Shearforce((period-1)*self.sf+1:period*self.sf));
+                plot(Shearstrain((period-1)*self.sf + 1:period * self.sf), Shearforce((period-1)*self.sf+1:period*self.sf));
                 hold on;
             end
             xlabel('\epsilon');
             ylabel('\sigma/MPa');
             title('Hysteresis Loops');
-        end
-        
-        function plot_specified_loop_(self)
-            plot_single_loop__(self, 1);
-            plot_single_loop__(self, self.bpoint - 1);
-            plot_single_loop__(self, self.bpoint);
-        end % plot_specified_loop_
-        
-        function plot_single_loop__(self, period)
+
+            plot_single_loop__(self, 1, Shearstrain, Shearforce);
+            plot_single_loop__(self, 100, Shearstrain, Shearforce);
+            plot_single_loop__(self, self.bpoint - 1, Shearstrain, Shearforce);
+            plot_single_loop__(self, self.bpoint, Shearstrain, Shearforce);
+            
+            self = strain_force_(self, 100, self.Number_period, Shearstrain, Shearforce);
+        end % plot_loops_
+                
+        function plot_single_loop__(self, period, Shearstrain, Shearforce)
             figure
-            plot(self.Shearstrain((period-1) * self.sf + 1 : period * self.sf), self.Shearforce((period-1) * self.sf + 1 : period * self.sf));
+            plot(Shearstrain((period-1) * self.sf + 1 : period * self.sf), Shearforce((period-1) * self.sf + 1 : period * self.sf));
             xlabel('\epsilon');
             ylabel('\sigma/MPa');
             title(['Specified Hysteresis Loops' int2str(period)]);
@@ -316,22 +358,22 @@ classdef RawDataProcessor
 
             self.Number_period = [];
             self.sf  = []; % sampling_frequency;
-            self.max_angle_per = [];
-            self.min_angle_per = [];
+            self.bpoint = [];
 
-            self.max_torque_per = [];
-            self.min_torque_per = [];
+            self.max_angle = [];
+            self.min_angle = [];
+
+            self.max_torque = [];
+            self.min_torque = [];
             self.theta_8 = [];
             self.torque_8 = [];
 
-            self.max_shearforce_per = [];
-            self.min_shearforce_per = [];
-            self.mean_shearforce_per = [];
-            self.bpoint = [];
-
-            self.max_shearstrain_per = [];
-            self.min_shearstrain_per = [];
-            self.mean_shearstrain_per = [];
+            self.max_shearforce = [];
+            self.min_shearforce = [];
+            self.max_shearstrain = [];
+            self.min_shearstrain = [];
+            self.max_shearforce_improved = [];
+            self.min_shearforce_per_improved = [];
 
             self.TauMaxMPa = [];
             self.TauMinMPa = [];
@@ -340,19 +382,49 @@ classdef RawDataProcessor
             self.Strain_TotMin_ = [];
             self.Strain_TotMean = [];
             self.StrainRate = [];
-
-            self.max_shearforce_perimproved = [];
-            self.min_shearforce_perimproved = [];
-
-            self.Shearforce = [];
-            self.Shearstrain = [];
             
+            self.G_right = [];
+            self.G_left = [];
+            self.G_mean = [];
+            self.Tao_max = [];
             
+            self.G_left_value=[];
+            self.G_right_alue=[];
+            self.nHardening=[];
+            self.KMPa=[];
+            self.Strain_Plastic=[];
+            self.Strain_Elastic=[];
+            self.Strain_amplitude=[];
+            self.Tau_MaxMPa=[];
+            self.Tau_amplitudeMPa=[];
+
+            self.strain_total = [];
+            self.g_mean_mean = [];
+            self.tau_max_mean = [];
+
             self.frequency_ =0.1;
             self.sampling_ = 16;
             self.radius_ = 3;
             self.length_ = 20;
         end % init_
-        
+
+        function self = strain_force_(self, loop_id, end_loop, Shearstrain, Shearforce)
+            [self.Strain_Plastic, self.Strain_Elastic, self.Strain_amplitude, self.Tau_MaxMPa, self.Tau_amplitudeMPa, gright, gleft, ~, self.KMPa,self.nHardening] = HystLoop_DH(Shearstrain, Shearforce, loop_id);
+            self.G_left_value=gleft/1000;
+            self.G_right_alue=gright/1000;
+
+            [~,~,self.Strain_amplitude,~,self.Tau_amplitudeMPa,~,~,~,~,~] = HystLoop_DH(Shearstrain,Shearforce,1);
+
+            [self.Tao_max,self.G_right,self.G_left,self.G_mean,~] = G_Tau_N(Shearstrain, Shearforce, end_loop);
+            self.strain_total = max(self.max_shearstrain(:,1)) - min(self.min_shearstrain(:,1));
+            self.g_mean_mean = mean(self.G_mean);
+            self.tau_max_mean = max(self.max_shearforce_improved);
+            
+            figure
+            semilogx((1 : end_loop) * 0.001, self.G_mean, '-o');
+
+            figure
+            semilogx((1 : end_loop) * 0.001, self.Tao_max, '-o');
+        end % strain_force_
     end % private methods
 end %classdef
