@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 23/05/2020 17:36:40
+ Date: 24/05/2020 18:05:08
 */
 
 SET NAMES utf8mb4;
@@ -56,7 +56,7 @@ CREATE TABLE `experiment`  (
   INDEX `fk_experiment_user`(`uid`) USING BTREE,
   CONSTRAINT `fk_experiment_specimen` FOREIGN KEY (`sid`) REFERENCES `specimen` (`sid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_experiment_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for material
@@ -74,11 +74,11 @@ CREATE TABLE `material`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for rdp_data
+-- Table structure for rdp_data_1
 -- ----------------------------
-DROP TABLE IF EXISTS `rdp_data`;
-CREATE TABLE `rdp_data`  (
-  `rdpd_id` int(0) UNSIGNED NOT NULL COMMENT 'the data id',
+DROP TABLE IF EXISTS `rdp_data_1`;
+CREATE TABLE `rdp_data_1`  (
+  `rdpd_id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'the data id',
   `eid` int(0) UNSIGNED NOT NULL COMMENT 'experiment id',
   `max_angle` double NULL DEFAULT NULL COMMENT 'max_angle',
   `min_angle` double NULL DEFAULT NULL COMMENT 'min_angle',
@@ -109,7 +109,7 @@ CREATE TABLE `rdp_result`  (
   `rawlen` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'the length of raw data',
   `period` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'the amount of period',
   `bpoint` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'break point',
-  `G_row` int(0) NULL DEFAULT 100 COMMENT 'The Effect Loop No for G___',
+  `G_row` int(0) UNSIGNED NULL DEFAULT 100 COMMENT 'The Effect Loop No for G___',
   `theta_8` double NULL DEFAULT NULL COMMENT 'theta_8',
   `torque_8` double NULL DEFAULT NULL COMMENT 'torque_8',
   `TauMax` double NULL DEFAULT NULL COMMENT 'Max Tau in MPa',
@@ -131,11 +131,11 @@ CREATE TABLE `rdp_result`  (
   `strain_total` double NULL DEFAULT NULL COMMENT 'strain_total',
   `g_mean_mean` double NULL DEFAULT NULL COMMENT 'g_mean_mean',
   `tau_max_mean` double NULL DEFAULT NULL COMMENT 'tau_max_mean',
-  `dtable_name` varchar(34) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'rdp_t1' COMMENT 'The table name to save result data',
+  `dtname` varchar(34) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'rdp_data_1' COMMENT 'The table name to save result data',
   PRIMARY KEY (`expid`) USING BTREE,
-  INDEX `fk_rdp_exp`(`eid`) USING BTREE,
+  UNIQUE INDEX `unique_eid`(`eid`) USING BTREE,
   CONSTRAINT `fk_rdp_exp` FOREIGN KEY (`eid`) REFERENCES `experiment` (`eid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for specimen
@@ -200,10 +200,13 @@ delimiter ;;
 CREATE PROCEDURE `get_rdp_pic_save_path`(IN `eid` int)
 BEGIN
 	DECLARE pic_path VARCHAR(512);
+	DECLARE root_path VARCHAR(512);
 	
 	SELECT CONCAT(`content`, '\\', CONVERT(eid, char), '\\') INTO `pic_path` FROM `config` WHERE `item` = 'rdp_pic_path';
+	SELECT CONCAT(`content`, '\\', CONVERT(eid, char)) INTO `root_path` FROM `config` WHERE `item` = 'rdp_pic_path';
 	CREATE TEMPORARY TABLE IF NOT EXISTS tt_pic_path (`path` VARCHAR(255));
   DELETE FROM tt_pic_path;
+	INSERT INTO tt_pic_path(`path`) SELECT root_path;
   INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_origin.png');
   INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_smooth.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'torque_origin.png');
