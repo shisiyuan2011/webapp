@@ -1,4 +1,4 @@
-function [Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLoop_DH(eStrain,tau,N_HystLoop)
+function [good, Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLoop_DH(eStrain,tau,N_HystLoop)
     fnum=160;%周期采样点 
     eSpMax_Index=[];
     eSpMin_Index=[];
@@ -124,7 +124,24 @@ function [Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLo
     % opts.Lower = [1000 5];
     opts.StartPoint = [1  7.5];
     % opts.Upper = [10000 20];
-    cfun1=fit(x1,y1,ft,opts);
+    try
+        cfun1=fit(x1,y1,ft,opts);
+    catch exception
+        fprintf("----\nError: loop %d\nID %s\nMessage: %s\n----\n", ...,
+            N_HystLoop, exception.identifier, exception.message);
+        Strain_p = [];
+        Strain_e = [];
+        Strain_a = [];
+        Tau_m = [];
+        Tau_a = [];
+        G_right = [];
+        G_left = [];
+        G = [];
+        K = [];
+        nn = [];
+        good = 0;
+        return;
+    end
 
     K=1/cfun1.A;
     nn=1/cfun1.B;
@@ -135,4 +152,6 @@ function [Strain_p,Strain_e,Strain_a,Tau_m,Tau_a,G_right,G_left,G,K,nn] = HystLo
     Strain_p=eSp_Plastic(N_HystLoop);
     Tau_m=tauMax_temp(N_HystLoop);
     Tau_a=tauMax_temp(N_HystLoop);
+    
+    good = 1;
 end

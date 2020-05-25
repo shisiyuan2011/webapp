@@ -51,7 +51,8 @@ classdef RawDataProcessor
         pic_save_path;
         pic_index;
         G_loop_no;
-        
+        first_loop;
+
         ename;
     end %public properties
     
@@ -67,7 +68,7 @@ classdef RawDataProcessor
         conn_;
     end %private properties
 
-    methods (Access=public)        
+    methods (Access=public)
         function self = raw_data_by_param(self, path, ftype)
             [Angle, Torque] = read_raw_data_(self, path, ftype);
             self = process_rawdata_(self, Angle, Torque);
@@ -83,7 +84,7 @@ classdef RawDataProcessor
                 self.passwd_);
             self = raw_data_from_db_by_eid_(self);
             save_to_db_step_1_(self);
-            save_to_db_step_2_(self);
+            % % save_to_db_step_2_(self);
             close(self.conn_);
         end % raw_data_from_db_by_eid
 
@@ -100,7 +101,7 @@ classdef RawDataProcessor
                 % insert_to_rawdata_table(self, eid(i), rawtable, Angle, Torque);
                 fprintf("Done.\n");
             end
-            
+
             close(self.conn_);
         end % raw_data
     end % public methods
@@ -134,8 +135,7 @@ classdef RawDataProcessor
                 file_name{i}=[path,file_list{i}];
                 
                 if (ftype == 1)
-                    [data1,data2,data3,data4,data5,data6,data7, ...,
-                        data8,data9, data10]=textread(file_name{i}, ...,
+                    [~,data2,~,~,~,data6,~,~,~,~]=textread(file_name{i}, ...,
                         '%f%f%f%f%f%f%f%f%f%f','headerlines',1);
                     % Ts=[Ts;data1];
                     Angle=[Angle;data2];
@@ -171,8 +171,8 @@ classdef RawDataProcessor
 
         function save_to_db_step_1_(self)
             % insert into RDP result
-            data = table(uint32(self.eid), uint32(self.len), uint32(self.Number_period), ...,
-                uint32(self.bpoint), uint32(self.G_loop_no), self.theta_8, ...,
+            data = table(uint32(self.eid), uint32(self.len), uint32(self.Number_period), uint32(self.bpoint), ...,
+                self.first_loop, self.G_loop_no, self.theta_8, ...,
                 self.torque_8, self.TauMaxMPa, self.TauMinMPa, self.TauMeanMPa, self.Strain_TotMax, ...,
                 self.Strain_TotMin, self.Strain_TotMean, self.StrainRate, ...,
                 self.G_left_value, self.G_right_alue, self.nHardening, self.KMPa, ...,
@@ -180,7 +180,8 @@ classdef RawDataProcessor
                 self.Tau_MaxMPa, self.Tau_amplitudeMPa, self.strain_total, ...,
                 self.g_mean_mean, self.tau_max_mean, ...,
                 'VariableNames', ...,
-                {  'eid' 'rawlen' 'period' 'bpoint' 'G_row' 'theta_8' ...,
+                {  'eid' 'rawlen' 'period' 'bpoint' ...,
+                   'first_loop' 'G_loop_no' 'theta_8' ...,
                    'torque_8'   'TauMax' 'TauMin' 'TauMean' 'Strain_TotMax'  ...,
                    'Strain_TotMin' 'Strain_TotMean' 'StrainRate'  ...,
                    'G_left_value' 'G_right_value' 'nHardening' 'KMpa'  ...,
@@ -450,13 +451,13 @@ classdef RawDataProcessor
             saveas(fig, self.pic_save_path(self.pic_index,:));
             close(fig);
             self.pic_index = self.pic_index + 1;
+            
+            self = strain_force_(self, Shearstrain, Shearforce);
 
-            self = plot_single_loop__(self, 1, Shearstrain, Shearforce);
-            self = plot_single_loop__(self, 100, Shearstrain, Shearforce);
+            self = plot_single_loop__(self, self.first_loop, Shearstrain, Shearforce);
+            self = plot_single_loop__(self, self.G_loop_no, Shearstrain, Shearforce);
             self = plot_single_loop__(self, self.bpoint - 1, Shearstrain, Shearforce);
             self = plot_single_loop__(self, self.bpoint, Shearstrain, Shearforce);
-            
-            self = strain_force_(self, 100, self.Number_period, Shearstrain, Shearforce);
         end % plot_loops_
                 
         function self = plot_single_loop__(self, period, Shearstrain, Shearforce)
@@ -528,16 +529,40 @@ classdef RawDataProcessor
             self.pic_save_path = [];
             self.pic_index = 1;
             self.G_loop_no = 100;
+            self.first_loop = 1;
         end % init_
 
-        function self = strain_force_(self, loop_id, end_loop, Shearstrain, Shearforce)
-            [self.Strain_Plastic, self.Strain_Elastic, self.Strain_amplitude, self.Tau_MaxMPa, self.Tau_amplitudeMPa, gright, gleft, ~, self.KMPa,self.nHardening] = HystLoop_DH(Shearstrain, Shearforce, loop_id);
-            self.G_left_value=gleft/1000;
-            self.G_right_alue=gright/1000;
+        function self = strain_force_(self, Shearstrain, Shearforce)
+            good = 0;
+            while good == 0
+                [good, self.Strain_Plastic, self.Strain_Elastic, ...,
+                    self.Strain_amplitude, self.Tau_MaxMPa, ...,
+                    self.Tau_amplitudeMPa, gright, gleft, ~, ...,
+                    self.KMPa,self.nHardening] = ...,
+                    HystLoop_DH(Shearstrain, Shearforce, self.G_loop_no);
+                if good == 1
+                    self.G_left_value=gleft/1000;
+                    self.G_right_alue=gright/1000;
+                else
+                    self.G_loop_no = self.G_loop_no + 5;
+                end
+            end
+            fprintf("G LOOP %d\n", self.G_loop_no);
 
-            [~,~,self.Strain_amplitude,~,self.Tau_amplitudeMPa,~,~,~,~,~] = HystLoop_DH(Shearstrain,Shearforce,1);
+            good = 0;
+            self.first_loop = 1;
+            while good == 0
+                [good, ~,~,self.Strain_amplitude,~,self.Tau_amplitudeMPa, ...,
+                    ~,~,~,~,~] = HystLoop_DH(...,
+                    Shearstrain,Shearforce, self.first_loop);
+                if good == 0
+                    self.first_loop = self.first_loop + 5;
+                end
+            end
+            fprintf("Fisrt LOOP %d\n", self.first_loop);
 
-            [self.Tao_max,self.G_right,self.G_left,self.G_mean,~] = G_Tau_N(Shearstrain, Shearforce, end_loop);
+            [self.Tao_max,self.G_right,self.G_left,self.G_mean,~] = ...,
+                G_Tau_N(Shearstrain, Shearforce, self.Number_period);
             self.strain_total = max(self.max_shearstrain(:,1)) - min(self.min_shearstrain(:,1));
             self.g_mean_mean = mean(self.G_mean);
             self.tau_max_mean = max(self.max_shearforce_improved);
@@ -545,18 +570,22 @@ classdef RawDataProcessor
             self.G_left = self.G_left';
             self.G_mean = self.G_mean';
             self.Tao_max = self.Tao_max';
-            
+
+            self = draw_log_pic_(self);
+        end % strain_force_
+        
+        function self = draw_log_pic_(self)
             fig = figure('Position',  [100, 100, 1024, 768], 'visible', 'off');
-            semilogx((1 : end_loop) * 0.001, self.G_mean, '-o');
+            semilogx((1 : self.Number_period) * 0.001, self.G_mean, '-o');
             saveas(fig, self.pic_save_path(self.pic_index,:));
             close(fig);
             self.pic_index = self.pic_index + 1;
 
             fig = figure('Position',  [100, 100, 1024, 768], 'visible', 'off');
-            semilogx((1 : end_loop) * 0.001, self.Tao_max, '-o');
+            semilogx((1 : self.Number_period) * 0.001, self.Tao_max, '-o');
             saveas(fig, self.pic_save_path(self.pic_index,:));
             close(fig);
             self.pic_index = self.pic_index + 1;
-        end % strain_force_
+        end
     end % private methods
 end %classdef

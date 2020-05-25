@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 24/05/2020 18:05:08
+ Date: 25/05/2020 14:54:52
 */
 
 SET NAMES utf8mb4;
@@ -109,7 +109,8 @@ CREATE TABLE `rdp_result`  (
   `rawlen` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'the length of raw data',
   `period` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'the amount of period',
   `bpoint` int(0) UNSIGNED NULL DEFAULT NULL COMMENT 'break point',
-  `G_row` int(0) UNSIGNED NULL DEFAULT 100 COMMENT 'The Effect Loop No for G___',
+  `first_loop` int(0) NULL DEFAULT 100 COMMENT 'the effect first loop no for G__',
+  `G_loop_no` int(0) NULL DEFAULT 100 COMMENT 'The Effect Loop No for G___',
   `theta_8` double NULL DEFAULT NULL COMMENT 'theta_8',
   `torque_8` double NULL DEFAULT NULL COMMENT 'torque_8',
   `TauMax` double NULL DEFAULT NULL COMMENT 'Max Tau in MPa',
@@ -215,12 +216,12 @@ BEGIN
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'min_force.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'strain.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_all.png');
+	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean_log.png');
+	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max_log.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_1.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_100.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_n1.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_last.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean_log.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max_log.png');
 	SELECT * FROM tt_pic_path;
 END
 ;;
@@ -246,12 +247,13 @@ BEGIN
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'min_force.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'strain.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_all.png');
+	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean_log.png');
+	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max_log.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_1.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_100.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_n1.png');
 	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_last.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean_log.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max_log.png');
+
 	SELECT * FROM tt_pic_path;
 END
 ;;
