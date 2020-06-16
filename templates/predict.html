@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v3.0.0
+* @link https://coreui.io
+* Copyright (c) 2020 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
+<html lang="en">
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="BIT Cloud Lab">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>BIT Cloud Lab</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Main styles for this application-->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
+  </head>
+  <body class="c-app">
+    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+      <div class="c-sidebar-brand d-lg-down-none">
+        <img class="c-sidebar-brand-full" width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
+        <img class="c-sidebar-brand-minimized" width="60" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab-logo.png">
+      </div>
+      <ul class="c-sidebar-nav">
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/static/main.html">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+            </svg> Dashboard
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-drop1"></use>
+            </svg> History Data
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> Hysteresis Loops
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-chart-pie"></use>
+            </svg> Predict
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+            </svg> Compare
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-calculator"></use>
+            </svg> Algorithm
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-star"></use>
+            </svg> Online Analysis
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="/main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bug"></use>
+            </svg> Online Experiments
+          </a>
+        </li>
+      </ul>
+      <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+    </div>
+    <div class="c-wrapper c-fixed-components">
+      <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+        <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+          </svg>
+        </button><a class="c-header-brand d-lg-none" href="/static/main.html">
+          <img width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
+        <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+          </svg>
+        </button>
+        <ul class="c-header-nav d-md-down-none">
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/static/main.html">Predict</a></li>
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/static/main.html">Users</a></li>
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/static/main.html">Settings</a></li>
+        </ul>
+        <ul class="c-header-nav ml-auto mr-4">
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="/static/main.html">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="/static/main.html">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="/static/main.html">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="/static/main.html" role="button" aria-haspopup="true" aria-expanded="false">
+              <div class="c-avatar"><img class="c-avatar-img" src="/assets/img/avatars/6.jpg" alt="user@email.com"></div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right pt-0">
+              <div class="dropdown-header bg-light py-2"><strong>Account</strong></div><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                </svg> Updates<span class="badge badge-info ml-auto">42</span></a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                </svg> Messages<span class="badge badge-success ml-auto">42</span></a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-task"></use>
+                </svg> Tasks<span class="badge badge-danger ml-auto">42</span></a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-comment-square"></use>
+                </svg> Comments<span class="badge badge-warning ml-auto">42</span></a>
+              <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                </svg> Profile</a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
+                </svg> Settings</a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-credit-card"></use>
+                </svg> Payments<span class="badge badge-secondary ml-auto">42</span></a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-file"></use>
+                </svg> Projects<span class="badge badge-primary ml-auto">42</span></a>
+              <div class="dropdown-divider"></div><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                </svg> Lock Account</a><a class="dropdown-item" href="/static/main.html">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                </svg> Logout</a>
+            </div>
+          </li>
+        </ul>
+        <div class="c-subheader px-3">
+          <!-- Breadcrumb-->
+          <ol class="breadcrumb border-0 m-0">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item"><a href="/static/main.html">Admin</a></li>
+            <li class="breadcrumb-item active">Predict</li>
+            <!-- Breadcrumb Menu-->
+          </ol>
+        </div>
+      </header>
+      <div class="c-body">
+        <main class="c-main">
+          <div class="container-fluid">
+            <div class="fade-in">
+              <!-- search -->
+              <!-- predict images -->
+              <div class="card">
+                <div class="card-body">
+                    <img src="/images/gcr15.png" width="98%">
+                </div>
+              </div>
+              <!-- data table -->
+
+              <!-- 
+                编号	寿命	应力	应变	塑性应变	弹性应变	应力_1	应变_1
+                1	3053	293.5	0.0087	0.0053	0.003576164	322.0000 	0.0087 
+                2	6997	273.415	0.0064	0.0031	0.003534709	294.0000 	0.0064 
+                <td>3</td>	<td>39106</td>	<td>229.995</td>	<td>0.0041</td>	<td>0.0018</td>	<td>0.002985568</td>	<td>286.0000</td> 	<td>0.0041</td> 
+                <td>4</td>	<td>1543</td>	<td>304.665</td>	<td>0.0106</td>	<td>0.0071</td>	<td>0.004232444</td>	<td>328.0000</td> 	<td>0.0106</td> 
+                <td>5</td>	<td>1272</td>	<td>351.112</td>	<td>0.0129</td>	<td>0.0088</td>	<td>0.004367136</td>	<td>366.0000</td> 	<td>0.0129</td> 
+                <td>6</td>	<td>1240</td>	<td>352.5</td>	<td>0.0153</td>	<td>0.0111</td>	<td>0.004497542</td>	<td>359.0000</td> 	<td>0.0153</td> 
+                <td>7</td>	<td>624</td>	<td>377</td>	<td>0.0176</td>	<td>0.0127</td>	<td>0.004559778</td>	<td>374.0000</td> 	<td>0.0176</td> 
+              !-->
+
+              <div class="card">
+                <div class="card-header"><i class="fa fa-align-justify"></i> Combined All Table</div>
+                <div class="card-body">
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>编号</th>
+                        <th>寿命</th>
+                        <th>应力</th>
+                        <th>应变</th>
+                        <th>塑性应变</th>
+                        <th>弹性应变</th>
+                        <th>应力_1</th>
+                        <th>应变_1</th>
+                        <th>详情</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>	<td>3053</td>	<td>293.5</td>	<td>0.0087</td>	<td>0.0053</td>	<td>0.003576164</td>	<td>322.0000</td> 	<td>0.0087</td>
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>	<td>6997</td>	<td>273.415</td>	<td>0.0064</td>	<td>0.0031</td>	<td>0.003534709</td>	<td>294.0000</td> 	<td>0.0064</td>
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>	<td>39106</td>	<td>229.995</td>	<td>0.0041</td>	<td>0.0018</td>	<td>0.002985568</td>	<td>286.0000</td> 	<td>0.0041</td>                         <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>	<td>1543</td>	<td>304.665</td>	<td>0.0106</td>	<td>0.0071</td>	<td>0.004232444</td>	<td>328.0000</td> 	<td>0.0106</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>5</td>	<td>1272</td>	<td>351.112</td>	<td>0.0129</td>	<td>0.0088</td>	<td>0.004367136</td>	<td>366.0000</td> 	<td>0.0129</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>6</td>	<td>1240</td>	<td>352.5</td>	<td>0.0153</td>	<td>0.0111</td>	<td>0.004497542</td>	<td>359.0000</td> 	<td>0.0153</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>	<td>624</td>	<td>377</td>	<td>0.0176</td>	<td>0.0127</td>	<td>0.004559778</td>	<td>374.0000</td> 	<td>0.0176</td> 
+                        <td><span class="badge badge-success">detail</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <nav>
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="/static/gcr15.html">Prev</a></li>
+                      <li class="page-item active"><a class="page-link" href="/static/gcr15.html">1</a></li>
+                      <li class="page-item"><a class="page-link" href="/static/gcr15.html">2</a></li>
+                      <li class="page-item"><a class="page-link" href="/static/gcr15.html">3</a></li>
+                      <li class="page-item"><a class="page-link" href="/static/gcr15.html">4</a></li>
+                      <li class="page-item"><a class="page-link" href="/static/gcr15.html">Next</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <!--[if IE]><!-->
+    <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
+    <!--<![endif]-->
+    <!-- Plugins and scripts required by this view-->
+    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
+    <script src="/js/main.js"></script>
+
+
+  </body>
+</html>

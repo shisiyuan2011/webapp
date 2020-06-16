@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v3.0.0
+* @link https://coreui.io
+* Copyright (c) 2020 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
+<html lang="en">
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="BIT Cloud Lab">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>BIT Cloud Lab</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Main styles for this application-->
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="/js/vue-2.6.11.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/vue-cookies.js"></script>
+    <!-- CoreUI and necessary plugins-->
+    <script src="/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <!--[if IE]><!-->
+    <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
+    <!--<![endif]-->
+  </head>
+  <body class="c-app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <img src="/assets/brand/bit-cloud-lab.png">
+                <form id="login" method="get">
+                  <p v-if="errors.length" >
+                    <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
+                  </p>
+                    <p class="text-muted">Sign In to your account</p>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">
+                        <svg class="c-icon">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                        </svg></span></div>
+                    <input id="whoyouare" v-model="whoyouare" name="whoyouare" class="form-control" type="text" placeholder="superuser">
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend"><span class="input-group-text">
+                        <svg class="c-icon">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                        </svg></span></div>
+                    <input id="enter" v-model="enter" name="enter" class="form-control" type="password" placeholder="secret">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button class="btn btn-primary px-4" type="button" v-on:click="checkLogin">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button class="btn btn-link px-0" type="button" >Forgot password?</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+              <div class="card-body text-center">
+                <div>
+                  <h2>Sign up</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button class="btn btn-lg btn-outline-light mt-3" type="button">Register Now!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" language="JavaScript">
+      const app = new Vue({
+        el: '#login',
+        data: {
+          errors: [],
+          whoyouare: null,
+          enter: null,
+          info: null
+        },
+        methods:{
+          checkLogin: function (e) {            
+            this.errors = [];
+            if (this.whoyouare && this.enter) {
+              // console.log(this.whoyouare);
+              // console.log(this.enter);
+
+              var the_user = {'username': this.whoyouare, 'password': this.enter};
+              axios
+              .post('/login', the_user)
+              .then(res => {
+                Vue.$cookies.set('access_token', res.data.access_token);
+                Vue.$cookies.set('token_type', res.data.token_type);
+                // console.log(Vue.$cookies.get('access_token'));
+                // console.log(Vue.$cookies.get('token_type'));
+                document.location='main'
+              }).catch(function (err) {
+                console.log(err);
+              });
+            } else {
+              if (!this.whoyouare) {
+                this.errors.push({'message': 'The userame is required.'});
+              }
+              if (!this.enter) {
+                this.errors.push({'message': 'The pasword is required.'});
+              }
+            }
+            e.preventDefault();
+          }
+        },
+        delimiters: ['[[',']]']
+      })
+    </script>
+  </body>
+</html>
