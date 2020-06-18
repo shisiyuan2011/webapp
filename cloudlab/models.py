@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.types import TIMESTAMP
 from .database import Base
 
 
@@ -156,7 +156,7 @@ class Experiment(Base):
 
   eid = Column(Integer, primary_key=True, index=True)
   ename = Column(String)
-  etime = Column(DateTime)
+  etime = Column(TIMESTAMP, nullable=False, server_default='now()')
   sid = Column(Integer)
   uid = Column(Integer)
   frequncy = Column(Float)

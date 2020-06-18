@@ -321,9 +321,13 @@
               axios
               .post('/updatemtr', this.mtr)
               .then(res => {
-                console.log(res.data);
+                if (res.data == "ok")
+                  alert("Ok! The material was modified");
+                else
+                  alert("An error was occured");
               }).catch(function (err) {
                 console.log(err);
+                alert("An error was occured");
               });
             }
             e.preventDefault();

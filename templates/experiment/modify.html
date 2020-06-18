@@ -360,9 +360,13 @@
               axios
               .post('/updateexp', this.exp)
               .then(res => {
-                console.log(res.data);
+                if (res.data == "ok")
+                  alert("Ok! The experiment was modified");
+                else
+                  alert("an error was occured");
               }).catch(function (err) {
                 console.log(err);
+                alert("an error was occured");
               });
             }
             e.preventDefault();

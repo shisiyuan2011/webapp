@@ -141,7 +141,7 @@ async def get_current_active_user(current_user: schemas.User = Depends(get_curre
 
 
 @app.post("/login", response_model=schemas.Token)
-async def login_for_access_token(user: schemas.UserVerify):
+async def login_for_access(user: schemas.UserVerify):
     user = authenticate_user(fake_users_db, user.username, user.password)
     if not user:
         raise HTTPException(
@@ -196,11 +196,11 @@ async def exp_detail(request: Request, eid : int):
     return templates.TemplateResponse('experiment/detail.html', {'request': request, 'eid': eid})
 
 @app.get("/experiment/ndetail/{ename}")
-async def exp_detail(request: Request, ename : str):
+async def exp_ndetail(request: Request, ename : str):
     return templates.TemplateResponse('experiment/ndetail.html', {'request': request, 'ename': ename})
 
 @app.get("/experiment/modify/{eid}")
-async def exp_detail(request: Request, eid : int):
+async def exp_modify(request: Request, eid : int):
     return templates.TemplateResponse('experiment/modify.html', {'request': request, 'eid': eid})
 
 @app.get("/vexpbrf", response_model=List[schemas.VExperimentBrief])
@@ -239,14 +239,12 @@ def exp_delete(eid: int, db: Session = Depends(get_db)):
         return {"message": "bad"}
 
 @app.post("/newexp")
-def exp_new(exp: schemas.Experiment, db: Session = Depends(get_db)):
-    crud.exp_new(db, exp)
-    return {"message": "ok"}
-    # try:
-    #     crud.exp_new(db, exp)
-    #     return {"message": "ok"}
-    # except:
-    #     return {"message": "bad"}
+def newexp(exp: schemas.Experiment, db: Session = Depends(get_db)):
+    try:
+        crud.exp_new(db, exp)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
 
 @app.post("/updateexp")
 def exp_update(exp: schemas.Experiment, db: Session = Depends(get_db)):
@@ -275,7 +273,7 @@ async def spc_modify_page(request: Request, sid : int):
     return templates.TemplateResponse('specimen/modify.html', {'request': request, 'sid': sid})
 
 @app.get("/specimen/nmodify/{sname}")
-async def spc_modify_page(request: Request, sname : str):
+async def spc_nmodify_page(request: Request, sname : str):
     return templates.TemplateResponse('specimen/nmodify.html', {'request': request, 'sname': sname})
 
 @app.get("/vspecimen", response_model=List[schemas.SpecimenDetail])
@@ -306,6 +304,7 @@ def spc_delete(sid: int, db: Session = Depends(get_db)):
 @app.post("/newspc")
 def spc_new(spc: schemas.Specimen, db: Session = Depends(get_db)):
     try:
+        crud.spc_new(db, spc)
         return {"message": "ok"}
     except:
         return {"message": "bad"}
@@ -336,11 +335,11 @@ async def mtr_modify(request: Request, mid : int):
     return templates.TemplateResponse('material/modify.html', {'request': request, 'mid': mid})
 
 @app.get("/material/analysis/{mid}")
-async def mtr_modify(request: Request, mid : int):
+async def mtr_analysis(request: Request, mid : int):
     return templates.TemplateResponse('material/analysis.html', {'request': request, 'mid': mid})
 
 @app.get("/material/nmodify/{mname}")
-async def mtr_modify(request: Request, mname : str):
+async def mtr_nmodify(request: Request, mname : str):
     return templates.TemplateResponse('material/nmodify.html', {'request': request, 'mname': mname})
 
 @app.get("/delmtr/{mid}")
@@ -349,7 +348,7 @@ def delete_material(mid: int, db: Session = Depends(get_db)):
     return {"message": "ok"}
 
 @app.post("/newmtr")
-def mtr_new(mtr: schemas.Material, db: Session = Depends(get_db)):
+def newmtr(mtr: schemas.Material, db: Session = Depends(get_db)):
     crud.mtr_new(db, mtr)
     return {"message": "ok"}
     '''
@@ -409,15 +408,15 @@ def get_analysis_pic_web_path(eid: int, db: Session = Depends(get_db), response_
 #
 # ###################################################################################
 @app.get("/")
-async def main(request: Request):
+async def main_default_root(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
 @app.get("/main")
-async def main(request: Request):
+async def main_default_main(request: Request):
     return templates.TemplateResponse('main.html', {'request': request})
 
 @app.get("/main/{user}")
-async def main(request: Request, user: str):
+async def main_user(request: Request, user: str):
     return templates.TemplateResponse('main.html', {'request': request, 'user': user})
 
 @app.get("/material/content/{mid}")
@@ -437,18 +436,18 @@ async def try_search():
 
 
 @app.get("/mnames")
-async def try_search(db: Session = Depends(get_db)):
+async def try_mnames(db: Session = Depends(get_db)):
     mname = crud.get_all_mname(db)
     return mname
 
 @app.get("/enames")
-async def try_search(db: Session = Depends(get_db)):
+async def try_enames(db: Session = Depends(get_db)):
     ename = crud.get_all_ename(db)
     return ename
 
 
 @app.get("/snames")
-async def try_search(db: Session = Depends(get_db)):
+async def try_snames(db: Session = Depends(get_db)):
     sname = crud.get_all_sname(db)
     return sname
 

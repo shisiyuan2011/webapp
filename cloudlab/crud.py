@@ -30,7 +30,7 @@ def exp_new(db: Session, exp: schemas.Experiment):
     theexp = models.Experiment()
     # theexp.eid = exp.eid
     theexp.ename    = exp.ename   
-    theexp.etime    = datetime.now()
+    # theexp.etime    = datetime.utcnow
     theexp.sid      = exp.sid     
     theexp.uid      = exp.uid     
     theexp.frequncy = exp.frequncy
@@ -54,7 +54,7 @@ def exp_update(db: Session, exp: schemas.Experiment):
     theexp = db.query(models.Experiment) \
                 .filter(models.Experiment.eid == exp.eid).first()
     theexp.ename    = exp.ename   
-    theexp.etime    = datetime.now()
+    # theexp.etime    = datetime.now()
     theexp.sid      = exp.sid     
     theexp.uid      = exp.uid     
     theexp.frequncy = exp.frequncy

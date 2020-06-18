@@ -247,9 +247,7 @@
                           <span class="badge badge-warning"><a v-bind:href="'/specimen/modify/' + spc.sid">M</a></span>
                         </td>
                         <td>
-                          <span class="badge badge-secondary">
-                            <a href="#" v-bind:onclick="'confirmDelete(' + spc.sid + ')'">D</a>
-                          </span>
+                          <button class="badge badge-secondary" @click="confirmDelete(spc.sid)">D</button>
                         </td>
                       </tr>
                     </tbody>
@@ -288,6 +286,25 @@
         data: {
           specimens: []
         },
+        methods: {
+          confirmDelete: function(sid) {
+            if (confirm('Are you sure?\nPress OK will delete the specimen! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/delspc/' + sid)
+              .then(res => {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("the speicimen (id = " + sid + ") was deteleted");
+                  window.location.reload(true);
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
+            
+          }
+        },
         mounted() {
           // verify_token();
           axios
@@ -302,23 +319,6 @@
         },
         delimiters: ['[[',']]']
       });
-
-      function confirmDelete(sid) {
-        if (confirm('Are you sure?\nPress OK will delete the specimen! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
-          axios
-          .get('/delspc/' + sid)
-          .then(res => {
-            // console.log(res.data);
-            if (res.data.message == "ok") {
-              alert("the speicimen (id = " + sid + ") was deteleted");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        }
-        
-      }
     </script>
 
   </body>

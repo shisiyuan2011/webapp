@@ -9,7 +9,7 @@ SQLALCHEMY_DATABASE_URL = "mysql://cloudlab:cloudlab-!@#$@localhost:33369/cloudl
 # SQLALCHEMY_DATABASE_URL = "mysql://cloudlab:cloudlab-!@#$@localhost:33996/cloudlab?charset=utf8"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
+  SQLALCHEMY_DATABASE_URL
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
