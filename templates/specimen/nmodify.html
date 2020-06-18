@@ -331,7 +331,7 @@
               axios
               .post('/updatespc', this.spc)
               .then(res => {
-                if (res.data == "ok")
+                if (res.data.message == "ok")
                   alert("Ok! The specimen was modified");
                 else
                   alert("An error was occured");

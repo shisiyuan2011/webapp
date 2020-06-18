@@ -292,16 +292,11 @@
           experiments: []
         },
         methods: {
-          ccc: function() {
-            console.log(1293123);
-          },
           confirmDelete: function (eid) {
-            console.log(eid);
             if (confirm('Are you sure?\nPress OK will delete the experiment! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
               axios
               .get('/delexp/' + eid)
               .then(res => {
-                console.log(res.data);
                 if (res.data.message == "ok") {
                   alert("the experiment (id = " + eid + ") was deteleted");
                   window.location.reload(true);

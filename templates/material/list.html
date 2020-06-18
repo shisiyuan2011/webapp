@@ -300,19 +300,19 @@
           }
         },
       },
-        mounted() {
-          // verify_token();
-          axios
-          .get('/material')
-          .then(res => {
-            this.materials = res.data;
-            // console.log(res.data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        },
-        delimiters: ['[[',']]']
+      mounted() {
+        // verify_token();
+        axios
+        .get('/material')
+        .then(res => {
+          this.materials = res.data;
+          // console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      },
+      delimiters: ['[[',']]']
       });
     </script>
 

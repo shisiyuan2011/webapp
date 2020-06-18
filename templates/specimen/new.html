@@ -330,10 +330,12 @@
               axios
               .post('/newspc', this.spc)
               .then(res => {
-                if (res.data == "ok")
+                console.log(res.data);
+                if (res.data.message == "ok") {
                   alert("Ok! A new specimen was created");
-                else
+                } else {
                   alert("an error was occured");
+                }
               }).catch(function (err) {
                 console.log(err);
                 alert("bad");

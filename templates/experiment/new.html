@@ -356,11 +356,10 @@
             this.errors = [];
             if (this.completedForm() == true) {
               this.exp.etime = Date.now();
-              console.log(this.exp);
               axios
               .post('/newexp', this.exp)
               .then(res => {
-                if (res.data == "ok")
+                if (res.data.message == "ok")
                   alert("Ok! A new experiment was created");
                 else
                   alert("An error was occured");
