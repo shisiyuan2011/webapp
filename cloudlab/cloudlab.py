@@ -298,8 +298,11 @@ def spc_get_sepcimen_by_name(sname: str, db: Session = Depends(get_db)):
 
 @app.get("/delspc/{sid}")
 def spc_delete(sid: int, db: Session = Depends(get_db)):
-    crud.spc_delete(db, sid)
-    return {"message": "ok"}
+    try:
+        crud.spc_delete(db, sid)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
 
 @app.post("/newspc")
 def spc_new(spc: schemas.Specimen, db: Session = Depends(get_db)):
@@ -349,20 +352,19 @@ def delete_material(mid: int, db: Session = Depends(get_db)):
 
 @app.post("/newmtr")
 def newmtr(mtr: schemas.Material, db: Session = Depends(get_db)):
-    crud.mtr_new(db, mtr)
-    return {"message": "ok"}
-    '''
     try:
         crud.mtr_new(db, mtr)
         return {"message": "ok"}
     except:
         return {"message": "bad"}
-    '''
 
 @app.post("/updatemtr")
 def mtr_update(mtr: schemas.Material, db: Session = Depends(get_db)):
-    crud.mtr_update(db, mtr)
-    return {"message": "ok"}
+    try:
+        crud.mtr_update(db, mtr)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
 
 @app.get("/material", response_model=List[schemas.Material])
 def mtr_get_all(db: Session = Depends(get_db)):
