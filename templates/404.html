@@ -8,7 +8,6 @@
 -->
 <html lang="en">
   <head>
-    <base href="./">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -35,39 +34,332 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Main styles for this application-->
     <link href="/css/style.css" rel="stylesheet">
-    <!-- Global site tag (gtag.js) - Google Analytics-->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      // Shared ID
-      gtag('config', 'UA-118965717-3');
-      // Bootstrap ID
-      gtag('config', 'UA-118965717-5');
-    </script>
+    <link href=/css/app.f2ca3f2b.css rel=preload as=style>
+    <link href=/js/app.4c6fc585.js rel=preload as=script>
+    <link href=/js/chunk-vendors.6b3bf59f.js rel=preload as=script>
+    <link href=/css/app.f2ca3f2b.css rel=stylesheet>
+
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/vue-cookies.js"></script>
+    <script src="/js/cloudlab.js"></script>
+    <!-- script type="text/javascript" language="JavaScript">
+      verify_token();
+    </script -->
+    <link href="/vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
   </head>
-  <body class="c-app flex-row align-items-center">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="clearfix">
-            <h1 class="float-left display-3 mr-4">404</h1>
-            <h4 class="pt-3">Oops! You're lost.</h4>
-            <p class="text-muted">The page you are looking for was not found.</p>
-          </div>
-          <div class="input-prepend input-group">
-            <div class="input-group-prepend"><span class="input-group-text">
-                <svg class="c-icon">
-                  <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-magnifying-glass"></use>
-                </svg></span></div>
-            <input class="form-control" id="prependedInput" size="16" type="text" placeholder="What are you looking for?"><span class="input-group-append">
-              <button class="btn btn-info" type="button">Search</button></span>
-          </div>
+  <body class="c-app">
+    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+      <div class="c-sidebar-brand d-lg-down-none">
+        <img class="c-sidebar-brand-full" width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
+        <img class="c-sidebar-brand-minimized" width="60" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab-logo.png">
+      </div>
+      <ul class="c-sidebar-nav">
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+            </svg> Dashboard
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="/experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> Experiments
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="/specimen/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+            </svg> Specimen
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="/material/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-drop1"></use>
+            </svg> Material
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-chart-pie"></use>
+            </svg> Predict
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+            </svg> Compare
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-calculator"></use>
+            </svg> Algorithm
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-star"></use>
+            </svg> Online Analysis
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item">
+          <a class="c-sidebar-nav-link" href="main">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bug"></use>
+            </svg> Online Experiments
+          </a>
+        </li>
+      </ul>
+      <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+    </div>
+    <div class="c-wrapper c-fixed-components">
+      <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+        <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+          </svg>
+        </button><a class="c-header-brand d-lg-none" href="main">
+          <img width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
+        <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+          </svg>
+        </button>
+        <ul class="c-header-nav d-md-down-none">
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="main">Dashboard</a></li>
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="main">Users</a></li>
+          <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="main">Settings</a></li>
+        </ul>
+        <ul class="c-header-nav ml-auto mr-4">
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="main">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="main">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="main">
+              <svg class="c-icon">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+              </svg></a></li>
+          <li class="c-header-nav-item dropdown">
+            <div class="c-avatar"><img class="c-avatar-img" src="/assets/img/avatars/6.jpg" alt="user@email.com"></div>
+          </li>
+        </ul>
+        <div class="c-subheader px-3">
+          <!-- Breadcrumb-->
+          <ol class="breadcrumb border-0 m-0">
+            <li class="breadcrumb-item active">Home</li>
+            <li class="breadcrumb-item" href="/experiment/list">Experiments</li>
+            <!-- Breadcrumb Menu-->
+          </ol>
         </div>
+      </header>
+      <div class="c-body">
+        <main class="c-main">
+          <div class="container-fluid">
+            <div class="fade-in">
+              <!-- search -->
+              <div class="card">
+                <div class="card-header">
+                  <!-- div class="form-group">
+                    <label class="col-form-label" for="appendedInputButton">Search</label>
+                    <div class="controls">
+                      <div class="input-group">
+                        <input class="form-control" id="appendedInputButton" size="16" type="text">
+                        <span class="input-group-append">
+                          <button class="btn btn-secondary" type="button">
+                            <span><img height="16" src="/assets/icons/magnifying-glass.svg"></span>Go!
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div -->
+
+                  <div id=app></div>
+                  <script src=/js/chunk-vendors.6b3bf59f.js> </script> <script src=/js/app.4c6fc585.js> </script>
+                </div>
+              <!-- Materials GCr15, QT800 -->
+              <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="card text-white bg-gradient-primary">
+                    <div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+                      <div>
+                        <div class="text-value-lg" id="name_of_material">GCr15</div>
+                        <div>Details</div>
+                      </div>
+                      <div class="btn-group">
+                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <svg class="c-icon">
+                            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
+                          </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="/material/content/1">Experiment</a>
+                          <a class="dropdown-item" href="/prediction/1">Prediction</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                      <canvas class="chart" id="card-chart1" height="70"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-->
+                <div class="col-sm-6 col-lg-3">
+                  <div class="card text-white bg-gradient-info">
+                    <div class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
+                      <div>
+                        <div class="text-value-lg">QT800</div>
+                        <div>Details</div>
+                      </div>
+                      <div class="btn-group">
+                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <svg class="c-icon">
+                            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
+                          </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="/material/content/2">Experiment</a>
+                          <a class="dropdown-item" href="/prediction/2">Prediction</a>
+                        </div>
+                      </div>                        
+                    </div>
+                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                      <canvas class="chart" id="card-chart2" height="70"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-->
+              </div>
+              <!-- Materials GCr15, QT800 -->
+              <!-- /.row-->
+              <div class="row">
+                <div class="col-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body p-3 d-flex align-items-center">
+                      <div class="bg-primary p-3 mfe-3">
+                        <svg class="c-icon c-icon-xl">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-aperture"></use>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="text-value text-primary">2</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">Materials</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body p-3 d-flex align-items-center">
+                      <div class="bg-info p-3 mfe-3">
+                        <svg class="c-icon c-icon-xl">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-spreadsheet"></use>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="text-value text-info">5000</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">Experiment Datas</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-->
+                <div class="col-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body p-3 d-flex align-items-center">
+                      <div class="bg-warning p-3 mfe-3">
+                        <svg class="c-icon c-icon-xl">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-chart-line"></use>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="text-value text-warning">10</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">Analyse Methods</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-->
+                <div class="col-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body p-3 d-flex align-items-center">
+                      <div class="bg-danger p-3 mfe-3">
+                        <svg class="c-icon c-icon-xl">
+                          <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="text-value text-danger">5</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">Online Experiments</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.row-->
+              <div class="card border-primary">
+                <div class="card-header">
+                  <a class="link" href="main">Advanced Search</a>
+                </div>
+                <div class="card-body">
+                  根据 材料名称、实验名称、试棒编号查询。其次是根据日期、旋转频率、采样频率、材料半径、材料长度查询。<br>
+                </div>
+              </div>
+              <div class="card border-success">
+                <div class="card-header">
+                  <a class="link" href="main">Hysteresis Loops</a>
+                </div>
+                <div class="card-body">绘制试棒的滞回环</div>
+              </div>
+              <div class="card border-success">
+                <div class="card-header">
+                  <a class="link" href="main">Prediction</a>
+                </div>
+                <div class="card-body">根据实验数据预测试棒寿命</div>
+              </div>
+              <div class="card border-success">
+                <div class="card-header">
+                  <a class="link" href="main">Compare Materials</a>
+                </div>
+                <div class="card-body">比较不同材料的寿命（预测）</div>
+              </div>
+              <!-- /.row-->
+              <div class="card border-info">
+                <div class="card-header">
+                  <a class="link" href="main">Algorithm</a>
+                </div>
+                <div class="card-body">Basquin Manson-Coffin Mura-Manson Grey</div>
+              </div>
+              <!-- /.row-->
+              <div class="card border-warning">
+                <div class="card-header">
+                  <a class="link" href="main">Online Analysis</a>
+                </div>
+                <div class="card-body">在线分析工具，与后台的Matlab Server交互</div>
+              </div>
+              <!-- /.row-->
+              <div class="card border-danger">
+                <div class="card-header">
+                  <a class="link" href="main">Online Experiment</a>
+                </div>
+                <div class="card-body">当前正在进行的试验。实时数据显示，监控</div>
+              </div>
+              <!-- /.row-->
+            </div>
+          </div>
+        </main>
       </div>
     </div>
     <!-- CoreUI and necessary plugins-->
@@ -75,6 +367,10 @@
     <!--[if IE]><!-->
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
+    <!-- Plugins and scripts required by this view-->
+    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
+    <script src="/js/main.js"></script>
 
 
   </body>
