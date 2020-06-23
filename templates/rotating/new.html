@@ -253,11 +253,11 @@
                     </option>
                     </select>
 
-                    <label for="rotating.diameter">Diameter</label>
-                    <input v-model="rotating.diameter" class="form-control" id="diameter" type="numeric">
+                    <label for="rotating.diameter">Diameter(mm)</label>
+                    <input v-model="rotating.diameter" class="form-control" id="diameter" type="numeric"  @input="calLz">
 
-                    <label for="rotating.moment">Moment</label>
-                    <input v-model="rotating.moment" class="form-control" id="moment" type="numeric">
+                    <label for="rotating.moment">Moment(N.mm)</label>
+                    <input v-model="rotating.moment" class="form-control" id="moment" type="numeric"  @input="calStress">
                     
                     <label for="rotating.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="rotating.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
@@ -268,11 +268,13 @@
                     <label for="rotating.speed">Speed</label>
                     <input v-model="rotating.speed" class="form-control" id="speed" type="numeric">
                     
-                    <label for="rotating.lp">lp</label>
-                    <input v-model="rotating.lp" class="form-control" id="lp" type="numeric">
+                    <label for="rotating.lp">lz</label><p>
+                    <!-- input v-model="rotating.lp" class="form-control" id="lp" type="numeric" -->
+                    <span>[[ rotating.lp ]]</span></p>
                     
-                    <label for="rotating.stress">Stress</label>
-                    <input v-model="rotating.stress" class="form-control" id="stress" type="numeric">
+                    <p><label for="rotating.stress">Stress(MPa)</label></p>
+                    <!-- input v-model="rotating.stress" class="form-control" id="stress" type="numeric" -->
+                    <p></p><span>[[ rotating.stress ]]</span></p>
                     
                     <label for="rotating.runoutcycles">Run Out Cycles</label>
                     <input v-model="rotating.runoutcycles" class="form-control" id="runoutcycles" type="numeric">
@@ -401,8 +403,8 @@
             result = result & this.mustBeNumeric(this.rotating.FatigueLifeNf, "Fatigue Life Nf");
             result = result & this.mustBeNumeric(this.rotating.FracturedLocs, "Fractured Locs");
             result = result & this.mustBeNumeric(this.rotating.speed,         "Speed");
-            result = result & this.mustBeNumeric(this.rotating.lp,            "lp");
-            result = result & this.mustBeNumeric(this.rotating.stress,        "Stress");
+            // result = result & this.mustBeNumeric(this.rotating.lp,            "lp");
+            // result = result & this.mustBeNumeric(this.rotating.stress,        "Stress");
             result = result & this.mustBeNumeric(this.rotating.runoutcycles,  "Run Out Cycles");
             result = result & this.mustBeNumeric(this.rotating.runouttime,    "Run Out Time");
             // result = result & this.mustBeNumeric(this.rotating.description,   "Description");
@@ -451,6 +453,16 @@
             this.rotating.pic2 = "";
             this.rotating.pic3 = "";
             e.preventDefault();
+          },
+          calLz: function() {
+            console.log(this.rotating.diameter);
+            this.rotating.lp = 1/64.0*3.14159265*this.rotating.diameter*this.rotating.diameter*this.rotating.diameter*this.rotating.diameter;
+            console.log(this.rotating.lp);
+          },
+          calStress: function() {
+            if (this.rotating.lp != 0) {
+              this.rotating.stress = 1000 * .5*this.rotating.diameter*this.rotating.moment/this.rotating.lp;
+            }
           }
         },
         mounted() {

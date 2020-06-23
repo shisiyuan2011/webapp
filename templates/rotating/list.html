@@ -245,11 +245,13 @@
                         <th>Id</th>
                         <th>Specimen Name</th>
                         <th>Material</th>
-                        <th>Diameter</th>
-                        <th>Moment</th>
+                        <!-- th>Diameter</th>
+                        <th>Moment</th -->
+                        <th>Stress_Max(Mpa)</th>
+                        <th>Stress_Min(Mpa)</th>
                         <th>Fatigue Life Nf</th>
-                        <th>Fractured Locs</th>
-                        <!-- th>Speed</th>
+                        <!-- th>Fractured Locs</th>
+                        <th>Speed</th>
                         <th>lp</th>
                         <th>Stress</th>
                         <th>Run out Cycles</th>
@@ -268,11 +270,13 @@
                         <td><span class="badge badge-success"><a v-bind:href="'/rotating/detail/' + rt.rtid">[[ rt.rtid ]]</a></span></td>
                         <td>[[ rt.sname ]]</td>
                         <td>[[ rt.mname ]]</td>
-                        <td>[[ rt.diameter ]]</td>
-                        <td>[[ rt.moment ]]</td>
+                        <td>[[ rt.stress ]]</td>
+                        <td>-[[ rt.stress ]]</td>
+                        <!-- td>[[ rt.diameter ]]</td>
+                        <td>[[ rt.moment ]]</td -->
                         <td>[[ rt.FatigueLifeNf ]]</td>
-                        <td>[[ rt.FracturedLocs ]]</td>
-                        <!-- td>[[ rt.speed ]]</td>
+                        <!-- td>[[ rt.FracturedLocs ]]</td>
+                        <td>[[ rt.speed ]]</td>
                         <td>[[ rt.lp ]]</td>
                         <td>[[ rt.stress ]]</td>
                         <td>[[ rt.runoutcycles ]]</td>

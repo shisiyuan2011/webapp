@@ -11,7 +11,7 @@ from .database import engine
 #######################################################################
 def exp_get_all_v_brief(db: Session):
     return db.query(models.VExperimentBrief).order_by(
-        models.VExperimentBrief.eid).all()
+        models.VExperimentBrief.eid.desc()).all()
 
 def exp_get_one_v_detail(db: Session, eid: int):
     return db.query(models.VExperimentDetail) \
@@ -82,7 +82,7 @@ def exp_delete(db: Session, eid: int):
 #######################################################################
 def spc_get_all_v(db: Session):
     return db.query(models.VSpecimenDetail).order_by(
-        models.VSpecimenDetail.sid).all()
+        models.VSpecimenDetail.sid.desc()).all()
 
 
 def spc_get_one(db: Session, sid: int):
@@ -136,7 +136,8 @@ def spc_delete(db: Session, sid: int):
 #
 #######################################################################
 def mtr_get_all(db: Session):
-    return db.query(models.Material).all()
+    return db.query(models.Material) \
+    .order_by(models.Material.mid.desc()).all()
 
 def mtr_get_one(db: Session, mid: int):
     return db.query(models.Material) \
@@ -218,7 +219,8 @@ def get_all_sname(db: Session):
 #
 #######################################################################
 def rotating_get_all(db: Session):
-    return db.query(models.VRotating).all()
+    return db.query(models.VRotating) \
+        .order_by(models.VRotating.rtid.desc()).all()
 
 def vrotating_get_one(db: Session, rtid: int):
     return db.query(models.VRotating) \
