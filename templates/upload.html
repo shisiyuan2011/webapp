@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="/css/uploadfile.css" rel="stylesheet">
+<script src="/js/jquery-1.10.1.min.js"></script>
+<script src="/js/jquery.uploadfile.min.js"></script>
+</head>
+<body>
+ 
+<div id="mulitplefileuploader">Upload</div>
+<div id="status_1"></div>
+ 
+<div id="m2">Upload</div>
+<div id="status_2"></div>
+ 
+<div id="m3">Upload</div>
+<div id="status_3"></div>
+
+
+<script>
+ 
+$(document).ready(function()
+{
+    var settings_1 = {
+        url: "/uploadfiles",
+        method: "POST",
+        allowedTypes:"jpg,png,gif",
+        fileName: "myfile",
+        multiple: false,
+        onSuccess:function(files,data,xhr)
+        {
+            $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
+        },
+        onError: function(files,status,errMsg)
+        {       
+            $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+        }
+    }
+
+    var settings_2 = {
+        url: "/uploadfiles",
+        method: "POST",
+        allowedTypes:"jpg,png,gif",
+        fileName: "myfile",
+        multiple: false,
+        onSuccess:function(files,data,xhr)
+        {
+            $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
+        },
+        onError: function(files,status,errMsg)
+        {       
+            $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+        }
+    }
+
+    var settings_3 = {
+        url: "/uploadfiles",
+        method: "POST",
+        allowedTypes:"jpg,png,gif",
+        fileName: "myfile",
+        multiple: false,
+        onSuccess:function(files,data,xhr)
+        {
+            $("#status_3").html("<font color='green'>Upload " + files[0] + " is success</font>");
+        },
+        onError: function(files,status,errMsg)
+        {       
+            $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+        }
+    }
+
+    $("#mulitplefileuploader").uploadFile(settings_1);
+    $("#m2").uploadFile(settings_2);
+    $("#m3").uploadFile(settings_3);
+});
+</script>
+</body>

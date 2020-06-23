@@ -17,6 +17,9 @@ from .schemas import *
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import HTMLResponse
+
 models.Base.metadata.create_all(bind=engine)
 
 # to get a string like this run:
@@ -409,6 +412,77 @@ def get_analysis_pic_web_path(eid: int, db: Session = Depends(get_db), response_
 # Pages
 #
 # ###################################################################################
+@app.get("/rotating/list")
+async def rotating_list(request: Request):
+    return templates.TemplateResponse('rotating/list.html', {'request': request})
+
+@app.get("/rotating/new")
+async def rotating_new(request: Request):
+    return templates.TemplateResponse('rotating/new.html', {'request': request})
+
+@app.get("/rotating/modify/{rtid}")
+async def rotating_modify(request: Request, rtid : int):
+    return templates.TemplateResponse('rotating/modify.html', {'request': request, 'rtid': rtid})
+
+@app.get("/rotating/detail/{rtid}")
+async def rotating_detail(request: Request, rtid : int):
+    return templates.TemplateResponse('rotating/detail.html', {'request': request, 'rtid': rtid})
+
+@app.get("/rotating/nmodify/{sname}")
+async def rotating_nmodify(request: Request, sname : str):
+    return templates.TemplateResponse('rotating/nmodify.html', {'request': request, 'sname': sname})
+
+@app.get("/delrt/{rtid}")
+def delete_rotating(rtid: int, db: Session = Depends(get_db)):
+    crud.rotating_delete(db, rtid)
+    return {"message": "ok"}
+
+@app.post("/newrt")
+def newrt(rotating: schemas.Rotating, db: Session = Depends(get_db)):
+    print(rotating)
+    crud.rotating_new(db, rotating)
+    return {"message": "ok"}
+    # try:
+    #     crud.rotating_new(db, rotating)
+    #     return {"message": "ok"}
+    # except:
+    #     return {"message": "bad"}
+
+@app.post("/updatert")
+def rotating_update(rotating: schemas.Rotating, db: Session = Depends(get_db)):
+    try:
+        crud.rotating_update(db, rotating)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.get("/vrotating", response_model=List[schemas.VRotating])
+def rotating_get_all(db: Session = Depends(get_db)):
+    rotating = crud.rotating_get_all(db)
+    return rotating
+
+@app.get("/vrotating/{rtid}", response_model=schemas.VRotating)
+def vrotating_get_one(rtid: int, db: Session = Depends(get_db)):
+    rotating = crud.vrotating_get_one(db, rtid)
+    return rotating
+
+@app.get("/rotating/{rtid}", response_model=schemas.Rotating)
+def rotating_get_one(rtid: int, db: Session = Depends(get_db)):
+    rotating = crud.rotating_get_one(db, rtid)
+    return rotating
+
+
+@app.get("/vrotating/{sname}", response_model=schemas.VRotating)
+def rotating_get_one_by_name(sname: str, db: Session = Depends(get_db)):
+    rotating = crud.rotating_get_one_by_name(db, sname)
+    return rotating
+
+
+# ###################################################################################
+# 
+# Pages
+#
+# ###################################################################################
 @app.get("/")
 async def main_default_root(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
@@ -453,7 +527,52 @@ async def try_snames(db: Session = Depends(get_db)):
     sname = crud.get_all_sname(db)
     return sname
 
+@app.get("/upload")
+async def try_upload(request: Request):
+    return templates.TemplateResponse('upload.html', {'request': request})
+
+
+
+
+@app.post("/files/")
+async def create_files(files: List[bytes] = File(...)):
+    return {"file_sizes": [len(file) for file in files]}
+
+
+@app.post("/uploadfiles/")
+async def create_upload_files(myfile: List[UploadFile] = File(...)):
+    for file in myfile:
+        content = await file.read()
+        with open('E:\\projects\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
+            f.write(content)
+
+    return {"filenames": [file.filename for file in myfile]}
+
+@app.put("/putfiles/")
+async def put_upload_files(files: List[UploadFile] = File(...)):
+    for file in files:
+        content = await file.read()
+        with open('E:\\projects\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
+            f.write(content)
+
+    return {"filenames": [file.filename for file in files]}
+
+@app.get("/uuu")
+async def uuu():
+    content = """
+<body>
+<form action="/files/" enctype="multipart/form-data" method="post">
+<input name="files" type="file">
+<input type="submit" value="upload">
+</form>
+<form action="/uploadfiles/" enctype="multipart/form-data" method="post">
+<input name="files" type="file">
+<input type="submit" value="upload">
+</form>
+</body>
+    """
+    return HTMLResponse(content=content)
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run('cloudlab:app', port=22880, host='127.0.0.1', reload=True)
+    uvicorn.run('cloudlab:app', port=22888, host='127.0.0.1', reload=True)

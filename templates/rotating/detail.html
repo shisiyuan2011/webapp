@@ -220,8 +220,9 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item active">Materail List</li>
-            <li class="breadcrumb-item"><a href="material/new">New Materail</a></li>
+            <li class="breadcrumb-item"><a href="rotating/list">RB Test List</a></li>
+            <li class="breadcrumb-item"><a href="rotating/new">New RB Test</a></li>
+            <li class="breadcrumb-item active">RB Test Details</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -232,61 +233,41 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <!-- List all experiment -->
 
-              <div class="card">
-                <div class="card-header">
-                  <i class="fa fa-align-justify"></i> Materail List
-                </div>
+              <div class="card" id="rotating_detail">
                 <div class="card-body">
-                  <table id="mtr_list" name="mtr_list" class="table table-responsive-sm table-bordered table-striped table-sm">
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>English Name</th>
-                        <th>Standard</th>
-                        <th>Properties</th>
-                        <th>Modify</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
+                  <div class="card-header">
+                    <i class="fa fa-align-justify"> </i>[[ rt.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="rotating/detail/{{ rtid }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="rotating/modify/{{ rtid }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="rotating/detail/{{ rtid }}">Delete</a></span>
+                  </div>
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
                     <tbody>
-                      <tr v-for="mtr in materials">
-                        <td>
-                          [[ mtr.mid ]]
-                        </td>
-                        <td>
-                          [[ mtr.mname ]]
-                        </td>
-                        <td>
-                          [[ mtr.en_name ]]
-                        </td>
-                        <td>
-                          [[ mtr.standrad ]]
-                        </td>
-                        <td>
-                          [[ mtr.properties ]]
-                        </td>
-                        <td>
-                          <span class="badge badge-warning"><a v-bind:href="'/material/modify/' + mtr.mid">M</a></span>
-                        </td>
-                        <td>
-                          <button class="badge badge-secondary" @click="confirmDelete(mtr.mid)">D</button>
-                        </td>
-                      </tr>
+                      <tr><td><i class="fa fa-align-justify">ID</i></td> <td>[[ rt.rtid ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Specimen Name </i></td> <td>[[ rt.sname ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Material </i></td> <td>[[ rt.mid ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Diameter </i></td> <td>[[ rt.diameter ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Moment </i></td> <td>[[ rt.moment ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fatigue Life Nf </i></td> <td>[[ rt.FatigueLifeNf ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Locs </i></td> <td>[[ rt.FracturedLocs ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Speed </i></td> <td>[[ rt.speed ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> lp </i></td> <td>[[ rt.lp ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Stress </i></td> <td>[[ rt.stress ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Cycles </i></td> <td>[[ rt.runoutcycles ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Time </i></td> <td>[[ rt.runouttime ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Description </i></td> <td>[[ rt.description ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Left </i></td><td><img v-bind:src="[[ rt.pic1 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Right </i></td> <td><img v-bind:src="[[ rt.pic2 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Axis Direction </i></td> <td><img v-bind:src="[[ rt.pic3 ]]"></td></tr>
                     </tbody>
                   </table>
-                  <!-- nav> SPLIT PAGES
-                    <ul class="pagination">
-                      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">4</a></li>
-                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                  </nav -->
+                  <div class="card-footer">
+                    <i class="fa fa-align-justify"> </i>[[ rt.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="rotating/detail/{{ rtid }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="rotating/modify/{{ rtid }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="rotating/detail/{{ rtid }}">Delete</a></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -306,42 +287,41 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var exp = new Vue({
-        el: "#mtr_list",
+      var rotating = new Vue({
+        el: "#rotating_detail",
         data: {
-          materials: []
-        },
-        methods: {
-          confirmDelete: function (mid) {
-            if (confirm('Are you sure?\nPress OK will delete the material! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
-            axios
-            .get('/delmtr/' + mid)
-            .then(res => {
-              // console.log(res.data);
-              if (res.data.message == "ok") {
-                alert("the material (id = " + mid + ") was deteleted");
-                window.location.reload(true);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          rt: {
+            rtid : 0,
+            sname : "",
+            mid : 0,    
+            diameter : 0,
+            moment : 0,
+            FatigueLifeNf : 0,
+            FracturedLocs : 0,
+            speed : 0,
+            lp : 0,
+            stress : 0,
+            runoutcycles : 0,
+            runouttime : 0,
+            description : "",
+            pic1 : "",
+            pic2 : "",
+            pic3 : ""
           }
         },
-      },
-      mounted() {
-        // verify_token();
-        axios
-        .get('/material')
-        .then(res => {
-          this.materials = res.data;
-          // console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      },
-      delimiters: ['[[',']]']
+        mounted() {
+          // verify_token();
+          axios
+          .get('/vrotating/{{ rtid }}')
+          .then(res => {
+            this.rt = res.data;
+            // console.log(this.exp);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        },
+        delimiters: ['[[',']]']
       });
     </script>
 

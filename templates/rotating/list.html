@@ -220,8 +220,8 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item active">Materail List</li>
-            <li class="breadcrumb-item"><a href="material/new">New Materail</a></li>
+            <li class="breadcrumb-item active">Rotating Bending Test List</li>
+            <li class="breadcrumb-item"><a href="rotating/new">New Rotating Bending Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -236,43 +236,59 @@
 
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"></i> Materail List
+                  <i class="fa fa-align-justify"></i> Rotating Bending Test List
                 </div>
                 <div class="card-body">
-                  <table id="mtr_list" name="mtr_list" class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <table id="rotating_list" name="rotating_list" class="table table-responsive-sm table-bordered table-striped table-sm">
                     <thead>
                       <tr>
                         <th>Id</th>
-                        <th>Name</th>
-                        <th>English Name</th>
-                        <th>Standard</th>
-                        <th>Properties</th>
+                        <th>Specimen Name</th>
+                        <th>Material</th>
+                        <th>Diameter</th>
+                        <th>Moment</th>
+                        <th>Fatigue Life Nf</th>
+                        <th>Fractured Locs</th>
+                        <!-- th>Speed</th>
+                        <th>lp</th>
+                        <th>Stress</th>
+                        <th>Run out Cycles</th>
+                        <th>Run Out Time</th>
+                        <th>Desc</th>
+                        <th>Pic1</th>
+                        <th>Pic2</th>
+                        <th>Pic3</th -->
+                        <th>Report</th>
                         <th>Modify</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="mtr in materials">
+                      <tr v-for="rt in rotating">
+                        <td><span class="badge badge-success"><a v-bind:href="'/rotating/detail/' + rt.rtid">[[ rt.rtid ]]</a></span></td>
+                        <td>[[ rt.sname ]]</td>
+                        <td>[[ rt.mname ]]</td>
+                        <td>[[ rt.diameter ]]</td>
+                        <td>[[ rt.moment ]]</td>
+                        <td>[[ rt.FatigueLifeNf ]]</td>
+                        <td>[[ rt.FracturedLocs ]]</td>
+                        <!-- td>[[ rt.speed ]]</td>
+                        <td>[[ rt.lp ]]</td>
+                        <td>[[ rt.stress ]]</td>
+                        <td>[[ rt.runoutcycles ]]</td>
+                        <td>[[ rt.runouttime ]]</td>
+                        <td>[[ rt.description ]]</td>
+                        <td><img v-bind:src="[[ rt.pic1 ]]"></td>
+                        <td><img v-bind:src="[[ rt.pic2 ]]"></td>
+                        <td><img v-bind:src="[[ rt.pic3 ]]"></td -->
                         <td>
-                          [[ mtr.mid ]]
+                          <span class="badge badge-warning"><a v-bind:href="'/rotating/report/' + rt.rtid">R</a></span>
                         </td>
                         <td>
-                          [[ mtr.mname ]]
+                          <span class="badge badge-warning"><a v-bind:href="'/rotating/modify/' + rt.rtid">M</a></span>
                         </td>
                         <td>
-                          [[ mtr.en_name ]]
-                        </td>
-                        <td>
-                          [[ mtr.standrad ]]
-                        </td>
-                        <td>
-                          [[ mtr.properties ]]
-                        </td>
-                        <td>
-                          <span class="badge badge-warning"><a v-bind:href="'/material/modify/' + mtr.mid">M</a></span>
-                        </td>
-                        <td>
-                          <button class="badge badge-secondary" @click="confirmDelete(mtr.mid)">D</button>
+                          <button class="badge badge-secondary" @click="confirmDelete(rt.rtid)">D</button>
                         </td>
                       </tr>
                     </tbody>
@@ -307,41 +323,43 @@
 
     <script type="text/javascript" language="JavaScript">
       var exp = new Vue({
-        el: "#mtr_list",
+        el: "#rotating_list",
         data: {
-          materials: []
+          rotating: []
         },
         methods: {
-          confirmDelete: function (mid) {
-            if (confirm('Are you sure?\nPress OK will delete the material! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
-            axios
-            .get('/delmtr/' + mid)
-            .then(res => {
-              // console.log(res.data);
-              if (res.data.message == "ok") {
-                alert("the material (id = " + mid + ") was deteleted");
-                window.location.reload(true);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          confirmDelete: function(rtid) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/delrt/' + rtid)
+              .then(res => {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("the rotating test (id = " + rtid + ") was deteleted");
+                  window.location.reload(true);
+                } else {
+                  alert("An error was occured!");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
           }
         },
-      },
-      mounted() {
-        // verify_token();
-        axios
-        .get('/material')
-        .then(res => {
-          this.materials = res.data;
-          // console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      },
-      delimiters: ['[[',']]']
+        mounted() {
+          // verify_token();
+          axios
+          .get('/vrotating')
+          .then(res => {
+            this.rotating = res.data;
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        },
+        delimiters: ['[[',']]']
       });
     </script>
 

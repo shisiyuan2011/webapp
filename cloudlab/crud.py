@@ -210,3 +210,100 @@ def get_all_sname(db: Session):
         strname += ','
     strname = strname[:-1]        
     return strname
+
+
+#######################################################################
+#
+# Rotating
+#
+#######################################################################
+def rotating_get_all(db: Session):
+    return db.query(models.VRotating).all()
+
+def vrotating_get_one(db: Session, rtid: int):
+    return db.query(models.VRotating) \
+            .filter(models.VRotating.rtid == rtid).first()
+
+def rotating_get_one(db: Session, rtid: int):
+    rt = db.query(models.Rotating) \
+            .filter(models.Rotating.rtid == rtid).first()
+    l = len("/images/rotating/")
+    rt.pic1 = rt.pic1[l:]
+    rt.pic2 = rt.pic2[l:]
+    rt.pic3 = rt.pic3[l:]
+    return rt
+
+def rotating_get_one_by_name(db: Session, sname: int):
+    return db.query(models.VRotating) \
+            .filter(models.VRotating.sname == sname).first()
+
+def rotating_new(db: Session, rt: schemas.Rotating):
+    rotating = models.Rotating()
+    # rotating.rtid
+    rotating.sname = rt.sname
+    rotating.mid = rt.mid
+    rotating.diameter = rt.diameter
+    rotating.moment = rt.moment
+    rotating.FatigueLifeNf = rt.FatigueLifeNf
+    rotating.FracturedLocs = rt.FracturedLocs
+    rotating.speed = rt.speed
+    rotating.lp = rt.lp
+    rotating.stress = rt.stress
+    rotating.runoutcycles = rt.runoutcycles
+    rotating.runouttime = rt.runouttime
+    rotating.description = rt.description
+    rotating.pic1 = "/images/rotating/" + rt.pic1
+    rotating.pic2 = "/images/rotating/" + rt.pic2
+    rotating.pic3 = "/images/rotating/" + rt.pic3
+
+    db.add(rotating)
+    db.commit()
+    db.refresh(rotating)
+
+def rotating_update(db: Session, rt: schemas.Rotating):
+    rotating = db.query(models.Rotating) \
+                .filter(models.Rotating.rtid == rt.rtid).first()
+    rotating.sname = rt.sname
+    rotating.mid = rt.mid
+    rotating.diameter = rt.diameter
+    rotating.moment = rt.moment
+    rotating.FatigueLifeNf = rt.FatigueLifeNf
+    rotating.FracturedLocs = rt.FracturedLocs
+    rotating.speed = rt.speed
+    rotating.lp = rt.lp
+    rotating.stress = rt.stress
+    rotating.runoutcycles = rt.runoutcycles
+    rotating.runouttime = rt.runouttime
+    rotating.description = rt.description
+    rotating.pic1 = "/images/rotating/" + rt.pic1
+    rotating.pic2 = "/images/rotating/" + rt.pic2
+    rotating.pic3 = "/images/rotating/" + rt.pic3
+
+    db.commit()
+
+ 
+def rotating_delete(db: Session, rtid: int):
+    rotating = db.query(models.Rotating) \
+                .filter(models.Rotating.rtid == rtid).first()
+
+    db.delete(rotating)
+    db.commit()
+
+''' Rotating
+rtid
+sname
+mid
+diameter
+moment
+FatigueLifeNf
+FracturedLocs
+speed
+lp
+stress
+runoutcycles
+runouttime
+description
+pic1
+pic2
+pic3
+'''

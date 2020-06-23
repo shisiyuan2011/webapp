@@ -39,6 +39,9 @@
     <script src="/js/axios.min.js"></script>
     <script src="/js/vue-cookies.js"></script>
     <script src="/js/cloudlab.js"></script>
+    <link href="/css/uploadfile.css" rel="stylesheet">
+    <script src="/js/jquery-1.10.1.min.js"></script>
+    <script src="/js/jquery.uploadfile.min.js"></script>
     <!-- script type="text/javascript" language="JavaScript">
       verify_token();
     </script -->
@@ -220,8 +223,8 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item active">Materail List</li>
-            <li class="breadcrumb-item"><a href="material/new">New Materail</a></li>
+            <li class="breadcrumb-item"><a href="rotating/list">RB Test List</a></li>
+            <li class="breadcrumb-item active"><a href="rotating/new">New RB Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -232,61 +235,74 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <!-- List all experiment -->
-
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"></i> Materail List
+                  <i class="fa fa-align-justify"> </i> Modify The RB Test
                 </div>
                 <div class="card-body">
-                  <table id="mtr_list" name="mtr_list" class="table table-responsive-sm table-bordered table-striped table-sm">
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>English Name</th>
-                        <th>Standard</th>
-                        <th>Properties</th>
-                        <th>Modify</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="mtr in materials">
-                        <td>
-                          [[ mtr.mid ]]
-                        </td>
-                        <td>
-                          [[ mtr.mname ]]
-                        </td>
-                        <td>
-                          [[ mtr.en_name ]]
-                        </td>
-                        <td>
-                          [[ mtr.standrad ]]
-                        </td>
-                        <td>
-                          [[ mtr.properties ]]
-                        </td>
-                        <td>
-                          <span class="badge badge-warning"><a v-bind:href="'/material/modify/' + mtr.mid">M</a></span>
-                        </td>
-                        <td>
-                          <button class="badge badge-secondary" @click="confirmDelete(mtr.mid)">D</button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <!-- nav> SPLIT PAGES
-                    <ul class="pagination">
-                      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">4</a></li>
-                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                  </nav -->
+                  <form id = "update_rotating">
+                    <div v-if="errors.length > 0" class="card-body">
+                      <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
+                    </div>
+
+                    <label for="rotating.sname">Specimen Name</label>
+                    <input v-model="rotating.sname" class="form-control" id="sname" type="text">
+
+                    <label for="rotating.mid">Material</label>
+                    <select v-model="rotating.mid" class="form-control">
+                      <option value="0">Please Select A Material</option>
+                      <option v-for="material in materials" v-bind:value="material.mid">
+                        [[ material.mname ]]
+                    </option>
+                    </select>
+
+                    <label for="rotating.diameter">Diameter</label>
+                    <input v-model="rotating.diameter" class="form-control" id="diameter" type="numeric">
+
+                    <label for="rotating.moment">Moment</label>
+                    <input v-model="rotating.moment" class="form-control" id="moment" type="numeric">
+                    
+                    <label for="rotating.FatigueLifeNf">Fatigue Life Nf</label>
+                    <input v-model="rotating.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
+                    
+                    <label for="rotating.FracturedLocs">FracturedLocs</label>
+                    <input v-model="rotating.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
+                    
+                    <label for="rotating.speed">Speed</label>
+                    <input v-model="rotating.speed" class="form-control" id="speed" type="numeric">
+                    
+                    <label for="rotating.lp">lp</label>
+                    <input v-model="rotating.lp" class="form-control" id="lp" type="numeric">
+                    
+                    <label for="rotating.stress">Stress</label>
+                    <input v-model="rotating.stress" class="form-control" id="stress" type="numeric">
+                    
+                    <label for="rotating.runoutcycles">Run Out Cycles</label>
+                    <input v-model="rotating.runoutcycles" class="form-control" id="runoutcycles" type="numeric">
+
+                    <label for="rotating.runouttime">Run Out Time</label>
+                    <input v-model="rotating.runouttime" class="form-control" id="runouttime" type="numeric">
+
+                    <label for="rotating.description">Description</label>
+                    <input v-model="rotating.description" class="form-control" id="description" type="textarea">
+
+                    <label for="rotating.pic1">Picture. Fractured Surfaces On Left</label><p>
+                      <div id="status_1">[[ rotating.pic1 ]]</div></p>
+                      <div id="upload_pic1">Upload</div>
+                     
+                    <label for="rotating.pic2">Picture. Fractured Surfaces On Right</label><p>
+                      <div id="status_2">[[ rotating.pic2 ]]</div></p>
+                      <div id="upload_pic2">Upload</div>
+
+                    <label for="rotating.pic3">Picture. Axis Direction</label><p>
+                      <div id="status_3">[[ rotating.pic3 ]]</div></p>
+                      <div id="upload_pic3">Upload</div>
+
+                    <div class="card-footer">
+                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkRotating">Modify</button>
+                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetRotating">Reset</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -306,44 +322,208 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var exp = new Vue({
-        el: "#mtr_list",
+      var vue_rt = new Vue({
+        el: "#update_rotating",
         data: {
+          errors: [],
+          rotating: {
+            rtid : 0,
+            sname : "",
+            mid : 0,    
+            diameter : 0,
+            moment : 0,
+            FatigueLifeNf : 0,
+            FracturedLocs : 0,
+            speed : 0,
+            lp : 0,
+            stress : 0,
+            runoutcycles : 0,
+            runouttime : 0,
+            description : "",
+            pic1 : "",
+            pic2 : "",
+            pic3 : ""
+          },
           materials: []
         },
         methods: {
-          confirmDelete: function (mid) {
-            if (confirm('Are you sure?\nPress OK will delete the material! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
-            axios
-            .get('/delmtr/' + mid)
-            .then(res => {
-              // console.log(res.data);
-              if (res.data.message == "ok") {
-                alert("the material (id = " + mid + ") was deteleted");
-                window.location.reload(true);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          grateThanZero(numeric, varname) {
+            result = true;
+            if (numeric == null) {
+              this.errors.push({'message': varname + ' is required.'});
+              result = false;
+            } else if (isNaN(numeric)) {
+              this.errors.push({'message': varname + ' must be a valid number.'});
+              result = false;
+            } else if (numeric <= 0) {
+              this.errors.push({'message': varname + ' must be a valid number grate than zero.'});
+              result = false;
+            }
+            return result;
+          },
+          mustBeNumeric(numeric, varname) {
+            result = true;
+            if (numeric == null) {
+              this.errors.push({'message': varname + ' is required.'});
+              result = false;
+            } else if (isNaN(numeric)) {
+              this.errors.push({'message': varname + ' must be a valid number.'});
+              result = false;
+            }
+            return result;
+          },
+          mustInRange(numeric, themin, themax, varname) {
+            result = true;
+            if (numeric == null) {
+              this.errors.push({'message': varname + ' is required.'});
+              result = false;
+            } else if (isNaN(numeric)) {
+              this.errors.push({'message': varname + ' must be a valid number.'});
+              result = false;
+            } else if (numeric < themin || numeric > themax) {
+              this.errors.push({'message': varname + ' must be in ' + themin + 
+                                ' and ' + themax + '.'});
+              result = false;
+            }
+            return result;
+          },
+          mustBeString(thestr, varname) {
+            result = true;
+            if (thestr == null || thestr == "") {
+              this.errors.push({'message': varname + ' is required.'});
+              result = false;
+            }
+            return result;
+          },
+          completedForm: function() {
+            return true;
+          },
+          checkRotating: function (e) {            
+            this.errors = [];
+            if (this.completedForm() == true) {
+              console.log(this.rotating);
+              axios
+              .post('/updatert', this.rotating)
+              .then(res => {
+                console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("Ok! A new test was modified");
+                } else {
+                  alert("an error was occured");
+                }
+              }).catch(function (err) {
+                console.log(err);
+                alert("an error was occured");
+              });
+            }
+            e.preventDefault();
+          },
+          resetRotating: function(e) {
+            this.errors = [];
+            this.rotating.rtid = 0;
+            this.rotating.sname = "";
+            this.rotating.mid = 0;
+            this.rotating.diameter = 0;
+            this.rotating.moment = 0;
+            this.rotating.FatigueLifeNf = 0;
+            this.rotating.FracturedLocs = 0;
+            this.rotating.speed = 0;
+            this.rotating.lp = 0;
+            this.rotating.stress = 0;
+            this.rotating.runoutcycles = 0;
+            this.rotating.runouttime = 0;
+            this.rotating.description = "";
+            this.rotating.pic1 = "";
+            this.rotating.pic2 = "";
+            this.rotating.pic3 = "";
+            e.preventDefault();
           }
         },
-      },
-      mounted() {
-        // verify_token();
-        axios
-        .get('/material')
-        .then(res => {
-          this.materials = res.data;
-          // console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      },
-      delimiters: ['[[',']]']
+        mounted() {
+          // verify_token();
+          axios
+          .get('/material')
+          .then(res => {
+            this.materials = res.data;
+            // console.log(this.materials);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+          axios
+          .get('/rotating/{{ rtid }}')
+          .then(res => {
+            this.rotating = res.data;
+            // console.log(this.exp);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        },
+        delimiters: ['[[',']]']
       });
-    </script>
+
+      $(document).ready(function()
+      {
+          var settings_1 = {
+              url: "/uploadfiles",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                vue_rt.rotating.pic1 = files[0];
+                $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                vue_rt.rotating.pic1 = "";
+                $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_2 = {
+              url: "/uploadfiles",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                vue_rt.rotating.pic2 = files[0];
+                $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                vue_rt.rotating.pic2 = "";
+                $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_3 = {
+              url: "/uploadfiles",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                vue_rt.rotating.pic3 = files[0];
+                $("#status_3").html("<font color='green'>Upload " + vue_rt.rotating.pic3 + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {
+                vue_rt.rotating.pic3 = "";
+                $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          $("#upload_pic1").uploadFile(settings_1);
+          $("#upload_pic2").uploadFile(settings_2);
+          $("#upload_pic3").uploadFile(settings_3);
+      });
+    </script>      
 
   </body>
 </html>

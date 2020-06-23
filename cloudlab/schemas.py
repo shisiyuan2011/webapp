@@ -142,3 +142,46 @@ class Ename(BaseModel):
 
 class Sname(BaseModel):
     sname: str
+
+
+class Rotating(BaseModel):
+    rtid : int 
+    sname : str
+    mid : int
+    diameter : float
+    moment : float
+    FatigueLifeNf : float
+    FracturedLocs : float
+    speed : float
+    lp : float
+    stress : float
+    runoutcycles : int
+    runouttime : int
+    description : str
+    pic1 : str
+    pic2 : str
+    pic3 : str
+    
+    class Config:
+        orm_mode = True
+
+class VRotating(BaseModel):
+    rtid : int 
+    sname : str
+    mid : int
+    diameter : float
+    moment : float
+    FatigueLifeNf : float
+    FracturedLocs : float
+    speed : float
+    lp : float
+    stress : float
+    runoutcycles : int
+    runouttime : int
+    description : str
+    pic1 : str
+    pic2 : str
+    pic3 : str
+    mname : str
+    class Config:
+        orm_mode = True

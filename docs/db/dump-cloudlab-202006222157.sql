@@ -154,14 +154,14 @@ LOCK TABLES `pp` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `rb`
+-- Table structure for table `rotating`
 --
 
-DROP TABLE IF EXISTS `rb`;
+DROP TABLE IF EXISTS `rotating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rb` (
-  `rb_id` int unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rotating` (
+  `rtid` int unsigned NOT NULL AUTO_INCREMENT,
   `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `mid` int unsigned NOT NULL DEFAULT '0',
   `diameter` double NOT NULL DEFAULT '0',
@@ -177,19 +177,18 @@ CREATE TABLE `rb` (
   `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  PRIMARY KEY (`rb_id`),
-  KEY `torison_fk` (`mid`) USING BTREE,
-  CONSTRAINT `fk_rb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  PRIMARY KEY (`rtid`),
+  CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `rb`
+-- Dumping data for table `rotating`
 --
 
-LOCK TABLES `rb` WRITE;
-/*!40000 ALTER TABLE `rb` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rb` ENABLE KEYS */;
+LOCK TABLES `rotating` WRITE;
+/*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
