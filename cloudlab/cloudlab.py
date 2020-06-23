@@ -543,7 +543,7 @@ async def create_files(files: List[bytes] = File(...)):
 async def create_upload_files(myfile: List[UploadFile] = File(...)):
     for file in myfile:
         content = await file.read()
-        with open('E:\\projects\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
+        with open('E:\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
             f.write(content)
 
     return {"filenames": [file.filename for file in myfile]}
@@ -552,7 +552,7 @@ async def create_upload_files(myfile: List[UploadFile] = File(...)):
 async def put_upload_files(files: List[UploadFile] = File(...)):
     for file in files:
         content = await file.read()
-        with open('E:\\projects\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
+        with open('E:\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
             f.write(content)
 
     return {"filenames": [file.filename for file in files]}
