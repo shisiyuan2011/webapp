@@ -300,11 +300,11 @@
             maxload       : 0,
             FatigueLifeNf : 0,
             FracturedLocs : 0,
-            ktfactor      : 0,
+            ktfactor      : "",
             ampload       : 0,
             ratioofload   : 0,
-            runoutcycles  : 0,
-            runouttime    : 0,
+            runoutcycles  : "",
+            runouttime    : "",
             description   : "",
             pic1          : "",
             pic2          : "",
@@ -334,7 +334,7 @@
             this.tns.pic1          = res.data.pic1         ;
             this.tns.pic2          = res.data.pic2         ;
             this.tns.pic3          = res.data.pic3         ;
-            this.tns.ktfacor       = ktf[res.data.ktfacor      - 1];
+            this.tns.ktfactor      = ktf[res.data.ktfactor     - 1];
             this.tns.runoutcycles  = roc[res.data.runoutcycles - 1];
             this.tns.runouttime    = rot[res.data.runouttime   - 1];
           })

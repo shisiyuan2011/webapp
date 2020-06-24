@@ -62,7 +62,7 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="torsion/list">
+          <a class="c-sidebar-nav-link" href="tension/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Rotating Bending
@@ -223,8 +223,8 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="torsion/list">Torsion Test List</a></li>
-            <li class="breadcrumb-item active"><a href="torsion/new">Torsion RB Test</a></li>
+            <li class="breadcrumb-item"><a href="tension/list">Tension Test List</a></li>
+            <li class="breadcrumb-item active"><a href="tension/new">Tension RB Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -237,7 +237,7 @@
             <div class="fade-in">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Modify The Torsion Test
+                  <i class="fa fa-align-justify"> </i> Modify The Tension Test
                 </div>
                 <div class="card-body">
                   <form id = "update_rotating">
@@ -245,47 +245,49 @@
                       <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
                     </div>
 
-                    <label for="torsion.sname">Specimen Name</label>
-                    <input v-model="torsion.sname" class="form-control" id="sname" type="text">
+                    <label for="tension.sname">Specimen Name</label>
+                    <input v-model="tension.sname" class="form-control" id="sname" type="text">
 
-                    <label for="torsion.mid">Material</label>
-                    <select v-model="torsion.mid" class="form-control">
+                    <label for="tension.mid">Material</label>
+                    <select v-model="tension.mid" class="form-control">
                       <option value="0">Please Select A Material</option>
                       <option v-for="material in materials" v-bind:value="material.mid">
                         [[ material.mname ]]
                     </option>
                     </select>
 
-                    <label for="torsion.diameter">Diameter(mm)</label>
-                    <input v-model="torsion.diameter" class="form-control" id="diameter" type="numeric">
+                    <label for="tension.diameter">Diameter(mm)</label>
+                    <input v-model="tension.diameter" class="form-control" id="diameter" type="numeric">
 
-                    <label for="torsion.tlen">Length(mm)</label>
-                    <input v-model="torsion.tlen" class="form-control" id="moment" type="numeric" @input="calStress">
+                    <label for="tension.ktfactor">Kt Factor</label>
+                    <select v-model="tension.ktfactor" class="form-control" id="ktfactor" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">Smooth</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
 
-                    <label for="torsion.max_torque">Max Torque(Nm)</label>
-                    <input v-model="torsion.max_torque" class="form-control" id="moment" type="numeric" @input="calStress">
+                    <label for="tension.meanload">Mean Load(KN)</label>
+                    <input v-model="tension.meanload" class="form-control" id="moment" type="numeric">
 
-                    <label for="torsion.min_torque">Min Torque(Nm)</label>
-                    <input v-model="torsion.min_torque" class="form-control" id="moment" type="numeric">
+                    <label for="tension.maxload">Max Load(KN)</label>
+                    <input v-model="tension.maxload" class="form-control" id="moment" type="numeric" @input="calStress">
 
-                    <label for="torsion.max_theta">Max Theta(rad)</label>
-                    <input v-model="torsion.max_theta" class="form-control" id="moment" type="numeric">
+                    <label for="tension.ampload">Amp Load(KN)</label>
+                    <input v-model="tension.ampload" class="form-control" id="moment" type="numeric"  @input="calStress">
 
-                    <label for="torsion.min_theta">Min Theta(rad)</label>
-                    <input v-model="torsion.min_theta" class="form-control" id="moment" type="numeric">
+                    <label for="tension.ratioofload">Ratio Of Load</label>
+                    <input v-model="tension.ratioofload" class="form-control" id="moment" type="numeric"  @input="calStress">
 
-                    <p><label for="torsion.stress">Stress(MPa)</label></p>
-                    <!-- input v-model="torsion.stress" class="form-control" id="stress" type="numeric" -->
-                    <p></p><span>[[ torsion.stress ]]</span></p>
-
-                    <label for="torsion.FatigueLifeNf">Fatigue Life Nf</label>
-                    <input v-model="torsion.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
+                    <label for="tension.FatigueLifeNf">Fatigue Life Nf</label>
+                    <input v-model="tension.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
                     
-                    <label for="torsion.FracturedLocs">FracturedLocs</label>
-                    <input v-model="torsion.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
+                    <label for="tension.FracturedLocs">FracturedLocs</label>
+                    <input v-model="tension.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
                                         
-                    <label for="torsion.runoutcycles">Run Out Cycles</label>
-                    <select v-model="torsion.runoutcycles" class="form-control" id="runoutcycles" >
+                    <label for="tension.runoutcycles">Run Out Cycles</label>
+                    <select v-model="tension.runoutcycles" class="form-control" id="runoutcycles" >
                       <option value="0">Please Select :</option>
                       <option value="1">1E6</option>
                       <option value="2">3E6</option>
@@ -293,8 +295,8 @@
                       <option value="4">5E7</option>
                     </select>
 
-                    <label for="torsion.runouttime">Run Out Time</label>
-                    <select v-model="torsion.runouttime" class="form-control" id="runouttime" >
+                    <label for="tension.runouttime">Run Out Time</label>
+                    <select v-model="tension.runouttime" class="form-control" id="runouttime" >
                       <option value="0">Please Select :</option>
                       <option value="1">NULL</option>
                       <option value="2">1</option>
@@ -302,24 +304,24 @@
                       <option value="4">3</option>
                     </select>
 
-                    <label for="torsion.description">Description</label>
-                    <input v-model="torsion.description" class="form-control" id="description" type="textarea">
+                    <label for="tension.description">Description</label>
+                    <input v-model="tension.description" class="form-control" id="description" type="textarea">
 
-                    <label for="torsion.pic1">Picture. Fractured Surfaces On Left</label><p>
-                      <div id="status_1">[[ torsion.pic1 ]]</div></p>
+                    <label for="tension.pic1">Picture. Fractured Surfaces On Left</label><p>
+                      <div id="status_1">[[ tension.pic1 ]]</div></p>
                       <div id="upload_pic1">Upload</div>
                      
-                    <label for="torsion.pic2">Picture. Fractured Surfaces On Right</label><p>
-                      <div id="status_2">[[ torsion.pic2 ]]</div></p>
+                    <label for="tension.pic2">Picture. Fractured Surfaces On Right</label><p>
+                      <div id="status_2">[[ tension.pic2 ]]</div></p>
                       <div id="upload_pic2">Upload</div>
 
-                    <label for="torsion.pic3">Picture. Axis Direction</label><p>
-                      <div id="status_3">[[ torsion.pic3 ]]</div></p>
+                    <label for="tension.pic3">Picture. Axis Direction</label><p>
+                      <div id="status_3">[[ tension.pic3 ]]</div></p>
                       <div id="upload_pic3">Upload</div>
 
                     <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkTorsion">Modify</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetTorsion">Reset</button>
+                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkTension">Modify</button>
+                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetTension">Reset</button>
                     </div>
                   </form>
                 </div>
@@ -341,29 +343,29 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var vue_trs = new Vue({
+      var vue_tns = new Vue({
         el: "#update_rotating",
         data: {
           errors: [],
-          torsion: {
-            torsion_id    : 0,
+          tension: {
+            tension_id    : 0,
             sname         : "",
             mid           : 0,
             diameter      : 0,
-            tlen          : 0,
-            max_torque    : 0,
-            min_torque    : 0,
-            max_theta     : 0,
-            min_theta     : 0,
-            stress        : 0,
+            meanload      : 0,
+            maxload       : 0,
             FatigueLifeNf : 0,
             FracturedLocs : 0,
+            ktfactor      : 0,
+            ampload       : 0,
+            ratioofload   : 0,
             runoutcycles  : 0,
             runouttime    : 0,
-            description   : 0,
+            description   : "",
             pic1          : "",
             pic2          : "",
-            pic3          : ""          },
+            pic3          : ""
+          },
           materials: []
         },
         methods: {
@@ -416,38 +418,38 @@
             return result;
           },
           completedForm: function() {
-            result = true;
-            result = result & this.mustBeString(this.torsion.sname, "Specimen Name");
-            result = result & this.grateThanZero(this.torsion.mid, "Material");
-            result = result & this.grateThanZero(this.torsion.diameter,      "Diameter");
-            result = result & this.grateThanZero(this.torsion.tlen,          "Length");
-            result = result & this.grateThanZero(this.torsion.max_torque,    "Max Torque");
-            result = result & this.mustBeNumeric(this.torsion.min_torque,         "Min Torque");
-            result = result & this.grateThanZero(this.torsion.max_theta,         "Max Theta");
-            result = result & this.mustBeNumeric(this.torsion.min_theta,         "Min Theta");
-            result = result & this.mustBeNumeric(this.torsion.FatigueLifeNf, "Fatigue Life Nf");
-            result = result & this.mustBeNumeric(this.torsion.FracturedLocs, "Fractured Locs");
-            // result = result & this.mustBeNumeric(this.torsion.lp,            "lp");
-            // result = result & this.mustBeNumeric(this.torsion.stress,        "Stress");
-            result = result & this.grateThanZero(this.torsion.runoutcycles,  "Run Out Cycles");
-            result = result & this.grateThanZero(this.torsion.runouttime,    "Run Out Time");
-            // result = result & this.mustBeNumeric(this.torsion.description,   "Description");
-            // result = result & this.mustBeNumeric(this.torsion.pic1,          "Pic1");
-            // result = result & this.mustBeNumeric(this.torsion.pic2,          "Pic2");
-            // result = result & this.mustBeNumeric(this.torsion.pic3,          "Pic3");
+            result = this.mustBeString(this.tension.sname, "Specimen Name");
+            result = result & this.grateThanZero(this.tension.mid,  "Material");
+            result = result & this.grateThanZero(this.tension.diameter,      "Diameter");
+            result = result & this.mustBeNumeric(this.tension.meanload,          "Mean Load");
+            result = result & this.mustBeNumeric(this.tension.maxload,    "Max Load");
+            result = result & this.mustBeNumeric(this.tension.FatigueLifeNf, "Fatigue Life Nf");
+            result = result & this.mustBeNumeric(this.tension.FracturedLocs, "Fractured Locs");
+            // result = result & this.mustBeNumeric(this.tension.lp,            "lp");
+            // result = result & this.mustBeNumeric(this.tension.stress,        "Stress");
+            result = result & this.grateThanZero(this.tension.runoutcycles,  "Run Out Cycles");
+            result = result & this.grateThanZero(this.tension.runouttime,    "Run Out Time");
+            // result = result & this.mustBeNumeric(this.tension.description,   "Description");
+            // result = result & this.mustBeNumeric(this.tension.pic1,          "Pic1");
+            // result = result & this.mustBeNumeric(this.tension.pic2,          "Pic2");
+            // result = result & this.mustBeNumeric(this.tension.pic3,          "Pic3");
+            result = result & this.grateThanZero(this.tension.ktfactor,     "Kf Factor");
+            result = result & this.mustBeNumeric(this.tension.ampload, "Amp Load");
+            result = result & this.mustBeNumeric(this.tension.ratioofload, "Ratio Of Load");
+
 
             return result;
           },
-          checkTorsion: function (e) {            
+          checkTension: function (e) {            
             this.errors = [];
             if (this.completedForm() == true) {
-              console.log(this.torsion);
+              console.log(this.tension);
               axios
-              .post('/updatetrs', this.torsion)
+              .post('/updatetns', this.tension)
               .then(res => {
                 console.log(res.data);
                 if (res.data.message == "ok") {
-                  alert("Ok! A new test was modified");
+                  alert("Ok! The test was modified");
                 } else {
                   alert("An Error Occured");
                 }
@@ -458,34 +460,33 @@
             }
             e.preventDefault();
           },
-          resetTorsion: function(e) {
+          resetTension: function(e) {
             this.errors = [];
-            this.torsion.torsion_id    = 0;
-            this.torsion.sname         = "";
-            this.torsion.mid           = 0;
-            this.torsion.diameter      = 0;
-            this.torsion.tlen          = 0;
-            this.torsion.max_torque    = 0;
-            this.torsion.min_torque    = 0;
-            this.torsion.max_theta     = 0;
-            this.torsion.min_theta     = 0;
-            this.torsion.stress        = 0;
-            this.torsion.FatigueLifeNf = 0;
-            this.torsion.FracturedLocs = 0;
-            this.torsion.runoutcycles  = 0;
-            this.torsion.runouttime    = 0;
-            this.torsion.description   = 0;
-            this.torsion.pic1          = "";
-            this.torsion.pic2          = "";
-            this.torsion.pic3          = "";
+            this.tension.tension_id    = 0;
+            this.tension.sname         = "";
+            this.tension.mid           = 0;
+            this.tension.diameter      = 0;
+            this.tension.meanload      = 0;
+            this.tension.maxload       = 0;
+            this.tension.FatigueLifeNf = 0;
+            this.tension.FracturedLocs = 0;
+            this.tension.ktfactor      = 0;
+            this.tension.ampload       = 0;
+            this.tension.ratioofload   = 0;
+            this.tension.runoutcycles  = 0;
+            this.tension.runouttime    = 0;
+            this.tension.description   = "";
+            this.tension.pic1          = "";
+            this.tension.pic2          = "";
+            this.tension.pic3          = "";
             e.preventDefault();
           },
           calStress: function() {
-            if (this.torsion.diameter != 0) {
-              var r = this.torsion.diameter / 2;
+            if (this.tension.diameter != 0) {
+              var r = this.tension.diameter / 2;
               // var lp = .5 * 3.14159265 * r * r * r * r;
-              // this.torsion.stress = this.torsion.max_torque * r / lp;
-              this.torsion.stress = 1000 * this.torsion.max_torque / (.5 * 3.1415926535897932384 * r * r * r);
+              // this.tension.stress = this.tension.max_torque * r / lp;
+              this.tension.stress = 1000 * this.tension.max_torque / (.5 * 3.1415926535897932384 * r * r * r);
             }
           }
         },
@@ -501,9 +502,9 @@
             console.log(err);
           });
           axios
-          .get('/torsion/{{ torsion_id }}')
+          .get('/tension/{{ tension_id }}')
           .then(res => {
-            this.torsion = res.data;
+            this.tension = res.data;
             // console.log(this.exp);
           })
           .catch(err => {
@@ -516,55 +517,55 @@
       $(document).ready(function()
       {
           var settings_1 = {
-              url: "/uptorsion",
+              url: "/uptension",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                vue_trs.torsion.pic1 = files[0];
+                vue_tns.tension.pic1 = files[0];
                 $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {       
-                vue_trs.torsion.pic1 = "";
+                vue_tns.tension.pic1 = "";
                 $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }
 
           var settings_2 = {
-              url: "/uptorsion",
+              url: "/uptension",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                vue_trs.torsion.pic2 = files[0];
+                vue_tns.tension.pic2 = files[0];
                 $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {       
-                vue_trs.torsion.pic2 = "";
+                vue_tns.tension.pic2 = "";
                 $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }
 
           var settings_3 = {
-              url: "/uptorsion",
+              url: "/uptension",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                vue_trs.torsion.pic3 = files[0];
-                $("#status_3").html("<font color='green'>Upload " + vue_trs.torsion.pic3 + " is success</font>");
+                vue_tns.tension.pic3 = files[0];
+                $("#status_3").html("<font color='green'>Upload " + vue_tns.tension.pic3 + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {
-                vue_trs.torsion.pic3 = "";
+                vue_tns.tension.pic3 = "";
                 $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }

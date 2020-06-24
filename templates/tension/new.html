@@ -415,8 +415,7 @@
             return result;
           },
           completedForm: function() {
-            result = true;
-            result = result & this.mustBeString(this.tension.sname, "Specimen Name");
+            result = this.mustBeString(this.tension.sname, "Specimen Name");
             result = result & this.grateThanZero(this.tension.mid,  "Material");
             result = result & this.grateThanZero(this.tension.diameter,      "Diameter");
             result = result & this.mustBeNumeric(this.tension.meanload,          "Mean Load");
