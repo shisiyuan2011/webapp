@@ -44,7 +44,7 @@
     </script -->
   </head>
   <body class="c-app">
-    <!-- start left menu --> 
+    <!-- statrs left menu --> 
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
       <div class="c-sidebar-brand d-lg-down-none">
         <img class="c-sidebar-brand-full" width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
@@ -59,13 +59,6 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link" href="rotating/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -73,7 +66,7 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="torsion/list">
+          <a class="c-sidebar-nav-link" href="tension/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Torsion Test
@@ -90,7 +83,14 @@
           <a class="c-sidebar-nav-link" href="tooth/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> Tooth Bending
+            </svg> Gear Tooth Bending
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -110,7 +110,7 @@
         <li class="c-sidebar-nav-item">
           <a class="c-sidebar-nav-link" href="main">
             <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chart-pie"></use>
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chatrs-pie"></use>
             </svg> Predict
           </a>
         </li>
@@ -176,7 +176,7 @@
               <svg class="c-icon">
                 <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
               </svg></a></li>
-          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="main" role="button" aria-haspopup="true" aria-expanded="false">
+          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="main" role="button" aria-haspopup="true" aria-vue_trsanded="false">
               <div class="c-avatar"><img class="c-avatar-img" src="/assets/img/avatars/6.jpg" alt="user@email.com"></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">
@@ -220,63 +220,79 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item active">Specimen List</li>
-            <li class="breadcrumb-item"><a href="specimen/new">New Specimen</a></li>
+            <li class="breadcrumb-item active">GTB Test List</li>
+            <li class="breadcrumb-item"><a href="tension/new">New GTB Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
       </header>
       <!-- end header --> ]
-      <!-- start main body -->
+      <!-- statrs main body -->
       <div class="c-body">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <!-- List all experiment -->
+              <!-- List all vue_trseriment -->
 
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"></i> Speciment List
+                  <i class="fa fa-align-justify"></i> GTB Test List
                 </div>
                 <div class="card-body">
-                  <table id="spc_list" name="spc_list" class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <table id="tension_list" name="tension_list" class="table table-responsive-sm table-bordered table-striped table-sm">
                     <thead>
                       <tr>
-                        <th>Id</th>
-                        <th>Name</th>
+                        <th>Detail</th>
+                        <th>Specimen Name</th>
                         <th>Material</th>
-                        <th>Radius</th>
-                        <th>Length</th>
-                        <th>Memo</th>
+                        <!-- th>Diameter</th>
+                        <th>Moment</th -->
+                        <th>Stress_Max(Mpa)</th>
+                        <th>Stress_Min(Mpa)</th>
+                        <th>Fatigue Life Nf</th>
+                        <!-- th>Fractured Locs</th>
+                        <th>Speed</th>
+                        <th>lp</th>
+                        <th>Stress</th>
+                        <th>Run out Cycles</th>
+                        <th>Run Out Time</th>
+                        <th>Desc</th>
+                        <th>Pic1</th>
+                        <th>Pic2</th>
+                        <th>Pic3</th -->
+                        <th>Repotrs</th>
                         <th>Modify</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="spc in specimens">
+                      <tr v-for="tns in tension">
+                        <td><span class="badge badge-success"><a v-bind:href="'/tension/detail/' + tns.tension_id">[[ tns.tension_id ]]</a></span></td>
+                        <td>[[ tns.sname ]]</td>
+                        <td>[[ tns.mname ]]</td>
+                        <td>[[ tns.max_stress ]]</td>
+                        <td>[[ tns.min_stress ]]</td>
+                        <!-- td>[[ tns.diameter ]]</td>
+                        <td>[[ tns.moment ]]</td -->
+                        <td>[[ tns.FatigueLifeNf ]]</td>
+                        <!-- td>[[ tns.FracturedLocs ]]</td>
+                        <td>[[ tns.speed ]]</td>
+                        <td>[[ tns.lp ]]</td>
+                        <td>[[ tns.stress ]]</td>
+                        <td>[[ tns.runoutcycles ]]</td>
+                        <td>[[ tns.runouttime ]]</td>
+                        <td>[[ tns.description ]]</td>
+                        <td><img v-bind:src="[[ tns.pic1 ]]"></td>
+                        <td><img v-bind:src="[[ tns.pic2 ]]"></td>
+                        <td><img v-bind:src="[[ tns.pic3 ]]"></td -->
                         <td>
-                          [[ spc.sid ]]
+                          <span class="badge badge-warning"><a href="/tension/list">R</a></span>
                         </td>
                         <td>
-                          [[ spc.sname ]]
+                          <span class="badge badge-warning"><a v-bind:href="'/tension/modify/' + tns.tension_id">M</a></span>
                         </td>
                         <td>
-                          [[ spc.mname ]]
-                        </td>
-                        <td>
-                          [[ spc.radius ]]
-                        </td>
-                        <td>
-                          [[ spc.length ]]
-                        </td>
-                        <td>
-                          [[ spc.memo ]]
-                        </td>
-                        <td>
-                          <span class="badge badge-warning"><a v-bind:href="'/specimen/modify/' + spc.sid">M</a></span>
-                        </td>
-                        <td>
-                          <button class="badge badge-secondary" @click="confirmDelete(spc.sid)">D</button>
+                          <button class="badge badge-secondary" @click="confirmDelete(tns.tension_id)">D</button>
                         </td>
                       </tr>
                     </tbody>
@@ -306,27 +322,27 @@
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
     <!-- Plugins and scripts required by this view-->
-    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <!-- script src="/vendors/@coreui/chatrsjs/js/coreui-chatrsjs.bundle.js"></script -->
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var exp = new Vue({
-        el: "#spc_list",
+      var vue_tns = new Vue({
+        el: "#tension_list",
         data: {
-          specimens: []
+          tension: []
         },
         methods: {
-          confirmDelete: function(sid) {
-            if (confirm('Are you sure?\nPress OK will delete the specimen! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+          confirmDelete: function(tension_id) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
               axios
-              .get('/delspc/' + sid)
+              .get('/deltns/' + tension_id)
               .then(res => {
                 // console.log(res.data);
                 if (res.data.message == "ok") {
-                  alert("the speicimen (id = " + sid + ") was deteleted");
+                  alert("the tension test (id = " + tension_id + ") was deteleted");
                   window.location.reload(true);
                 } else {
-                  alert("An Error Occured!");
+                  aletrs("An Error Occured!");
                 }
               })
               .catch(err => {
@@ -338,10 +354,18 @@
         mounted() {
           // verify_token();
           axios
-          .get('/vspecimen')
+          .get('/vtension')
           .then(res => {
-            this.specimens = res.data;
-            // console.log(res.data);
+            this.tension = res.data;
+            for (var i = 0; i < this.tension.length; ++i) {
+              if (this.tension[i].diameter != 0) {
+                var S = 3.14159265358979 * 0.25 * this.tension[i].diameter * this.tension[i].diameter;
+                var v = this.tension[i].maxload / S;
+                this.tension[i].max_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+                v = (this.tension[i].meanload - this.tension[i].ampload) / S;
+                this.tension[i].min_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+              }
+            }
           })
           .catch(err => {
             console.log(err);
