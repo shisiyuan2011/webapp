@@ -59,7 +59,7 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="torsion/list">
+          <a class="c-sidebar-nav-link" href="rotating/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Rotating Bending
@@ -314,8 +314,27 @@
           axios
           .get('/vtorsion/{{ torsion_id }}')
           .then(res => {
-            this.trs = res.data;
-            // console.log(this.exp);
+            var roc = ['1E6', '3E6', '1E7', '5E7'];
+            var rot = ['NULL', '1', '2', '3'];
+
+            this.trs.torsion_id    = res.data.torsion_id   ;
+            this.trs.sname         = res.data.sname        ;
+            this.trs.mid           = res.data.mid          ;
+            this.trs.diameter      = res.data.diameter     ;
+            this.trs.tlen          = res.data.tlen         ;
+            this.trs.max_torque    = res.data.max_torque   ;
+            this.trs.min_torque    = res.data.min_torque   ;
+            this.trs.max_theta     = res.data.max_theta    ;
+            this.trs.min_theta     = res.data.min_theta    ;
+            this.trs.stress        = res.data.stress       ;
+            this.trs.FatigueLifeNf = res.data.FatigueLifeNf;
+            this.trs.runouttime    = res.data.runouttime   ;
+            this.trs.description   = res.data.description  ;
+            this.trs.pic1          = res.data.pic1         ;
+            this.trs.pic2          = res.data.pic2         ;
+            this.trs.pic3          = res.data.pic3         ;
+            this.trs.runoutcycles  = roc[res.data.runoutcycles - 1];
+            this.trs.runouttime    = rot[res.data.runouttime   - 1];
           })
           .catch(err => {
             console.log(err);

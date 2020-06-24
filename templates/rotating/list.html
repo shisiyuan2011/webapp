@@ -342,7 +342,7 @@
                   alert("the rotating test (id = " + rtid + ") was deteleted");
                   window.location.reload(true);
                 } else {
-                  alert("An error was occured!");
+                  alert("An Error Occured!");
                 }
               })
               .catch(err => {
@@ -357,7 +357,7 @@
           .get('/vrotating')
           .then(res => {
             this.rotating = res.data;
-            console.log(res.data);
+            // console.log(res.data);
           })
           .catch(err => {
             console.log(err);

@@ -59,13 +59,6 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link" href="rotating/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -91,6 +84,13 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tooth Bending
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -220,9 +220,9 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="experiment/list">Specimen List</a></li>
-            <li class="breadcrumb-item active">Modify Specimen</li>
-            <li class="breadcrumb-item"><a href="experiment/new">New Specimen</a></li>
+            <li class="breadcrumb-item"><a href="tension/list">Tension Test List</a></li>
+            <li class="breadcrumb-item"><a href="tension/new">New Tension Test</a></li>
+            <li class="breadcrumb-item active">Tension Test Details</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -233,36 +233,42 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <div class="card">
-                <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Modify The Specimen 
-                </div>
-                <div class="card-body">
-                  <form id = "update_spc">
-                    <div v-if="errors.length > 0" class="card-body">
-                      <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
-                    </div> 
-                    <label for="spc.sname">Specimen Name</label>
-                    <input v-model="spc.sname" class="form-control" id="sname" type="text">
 
-                    <label for="spc.radius">Radius</label>
-                    <input v-model="spc.radius" class="form-control" id="radius" type="numeric">
-                    
-                    <label for="spc.length">Length</label> <input v-model="spc.length" class="form-control" id="length" type="numeric">
-                    <label for="spc.mid">Material    </label> <br>
-                    <select v-model="spc.mid" class="form-control">
-                      <option value="0">Please Select A Material</option>
-                      <option v-for="material in materials" v-bind:value="material.mid">
-                        [[ material.mname ]]
-                    </option>
-                    </select>
-                    <label for="spc.memo">Memo</label>
-                    <input v-model="spc.memo" class="form-control" id="memo" type="textarea">
-                    <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkSpc">Modify</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetSpc">Reset</button>
-                    </div>
-                  </form>
+              <div class="card" id="tension_detail">
+                <div class="card-body">
+                  <div class="card-header">
+                    <i class="fa fa-align-justify"> </i>[[ tns.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="tension/detail/{{ tension_id }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="tension/modify/{{ tension_id }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="tension/detail/{{ tension_id }}">Delete</a></span>
+                  </div>
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <tbody> 
+                      <tr><td><i class="fa fa-align-justify"> ID </i></td> <td>[[ tns.tension_id ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Specimen Name </i></td> <td>[[ tns.sname ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Material </i></td> <td>[[ tns.mid ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Diameter(mm) </i></td> <td>[[ tns.diameter ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Kt Factor </i></td> <td>[[ tns.ktfactor ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Mean Load(KN) </i></td> <td>[[ tns.meanload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Max Load(KN) </i></td> <td>[[ tns.maxload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Amp Load(KN) </i></td> <td>[[ tns.ampload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Ratio Of Load </i></td> <td>[[ tns.ratioofload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fatigue Life Nf </i></td> <td>[[ tns.FatigueLifeNf ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Locs </i></td> <td>[[ tns.FracturedLocs ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Cycles </i></td> <td>[[ tns.runoutcycles ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Time </i></td> <td>[[ tns.runouttime ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Description </i></td> <td>[[ tns.description ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Left </i></td><td><img v-bind:src="[[ tns.pic1 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Right </i></td> <td><img v-bind:src="[[ tns.pic2 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Axis Direction </i></td> <td><img v-bind:src="[[ tns.pic3 ]]"></td></tr>
+                    </tbody>
+                  </table>
+                  <div class="card-footer">
+                    <i class="fa fa-align-justify"> </i>[[ tns.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="tension/detail/{{ tension_id }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="tension/modify/{{ tension_id }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="tension/detail/{{ tension_id }}">Delete</a></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -278,126 +284,59 @@
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
     <!-- Plugins and scripts required by this view-->
-    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <!-- script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script -->
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var specimen = new Vue({
-        el: "#update_spc",
+      var tension = new Vue({
+        el: "#tension_detail",
         data: {
-          errors: [],
-          spc: {
-            sid: 0,
-            sname: "",
-            mid: 0,
-            radius: 0,
-            length: 0,
-            memo: ""
-          },
-          materials: []
-        },
-        methods: {
-          grateThanZero(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric <= 0) {
-              this.errors.push({'message': varname + ' must be a valid number grate than zero.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeNumeric(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            }
-            return result;
-          },
-          mustInRange(numeric, themin, themax, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric < themin || numeric > themax) {
-              this.errors.push({'message': varname + ' must be in ' + themin + 
-                                ' and ' + themax + '.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeString(thestr, varname) {
-            result = true;
-            if (thestr == null || thestr == "") {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            }
-            return result;
-          },
-          completedForm: function() {
-            result = this.mustBeString(this.spc.sname, "Specimen Name");
-            // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
-            result = result & this.grateThanZero(this.spc.radius, 'Radius');
-            result = result & this.grateThanZero(this.spc.length, 'Length');
-            result = result & this.mustInRange(this.spc.mid, 1, this.materials.length, 'Material');
-            return result;
-          },
-          checkSpc: function (e) {            
-            this.errors = [];
-            if (this.completedForm() == true) {
-              console.log(this.spc);
-              axios
-              .post('/updatespc', this.spc)
-              .then(res => {
-                if (res.data.message == "ok")
-                  alert("Ok! The specimen was modified");
-                else
-                  alert("An error was occured");
-              }).catch(function (err) {
-                console.log(err);
-                alert("An error was occured");
-              });
-            }
-            e.preventDefault();
-          },
-          resetSpc: function(e) {
-            this.errors = [];
-            this.spc.sid = 0;
-            this.spc.sname = "";
-            this.spc.radius = 0;
-            this.spc.length = 0;
-            this.spc.mid = 0;
-            this.spc.memo = "";
-            e.preventDefault();
+          tns: {
+            tension_id    : 0,
+            sname         : "",
+            mid           : 0,
+            diameter      : 0,
+            meanload      : 0,
+            maxload       : 0,
+            FatigueLifeNf : 0,
+            FracturedLocs : 0,
+            ktfactor      : 0,
+            ampload       : 0,
+            ratioofload   : 0,
+            runoutcycles  : 0,
+            runouttime    : 0,
+            description   : "",
+            pic1          : "",
+            pic2          : "",
+            pic3          : ""
           }
         },
         mounted() {
           // verify_token();
           axios
-          .get('/material')
+          .get('/vtension/{{ tension_id }}')
           .then(res => {
-            this.materials = res.data;
-            // console.log(this.materials);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-          axios
-          .get('/sname/{{ sname }}')
-          .then(res => {
-            this.spc = res.data;
-            // console.log(this.exp);
+            var roc = ['1E6', '3E6', '1E7', '5E7'];
+            var rot = ['NULL', '1', '2', '3'];
+            var ktf = ['Smooth', '2', '3', '4'];
+
+            this.tns.tension_id    = res.data.tension_id   ;
+            this.tns.sname         = res.data.sname        ;
+            this.tns.mid           = res.data.mid          ;
+            this.tns.diameter      = res.data.diameter     ;
+            this.tns.meanload      = res.data.meanload     ;
+            this.tns.maxload       = res.data.maxload      ;
+            this.tns.FatigueLifeNf = res.data.FatigueLifeNf;
+            this.tns.FracturedLocs = res.data.FracturedLocs;
+            this.tns.ampload       = res.data.ampload      ;
+            this.tns.ratioofload   = res.data.ratioofload  ;
+            this.tns.description   = res.data.description  ;
+            this.tns.pic1          = res.data.pic1         ;
+            this.tns.pic2          = res.data.pic2         ;
+            this.tns.pic3          = res.data.pic3         ;
+            this.tns.ktfacor       = ktf[res.data.ktfacor      - 1];
+            this.tns.runoutcycles  = roc[res.data.runoutcycles - 1];
+            this.tns.runouttime    = rot[res.data.runouttime   - 1];
           })
           .catch(err => {
             console.log(err);
@@ -405,7 +344,7 @@
         },
         delimiters: ['[[',']]']
       });
-    </script>      
+    </script>
 
   </body>
 </html>

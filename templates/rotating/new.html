@@ -250,7 +250,7 @@
                       <option value="0">Please Select A Material</option>
                       <option v-for="material in materials" v-bind:value="material.mid">
                         [[ material.mname ]]
-                    </option>
+                      </option>
                     </select>
 
                     <label for="rotating.diameter">Diameter(mm)</label>
@@ -277,10 +277,22 @@
                     <p></p><span>[[ rotating.stress ]]</span></p>
                     
                     <label for="rotating.runoutcycles">Run Out Cycles</label>
-                    <input v-model="rotating.runoutcycles" class="form-control" id="runoutcycles" type="numeric">
+                    <select v-model="rotating.runoutcycles" class="form-control" id="runoutcycles" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">1E6</option>
+                      <option value="2">3E6</option>
+                      <option value="3">1E7</option>
+                      <option value="4">5E7</option>
+                    </select>
 
                     <label for="rotating.runouttime">Run Out Time</label>
-                    <input v-model="rotating.runouttime" class="form-control" id="runouttime" type="numeric">
+                    <select v-model="rotating.runouttime" class="form-control" id="runouttime" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">NULL</option>
+                      <option value="2">1</option>
+                      <option value="3">2</option>
+                      <option value="4">3</option>
+                    </select>
 
                     <label for="rotating.description">Description</label>
                     <input v-model="rotating.description" class="form-control" id="description" type="textarea">
@@ -395,18 +407,17 @@
             return result;
           },
           completedForm: function() {
-            result = true;
-            result = result & this.mustBeString(this.rotating.sname, "Specimen Name");
-            result = result & this.mustBeNumeric(this.rotating.mid, "Material");
-            result = result & this.mustBeNumeric(this.rotating.diameter,      "Diameter");
-            result = result & this.mustBeNumeric(this.rotating.moment,        "Moment");
+            result = this.mustBeString(this.rotating.sname, "Specimen Name");
+            result = result & this.grateThanZero(this.rotating.mid, "Material");
+            result = result & this.grateThanZero(this.rotating.diameter,      "Diameter");
+            result = result & this.grateThanZero(this.rotating.moment,        "Moment");
             result = result & this.mustBeNumeric(this.rotating.FatigueLifeNf, "Fatigue Life Nf");
             result = result & this.mustBeNumeric(this.rotating.FracturedLocs, "Fractured Locs");
             result = result & this.mustBeNumeric(this.rotating.speed,         "Speed");
             // result = result & this.mustBeNumeric(this.rotating.lp,            "lp");
             // result = result & this.mustBeNumeric(this.rotating.stress,        "Stress");
-            result = result & this.mustBeNumeric(this.rotating.runoutcycles,  "Run Out Cycles");
-            result = result & this.mustBeNumeric(this.rotating.runouttime,    "Run Out Time");
+            result = result & this.grateThanZero(this.rotating.runoutcycles,  "Run Out Cycles");
+            result = result & this.grateThanZero(this.rotating.runouttime,    "Run Out Time");
             // result = result & this.mustBeNumeric(this.rotating.description,   "Description");
             // result = result & this.mustBeNumeric(this.rotating.pic1,          "Pic1");
             // result = result & this.mustBeNumeric(this.rotating.pic2,          "Pic2");
@@ -417,7 +428,7 @@
           checkRotating: function (e) {            
             this.errors = [];
             if (this.completedForm() == true) {
-              console.log(this.rotating);
+              // console.log(this.rotating);
               axios
               .post('/newrt', this.rotating)
               .then(res => {
@@ -425,11 +436,11 @@
                 if (res.data.message == "ok") {
                   alert("Ok! A new test was created");
                 } else {
-                  alert("an error was occured");
+                  alert("An Error Occured");
                 }
               }).catch(function (err) {
                 console.log(err);
-                alert("an error was occured");
+                alert("An Error Occured");
               });
             }
             e.preventDefault();
@@ -471,7 +482,6 @@
           .get('/material')
           .then(res => {
             this.materials = res.data;
-            // console.log(this.materials);
           })
           .catch(err => {
             console.log(err);

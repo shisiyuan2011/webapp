@@ -114,84 +114,6 @@ INSERT INTO `material` VALUES (1,'GCr15','High-carbon chromium bearing steel','G
 UNLOCK TABLES;
 
 --
--- Table structure for table `pp`
---
-
-DROP TABLE IF EXISTS `pp`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pp` (
-  `pp_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `mid` int unsigned NOT NULL DEFAULT '0',
-  `diameter` double NOT NULL DEFAULT '0',
-  `meanload` double NOT NULL DEFAULT '0',
-  `maxload` double NOT NULL DEFAULT '0',
-  `FatigueLifeNf` double NOT NULL DEFAULT '0',
-  `FracturedLocs` double NOT NULL DEFAULT '0',
-  `ktfactor` int NOT NULL DEFAULT '0',
-  `ampload` int NOT NULL DEFAULT '0',
-  `ratioofload` double NOT NULL DEFAULT '0',
-  `runoutcycles` int NOT NULL DEFAULT '0',
-  `runouttime` int NOT NULL DEFAULT '0',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  PRIMARY KEY (`pp_id`),
-  KEY `torison_fk` (`mid`) USING BTREE,
-  CONSTRAINT `fk_pp_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pp`
---
-
-LOCK TABLES `pp` WRITE;
-/*!40000 ALTER TABLE `pp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pp` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rotating`
---
-
-DROP TABLE IF EXISTS `rotating`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rotating` (
-  `rtid` int unsigned NOT NULL AUTO_INCREMENT,
-  `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `mid` int unsigned NOT NULL DEFAULT '0',
-  `diameter` double NOT NULL DEFAULT '0',
-  `moment` double NOT NULL DEFAULT '0',
-  `FatigueLifeNf` double NOT NULL DEFAULT '0',
-  `FracturedLocs` double NOT NULL DEFAULT '0',
-  `speed` double NOT NULL DEFAULT '0',
-  `lp` double NOT NULL DEFAULT '0',
-  `stress` double NOT NULL DEFAULT '0',
-  `runoutcycles` int NOT NULL DEFAULT '0',
-  `runouttime` int NOT NULL DEFAULT '0',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  PRIMARY KEY (`rtid`),
-  CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rotating`
---
-
-LOCK TABLES `rotating` WRITE;
-/*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rdp_data_1`
 --
 
@@ -284,6 +206,45 @@ INSERT INTO `rdp_result` VALUES (1,10,58478,365,365,1,100,0.18114597773523944,57
 UNLOCK TABLES;
 
 --
+-- Table structure for table `rotating`
+--
+
+DROP TABLE IF EXISTS `rotating`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `rotating` (
+  `rtid` int unsigned NOT NULL AUTO_INCREMENT,
+  `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mid` int unsigned NOT NULL DEFAULT '0',
+  `diameter` double NOT NULL DEFAULT '0',
+  `moment` double NOT NULL DEFAULT '0',
+  `FatigueLifeNf` double NOT NULL DEFAULT '0',
+  `FracturedLocs` double NOT NULL DEFAULT '0',
+  `speed` double NOT NULL DEFAULT '0',
+  `lp` double NOT NULL DEFAULT '0',
+  `stress` double NOT NULL DEFAULT '0',
+  `runoutcycles` int NOT NULL DEFAULT '0',
+  `runouttime` int NOT NULL DEFAULT '0',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  PRIMARY KEY (`rtid`),
+  KEY `fk_rotating_material` (`mid`),
+  CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rotating`
+--
+
+LOCK TABLES `rotating` WRITE;
+/*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `specimen`
 --
 
@@ -301,7 +262,7 @@ CREATE TABLE `specimen` (
   UNIQUE KEY `unique_sname` (`sname`) USING BTREE,
   KEY `fk_specimen_material` (`mid`) USING BTREE,
   CONSTRAINT `fk_specimen_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,27 +271,27 @@ CREATE TABLE `specimen` (
 
 LOCK TABLES `specimen` WRITE;
 /*!40000 ALTER TABLE `specimen` DISABLE KEYS */;
-INSERT INTO `specimen` VALUES (1,'S1-GCr15',1,3,20,''),(2,'S2-GCr15',1,3,20,''),(3,'S3-GCr15',1,3,20,''),(4,'S4-GCr15',1,3,20,''),(5,'S5-GCr15',1,3,20,''),(6,'S6-GCr15',1,3,20,''),(7,'S7-GCr15',1,3,20,''),(8,'S2-QT800',2,3,20,''),(9,'S3-QT800',2,3,20,''),(10,'S5-QT800',2,3,20,''),(11,'S6-QT800',2,3,20,''),(12,'S7-QT800',2,3,20,''),(13,'S8-QT800',2,3,20,'What is this? 中文');
+INSERT INTO `specimen` VALUES (1,'S1-GCr15',1,3,20,''),(2,'S2-GCr15',1,3,20,''),(3,'S3-GCr15',1,3,20,''),(4,'S4-GCr15',1,3,20,''),(5,'S5-GCr15',1,3,20,''),(6,'S6-GCr15',1,3,20,''),(7,'S7-GCr15',1,3,20,''),(8,'S2-QT800',2,3,20,''),(9,'S3-QT800',2,3,20,''),(10,'S5-QT800',2,3,20,''),(11,'S6-QT800',2,3,20,''),(12,'S7-QT800',2,3,20,''),(13,'S8-QT800',2,3,20,'What is this? 中文'),(26,'q',1,222,22,'ds');
 /*!40000 ALTER TABLE `specimen` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tb`
+-- Table structure for table `tension`
 --
 
-DROP TABLE IF EXISTS `tb`;
+DROP TABLE IF EXISTS `tension`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tb` (
-  `tb_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `glabel` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+CREATE TABLE `tension` (
+  `pp_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `mid` int unsigned NOT NULL DEFAULT '0',
+  `diameter` double NOT NULL DEFAULT '0',
   `meanload` double NOT NULL DEFAULT '0',
-  `frequency` double NOT NULL DEFAULT '0',
+  `maxload` double NOT NULL DEFAULT '0',
   `FatigueLifeNf` double NOT NULL DEFAULT '0',
-  `fracturemode` int NOT NULL DEFAULT '0',
-  `nooftheeth` int NOT NULL DEFAULT '0',
-  `toothwidth` int NOT NULL DEFAULT '0',
+  `FracturedLocs` double NOT NULL DEFAULT '0',
+  `ktfactor` int NOT NULL DEFAULT '0',
   `ampload` int NOT NULL DEFAULT '0',
   `ratioofload` double NOT NULL DEFAULT '0',
   `runoutcycles` int NOT NULL DEFAULT '0',
@@ -339,58 +300,101 @@ CREATE TABLE `tb` (
   `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-  PRIMARY KEY (`tb_id`),
+  PRIMARY KEY (`pp_id`),
+  KEY `torison_fk` (`mid`) USING BTREE,
+  CONSTRAINT `fk_pp_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tension`
+--
+
+LOCK TABLES `tension` WRITE;
+/*!40000 ALTER TABLE `tension` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tension` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tooth`
+--
+
+DROP TABLE IF EXISTS `tooth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tooth` (
+  `tension_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `sname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mid` int unsigned NOT NULL DEFAULT '0',
+  `nooftheeth` int NOT NULL DEFAULT '0',
+  `meanload` double NOT NULL DEFAULT '0',
+  `ampload` int NOT NULL DEFAULT '0',
+  `frequency` double NOT NULL DEFAULT '0',
+  `ratioofload` double NOT NULL DEFAULT '0',
+  `FatigueLifeNf` double NOT NULL DEFAULT '0',
+  `fracturemode` int NOT NULL DEFAULT '0',
+  `modulus` int NOT NULL,
+  `toothwidth` int NOT NULL DEFAULT '0',
+  `runoutcycles` int NOT NULL DEFAULT '0',
+  `runouttime` int NOT NULL DEFAULT '0',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic1` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic2` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  `pic3` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+  PRIMARY KEY (`tension_id`),
   KEY `torison_fk` (`mid`) USING BTREE,
   CONSTRAINT `fk_tb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GEAR TOOTH TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tb`
+-- Dumping data for table `tooth`
 --
 
-LOCK TABLES `tb` WRITE;
-/*!40000 ALTER TABLE `tb` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb` ENABLE KEYS */;
+LOCK TABLES `tooth` WRITE;
+/*!40000 ALTER TABLE `tooth` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tooth` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `torison`
+-- Table structure for table `torsion`
 --
 
-DROP TABLE IF EXISTS `torison`;
+DROP TABLE IF EXISTS `torsion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `torison` (
-  `torison_id` int unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `torsion` (
+  `torsion_id` int unsigned NOT NULL AUTO_INCREMENT,
   `sname` varchar(64) NOT NULL DEFAULT '',
   `mid` int unsigned NOT NULL DEFAULT '0',
   `diameter` double NOT NULL DEFAULT '0',
-  `moment` double NOT NULL DEFAULT '0',
+  `tlen` double NOT NULL DEFAULT '0',
+  `max_torque` double NOT NULL DEFAULT '0',
+  `min_torque` double NOT NULL DEFAULT '0',
+  `max_theta` double NOT NULL DEFAULT '0',
+  `min_theta` double NOT NULL DEFAULT '0',
+  `stress` double NOT NULL DEFAULT '0',
   `FatigueLifeNf` double NOT NULL DEFAULT '0',
   `FracturedLocs` double NOT NULL DEFAULT '0',
-  `speed` double NOT NULL DEFAULT '0',
-  `lp` double NOT NULL DEFAULT '0',
-  `stress` double NOT NULL DEFAULT '0',
   `runoutcycles` int NOT NULL DEFAULT '0',
   `runouttime` int NOT NULL DEFAULT '0',
-  `description` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `pic1` varchar(512) DEFAULT '',
   `pic2` varchar(512) DEFAULT '',
   `pic3` varchar(512) DEFAULT '',
-  PRIMARY KEY (`torison_id`),
+  PRIMARY KEY (`torsion_id`),
   KEY `fk_torison_material` (`mid`),
   CONSTRAINT `fk_torison_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Torison Test';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `torison`
+-- Dumping data for table `torsion`
 --
 
-LOCK TABLES `torison` WRITE;
-/*!40000 ALTER TABLE `torison` DISABLE KEYS */;
-/*!40000 ALTER TABLE `torison` ENABLE KEYS */;
+LOCK TABLES `torsion` WRITE;
+/*!40000 ALTER TABLE `torsion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `torsion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -515,6 +519,34 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `v_rotating`
+--
+
+DROP TABLE IF EXISTS `v_rotating`;
+/*!50001 DROP VIEW IF EXISTS `v_rotating`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_rotating` AS SELECT 
+ 1 AS `rtid`,
+ 1 AS `sname`,
+ 1 AS `mid`,
+ 1 AS `diameter`,
+ 1 AS `moment`,
+ 1 AS `FatigueLifeNf`,
+ 1 AS `FracturedLocs`,
+ 1 AS `speed`,
+ 1 AS `lp`,
+ 1 AS `stress`,
+ 1 AS `runoutcycles`,
+ 1 AS `runouttime`,
+ 1 AS `description`,
+ 1 AS `pic1`,
+ 1 AS `pic2`,
+ 1 AS `pic3`,
+ 1 AS `mname`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_specimen`
 --
 
@@ -557,6 +589,36 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `mname`,
  1 AS `sid`,
  1 AS `mid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_torsion`
+--
+
+DROP TABLE IF EXISTS `v_torsion`;
+/*!50001 DROP VIEW IF EXISTS `v_torsion`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_torsion` AS SELECT 
+ 1 AS `torsion_id`,
+ 1 AS `sname`,
+ 1 AS `mid`,
+ 1 AS `diameter`,
+ 1 AS `tlen`,
+ 1 AS `max_torque`,
+ 1 AS `min_torque`,
+ 1 AS `max_theta`,
+ 1 AS `min_theta`,
+ 1 AS `stress`,
+ 1 AS `FatigueLifeNf`,
+ 1 AS `FracturedLocs`,
+ 1 AS `runoutcycles`,
+ 1 AS `runouttime`,
+ 1 AS `description`,
+ 1 AS `pic1`,
+ 1 AS `pic2`,
+ 1 AS `pic3`,
+ 1 AS `mname`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -702,6 +764,24 @@ DELIMITER ;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_rotating`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_rotating`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`cloudlab`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_rotating` AS select `rt`.`rtid` AS `rtid`,`rt`.`sname` AS `sname`,`rt`.`mid` AS `mid`,`rt`.`diameter` AS `diameter`,`rt`.`moment` AS `moment`,`rt`.`FatigueLifeNf` AS `FatigueLifeNf`,`rt`.`FracturedLocs` AS `FracturedLocs`,`rt`.`speed` AS `speed`,`rt`.`lp` AS `lp`,`rt`.`stress` AS `stress`,`rt`.`runoutcycles` AS `runoutcycles`,`rt`.`runouttime` AS `runouttime`,`rt`.`description` AS `description`,`rt`.`pic1` AS `pic1`,`rt`.`pic2` AS `pic2`,`rt`.`pic3` AS `pic3`,`m`.`mname` AS `mname` from (`rotating` `rt` join `material` `m` on((`rt`.`mid` = `m`.`mid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_specimen`
 --
 
@@ -736,6 +816,24 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_torsion`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_torsion`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`cloudlab`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_torsion` AS select `t`.`torsion_id` AS `torsion_id`,`t`.`sname` AS `sname`,`t`.`mid` AS `mid`,`t`.`diameter` AS `diameter`,`t`.`tlen` AS `tlen`,`t`.`max_torque` AS `max_torque`,`t`.`min_torque` AS `min_torque`,`t`.`max_theta` AS `max_theta`,`t`.`min_theta` AS `min_theta`,`t`.`stress` AS `stress`,`t`.`FatigueLifeNf` AS `FatigueLifeNf`,`t`.`FracturedLocs` AS `FracturedLocs`,`t`.`runoutcycles` AS `runoutcycles`,`t`.`runouttime` AS `runouttime`,`t`.`description` AS `description`,`t`.`pic1` AS `pic1`,`t`.`pic2` AS `pic2`,`t`.`pic3` AS `pic3`,`m`.`mname` AS `mname` from (`torsion` `t` join `material` `m` on((`t`.`mid` = `m`.`mid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -746,70 +844,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-22 21:57:15
-
--- ----------------------------
--- Procedure structure for get_rdp_pic_save_path
--- ----------------------------
-DROP PROCEDURE IF EXISTS `get_rdp_pic_save_path`;
-delimiter ;;
-CREATE PROCEDURE `get_rdp_pic_save_path`(IN `eid` int)
-BEGIN
-	DECLARE pic_path VARCHAR(512);
-	DECLARE root_path VARCHAR(512);
-	
-	SELECT CONCAT(`content`, '\\', CONVERT(eid, char), '\\') INTO `pic_path` FROM `config` WHERE `item` = 'rdp_pic_path';
-	SELECT CONCAT(`content`, '\\', CONVERT(eid, char)) INTO `root_path` FROM `config` WHERE `item` = 'rdp_pic_path';
-	CREATE TEMPORARY TABLE IF NOT EXISTS tt_pic_path (`path` VARCHAR(255));
-  DELETE FROM tt_pic_path;
-	INSERT INTO tt_pic_path(`path`) SELECT root_path;
-  INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_origin.png');
-  INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_smooth.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'torque_origin.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'torque_smooth.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'max_force.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'min_force.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'strain.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_all.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_1.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_100.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_n1.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_last.png');
-	SELECT * FROM tt_pic_path;
-END
-;;
-delimiter ;
-
--- ----------------------------
--- Procedure structure for get_rdp_pic_web_path
--- ----------------------------
-DROP PROCEDURE IF EXISTS `get_rdp_pic_web_path`;
-delimiter ;;
-CREATE PROCEDURE `get_rdp_pic_web_path`(IN `eid` int)
-BEGIN
-	DECLARE pic_path VARCHAR(512);
-	
-	SELECT CONCAT(`content`, '/', CONVERT(eid, char), '/') INTO `pic_path` FROM `config` WHERE `item` = 'rdp_pic_web_root';
-	CREATE TEMPORARY TABLE IF NOT EXISTS tt_pic_path (`path` VARCHAR(255));
-  DELETE FROM tt_pic_path;
-  INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_origin.png');
-  INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'angle_smooth.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'torque_origin.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'torque_smooth.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'max_force.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'min_force.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'strain.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_all.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'g_mean.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'tao_max.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_1.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_100.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_n1.png');
-	INSERT INTO tt_pic_path(`path`) SELECT CONCAT(pic_path, 'loop_last.png');
-
-	SELECT * FROM tt_pic_path;
-END
-;;
-delimiter ;
+-- Dump completed on 2020-06-24 13:17:22

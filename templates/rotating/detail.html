@@ -301,8 +301,8 @@
             speed : 0,
             lp : 0,
             stress : 0,
-            runoutcycles : 0,
-            runouttime : 0,
+            runoutcycles : "",
+            runouttime : "",
             description : "",
             pic1 : "",
             pic2 : "",
@@ -314,8 +314,25 @@
           axios
           .get('/vrotating/{{ rtid }}')
           .then(res => {
-            this.rt = res.data;
-            // console.log(this.exp);
+            var roc = ['1E6', '3E6', '1E7', '5E7'];
+            var rot = ['NULL', '1', '2', '3'];
+
+            this.rt.rtid          = res.data.rtid         ;
+            this.rt.sname         = res.data.sname        ;
+            this.rt.mid           = res.data.mid          ;
+            this.rt.diameter      = res.data.diameter     ;
+            this.rt.moment        = res.data.moment       ;
+            this.rt.FatigueLifeNf = res.data.FatigueLifeNf;
+            this.rt.FracturedLocs = res.data.FracturedLocs;
+            this.rt.speed         = res.data.speed        ;
+            this.rt.lp            = res.data.lp           ;
+            this.rt.stress        = res.data.stress       ;
+            this.rt.runoutcycles  = roc[res.data.runoutcycles - 1];
+            this.rt.runouttime    = rot[res.data.runouttime   - 1];
+            this.rt.description   = res.data.description  ;
+            this.rt.pic1          = res.data.pic1         ;
+            this.rt.pic2          = res.data.pic2         ;
+            this.rt.pic3          = res.data.pic3         ;
           })
           .catch(err => {
             console.log(err);

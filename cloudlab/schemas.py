@@ -230,3 +230,48 @@ class VTorsion(BaseModel):
     mname : str
     class Config:
         orm_mode = True
+
+
+class VTension(BaseModel):
+  tension_id : int
+  sname : str
+  mid : int
+  diameter : float
+  meanload : float
+  maxload : float
+  FatigueLifeNf : float
+  FracturedLocs : float
+  ktfactor : int
+  ampload : float
+  ratioofload : float
+  runoutcycles : int
+  runouttime : int
+  description : str
+  pic1 : str
+  pic2 : str
+  pic3 : str
+  mname : str
+  class Config:
+    orm_mode = True
+
+
+class Tension(BaseModel): 
+  tension_id : int
+  sname : str
+  mid : int
+  diameter : float
+  meanload : float
+  maxload : float
+  FatigueLifeNf : float
+  FracturedLocs : float
+  ktfactor : int
+  ampload : float
+  ratioofload : float
+  runoutcycles : int
+  runouttime : int
+  description : str
+  pic1 : str
+  pic2 : str
+  pic3 : str
+  class Config:
+    orm_mode = True

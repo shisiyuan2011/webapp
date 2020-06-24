@@ -282,10 +282,22 @@
                     <input v-model="torsion.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
                                         
                     <label for="torsion.runoutcycles">Run Out Cycles</label>
-                    <input v-model="torsion.runoutcycles" class="form-control" id="runoutcycles" type="numeric">
+                    <select v-model="torsion.runoutcycles" class="form-control" id="runoutcycles" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">1E6</option>
+                      <option value="2">3E6</option>
+                      <option value="3">1E7</option>
+                      <option value="4">5E7</option>
+                    </select>
 
                     <label for="torsion.runouttime">Run Out Time</label>
-                    <input v-model="torsion.runouttime" class="form-control" id="runouttime" type="numeric">
+                    <select v-model="torsion.runouttime" class="form-control" id="runouttime" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">NULL</option>
+                      <option value="2">1</option>
+                      <option value="3">2</option>
+                      <option value="4">3</option>
+                    </select>
 
                     <label for="torsion.description">Description</label>
                     <input v-model="torsion.description" class="form-control" id="description" type="textarea">
@@ -404,18 +416,18 @@
             result = true;
             result = result & this.mustBeString(this.torsion.sname, "Specimen Name");
             result = result & this.grateThanZero(this.torsion.mid, "Material");
-            result = result & this.mustBeNumeric(this.torsion.diameter,      "Diameter");
-            result = result & this.mustBeNumeric(this.torsion.tlen,          "Length");
-            result = result & this.mustBeNumeric(this.torsion.max_torque,    "Max Torque");
+            result = result & this.grateThanZero(this.torsion.diameter,      "Diameter");
+            result = result & this.grateThanZero(this.torsion.tlen,          "Length");
+            result = result & this.grateThanZero(this.torsion.max_torque,    "Max Torque");
             result = result & this.mustBeNumeric(this.torsion.min_torque,         "Min Torque");
-            result = result & this.mustBeNumeric(this.torsion.max_theta,         "Max Theta");
+            result = result & this.grateThanZero(this.torsion.max_theta,         "Max Theta");
             result = result & this.mustBeNumeric(this.torsion.min_theta,         "Min Theta");
             result = result & this.mustBeNumeric(this.torsion.FatigueLifeNf, "Fatigue Life Nf");
             result = result & this.mustBeNumeric(this.torsion.FracturedLocs, "Fractured Locs");
             // result = result & this.mustBeNumeric(this.torsion.lp,            "lp");
             // result = result & this.mustBeNumeric(this.torsion.stress,        "Stress");
-            result = result & this.mustBeNumeric(this.torsion.runoutcycles,  "Run Out Cycles");
-            result = result & this.mustBeNumeric(this.torsion.runouttime,    "Run Out Time");
+            result = result & this.grateThanZero(this.torsion.runoutcycles,  "Run Out Cycles");
+            result = result & this.grateThanZero(this.torsion.runouttime,    "Run Out Time");
             // result = result & this.mustBeNumeric(this.torsion.description,   "Description");
             // result = result & this.mustBeNumeric(this.torsion.pic1,          "Pic1");
             // result = result & this.mustBeNumeric(this.torsion.pic2,          "Pic2");
@@ -434,11 +446,11 @@
                 if (res.data.message == "ok") {
                   alert("Ok! A new test was created");
                 } else {
-                  alert("an error was occured");
+                  alert("An Error Occured");
                 }
               }).catch(function (err) {
                 console.log(err);
-                alert("an error was occured");
+                alert("An Error Occured");
               });
             }
             e.preventDefault();
@@ -466,11 +478,11 @@
             e.preventDefault();
           },
           calStress: function() {
-            if (this.torsion.lp != 0) {
+            if (this.torsion.diameter != 0) {
               var r = this.torsion.diameter / 2;
               // var lp = .5 * 3.14159265 * r * r * r * r;
               // this.torsion.stress = this.torsion.max_torque * r / lp;
-              this.torsion.stress = this.torsion.max_torque / (.5 * 3.1415926535897932384 * r * r * r);
+              this.torsion.stress = 1000 * this.torsion.max_torque / (.5 * 3.1415926535897932384 * r * r * r);
             }
           }
         },

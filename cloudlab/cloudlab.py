@@ -507,15 +507,11 @@ def delete_torsion(torsion_id: int, db: Session = Depends(get_db)):
 
 @app.post("/newtrs")
 def newtrs(torsion: schemas.Torsion, db: Session = Depends(get_db)):
-    crud.torsion_new(db, torsion)
-    return {"message": "ok"}
-    '''
     try:
         crud.torsion_new(db, torsion)
         return {"message": "ok"}
     except:
         return {"message": "bad"}
-    '''
 
 @app.post("/updatetrs")
 def torsion_update(torsion: schemas.Torsion, db: Session = Depends(get_db)):
@@ -546,6 +542,73 @@ def torsion_get_one_by_name(sname: str, db: Session = Depends(get_db)):
     torsion = crud.torsion_get_one_by_name(db, sname)
     return torsion
 
+
+# ###################################################################################
+# 
+# Tension
+#
+# ###################################################################################
+@app.get("/tension/list")
+async def tension_list(request: Request):
+    return templates.TemplateResponse('tension/list.html', {'request': request})
+
+@app.get("/tension/new")
+async def tension_new(request: Request):
+    return templates.TemplateResponse('tension/new.html', {'request': request})
+
+@app.get("/tension/modify/{tension_id}")
+async def tension_modify(request: Request, tension_id : int):
+    return templates.TemplateResponse('tension/modify.html', {'request': request, 'tension_id': tension_id})
+
+@app.get("/tension/detail/{tension_id}")
+async def tension_detail(request: Request, tension_id : int):
+    return templates.TemplateResponse('tension/detail.html', {'request': request, 'tension_id': tension_id})
+
+@app.get("/tension/nmodify/{sname}")
+async def tension_nmodify(request: Request, sname : str):
+    return templates.TemplateResponse('tension/nmodify.html', {'request': request, 'sname': sname})
+
+@app.get("/deltns/{tension_id}")
+def delete_tension(tension_id: int, db: Session = Depends(get_db)):
+    crud.tension_delete(db, tension_id)
+    return {"message": "ok"}
+
+@app.post("/newtns")
+def newtns(tension: schemas.Tension, db: Session = Depends(get_db)):
+    try:
+        crud.tension_new(db, tension)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.post("/updatetns")
+def tension_update(tension: schemas.Tension, db: Session = Depends(get_db)):
+    try:
+        crud.tension_update(db, tension)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.get("/vtension", response_model=List[schemas.VTension])
+def tension_get_all(db: Session = Depends(get_db)):
+    tension = crud.tension_get_all(db)
+    return tension
+
+@app.get("/vtension/{tension_id}", response_model=schemas.VTension)
+def vtension_get_one(tension_id: int, db: Session = Depends(get_db)):
+    tension = crud.vtension_get_one(db, tension_id)
+    return tension
+
+@app.get("/tension/{tension_id}", response_model=schemas.Tension)
+def tension_get_one(tension_id: int, db: Session = Depends(get_db)):
+    tension = crud.tension_get_one(db, tension_id)
+    return tension
+
+
+@app.get("/vtension/{sname}", response_model=schemas.VTension)
+def tension_get_one_by_name(sname: str, db: Session = Depends(get_db)):
+    tension = crud.tension_get_one_by_name(db, sname)
+    return tension
 
 
 
@@ -624,6 +687,15 @@ async def upload_torsion_files(myfile: List[UploadFile] = File(...)):
     for file in myfile:
         content = await file.read()
         with open('E:\\webapp\\images\\torsion\\' + file.filename, 'wb') as f:
+            f.write(content)
+
+    return {"filenames": [file.filename for file in myfile]}
+
+@app.post("/uptension/")
+async def upload_torsion_files(myfile: List[UploadFile] = File(...)):
+    for file in myfile:
+        content = await file.read()
+        with open('E:\\webapp\\images\\tension\\' + file.filename, 'wb') as f:
             f.write(content)
 
     return {"filenames": [file.filename for file in myfile]}

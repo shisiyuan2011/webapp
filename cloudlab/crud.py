@@ -410,3 +410,125 @@ pic1
 pic2
 pic3
 '''
+
+#######################################################################
+#
+# Tension
+#
+#######################################################################
+def tension_get_all(db: Session):
+    return db.query(models.VTension) \
+        .order_by(models.VTension.tension_id.desc()).all()
+
+def vtension_get_one(db: Session, tension_id: int):
+    return db.query(models.VTension) \
+            .filter(models.VTension.tension_id == tension_id).first()
+
+def tension_get_one(db: Session, tension_id: int):
+    tns = db.query(models.Tension) \
+            .filter(models.Tension.tension_id == tension_id).first()
+    l = len("/images/tension/")
+    tns.pic1 = tns.pic1[l:]
+    tns.pic2 = tns.pic2[l:]
+    tns.pic3 = tns.pic3[l:]
+    return tns
+
+def tension_get_one_by_name(db: Session, sname: int):
+    return db.query(models.VTension) \
+            .filter(models.VTension.sname == sname).first()
+
+def tension_new(db: Session, tns: schemas.Tension):
+    tension = models.Tension()
+    # tension.tension_id
+    tension.sname         = tns.sname        
+    tension.mid           = tns.mid          
+    tension.diameter      = tns.diameter     
+    tension.meanload      = tns.meanload     
+    tension.maxload       = tns.maxload      
+    tension.FatigueLifeNf = tns.FatigueLifeNf
+    tension.FracturedLocs = tns.FracturedLocs
+    tension.ktfactor      = tns.ktfactor     
+    tension.ampload       = tns.ampload      
+    tension.ratioofload   = tns.ratioofload  
+    tension.runoutcycles  = tns.runoutcycles 
+    tension.runouttime    = tns.runouttime   
+    tension.description   = tns.description  
+    tension.pic1          = "/images/tension/" + tns.pic1
+    tension.pic2          = "/images/tension/" + tns.pic2
+    tension.pic3          = "/images/tension/" + tns.pic3
+
+    db.add(tension)
+    db.commit()
+    db.refresh(tension)
+
+def tension_update(db: Session, tns: schemas.Tension):
+    tension = db.query(models.Tension) \
+                .filter(models.Tension.tension_id == tns.tension_id).first()
+    tension.sname         = tns.sname        
+    tension.mid           = tns.mid          
+    tension.diameter      = tns.diameter     
+    tension.meanload      = tns.meanload     
+    tension.maxload       = tns.maxload      
+    tension.FatigueLifeNf = tns.FatigueLifeNf
+    tension.FracturedLocs = tns.FracturedLocs
+    tension.ktfactor      = tns.ktfactor     
+    tension.ampload       = tns.ampload      
+    tension.ratioofload   = tns.ratioofload  
+    tension.runoutcycles  = tns.runoutcycles 
+    tension.runouttime    = tns.runouttime   
+    tension.description   = tns.description  
+    tension.pic1          = "/images/tension/" + tns.pic1
+    tension.pic2          = "/images/tension/" + tns.pic2
+    tension.pic3          = "/images/tension/" + tns.pic3
+
+
+    db.commit()
+
+ 
+def tension_delete(db: Session, tension_id: int):
+    print(tension_id)
+    tension = db.query(models.Tension) \
+                .filter(models.Tension.tension_id == tension_id).first()
+
+    db.delete(tension)
+    db.commit()
+''' Tension
+tension_id
+sname
+mid
+diameter
+meanload
+maxload
+FatigueLifeNf
+FracturedLocs
+ktfactor
+ampload
+ratioofload
+runoutcycles
+runouttime
+description
+pic1
+pic2
+pic3
+mname
+'''
+
+'''
+app.RunOutCyclesDropDown.Items = {'1E6', '3E6', '1E7', '5E7'};
+app.RunOutCyclesDropDown.ItemsData = {'1', '2', '3', '4'};
+
+app.RunOutTimesDropDown.Items = {'NULL', '1', '2', '3'};
+app.RunOutTimesDropDown.ItemsData = {'1', '2', '3', '4'};
+
+app.KtFactorDropDown.Items = {'Smooth', '2', '3', '4'};
+app.KtFactorDropDown.ItemsData = {'1', '2', '3', '4'};
+
+app.ToothWidthmmDropDown.Items = {'25', '20'};
+app.ToothWidthmmDropDown.ItemsData = {'1', '2'};
+
+app.ModulusmmDropDown.Items = {'6 ', '4', '8', '3'};
+app.ModulusmmDropDown.ItemsData = {'1', '2', '3', '4'};
+
+app.FractureModeDropDown.Items = {'Normal', 'Anomal', 'Pefect', 'Breakage'};
+app.FractureModeDropDown.ItemsData = {'1', '2', '3', '4'};
+'''
