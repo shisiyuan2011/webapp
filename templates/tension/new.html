@@ -266,16 +266,16 @@
                     </select>
 
                     <label for="tension.meanload">Mean Load(KN)</label>
-                    <input v-model="tension.meanload" class="form-control" id="moment" type="numeric">
-
-                    <label for="tension.maxload">Max Load(KN)</label>
-                    <input v-model="tension.maxload" class="form-control" id="moment" type="numeric" @input="calStress">
+                    <input v-model="tension.meanload" class="form-control" id="meanload" type="numeric" @input=calMaxLoad>
 
                     <label for="tension.ampload">Amp Load(KN)</label>
-                    <input v-model="tension.ampload" class="form-control" id="moment" type="numeric"  @input="calStress">
+                    <input v-model="tension.ampload" class="form-control" id="ampload" type="numeric"  @input="calMaxLoad">
+
+                    <label for="tension.maxload">Max Load(KN)</label>
+                    <p><div id="maxload">[[ tension.maxload ]]</div></p>
 
                     <label for="tension.ratioofload">Ratio Of Load</label>
-                    <input v-model="tension.ratioofload" class="form-control" id="moment" type="numeric"  @input="calStress">
+                    <p><div id="ratioofload">[[ tension.ratioofload ]]</div></p>
 
                     <label for="tension.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="tension.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
@@ -419,7 +419,7 @@
             result = result & this.grateThanZero(this.tension.mid,  "Material");
             result = result & this.grateThanZero(this.tension.diameter,      "Diameter");
             result = result & this.mustBeNumeric(this.tension.meanload,          "Mean Load");
-            result = result & this.mustBeNumeric(this.tension.maxload,    "Max Load");
+            // result = result & this.mustBeNumeric(this.tension.maxload,    "Max Load");
             result = result & this.mustBeNumeric(this.tension.FatigueLifeNf, "Fatigue Life Nf");
             result = result & this.mustBeNumeric(this.tension.FracturedLocs, "Fractured Locs");
             // result = result & this.mustBeNumeric(this.tension.lp,            "lp");
@@ -432,7 +432,7 @@
             // result = result & this.mustBeNumeric(this.tension.pic3,          "Pic3");
             result = result & this.grateThanZero(this.tension.ktfactor,     "Kf Factor");
             result = result & this.mustBeNumeric(this.tension.ampload, "Amp Load");
-            result = result & this.mustBeNumeric(this.tension.ratioofload, "Ratio Of Load");
+            // result = result & this.mustBeNumeric(this.tension.ratioofload, "Ratio Of Load");
 
             return result;
           },
@@ -477,7 +477,11 @@
             this.tension.pic3          = "";
             e.preventDefault();
           },
-          calStress: function() {
+          calMaxLoad: function() {
+            this.tension.maxload = parseFloat(this.tension.meanload) + parseFloat(this.tension.ampload);
+            var minload = parseFloat(this.tension.meanload) - parseFloat(this.tension.ampload);
+            if (this.tension.maxload != 0)
+              this.tension.ratioofload = minload / this.tension.maxload;
           }
         },
         mounted() {
