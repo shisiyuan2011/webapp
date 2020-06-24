@@ -335,7 +335,7 @@
           confirmDelete: function(tension_id) {
             if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
               axios
-              .get('/deltrs/' + tension_id)
+              .get('/deltns/' + tension_id)
               .then(res => {
                 // console.log(res.data);
                 if (res.data.message == "ok") {
