@@ -216,3 +216,69 @@ class VRotating(Base):
   pic3 = Column(String)
   mname = Column(String)
 
+class Torsion(Base):
+  __tablename__ = 'torsion'
+
+  torsion_id = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  diameter = Column(Float)
+  tlen = Column(Float)
+  max_torque = Column(Float)
+  min_torque = Column(Float)
+  max_theta = Column(Float)
+  min_theta = Column(Float)
+  stress = Column(Float)
+  FatigueLifeNf = Column(Float)
+  FracturedLocs = Column(Float)
+  runoutcycles = Column(Integer)
+  runouttime = Column(Integer)
+  description = Column(String)
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3 = Column(String)
+
+
+class VTorsion(Base):
+  __tablename__ = 'v_torsion'
+
+  torsion_id = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  diameter = Column(Float)
+  tlen = Column(Float)
+  max_torque = Column(Float)
+  min_torque = Column(Float)
+  max_theta = Column(Float)
+  min_theta = Column(Float)
+  stress = Column(Float)
+  FatigueLifeNf = Column(Float)
+  FracturedLocs = Column(Float)
+  runoutcycles = Column(Integer)
+  runouttime = Column(Integer)
+  description = Column(String)
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3 = Column(String)
+  mname = Column(String)
+
+'''
+torsion_id
+sname
+mid
+diameter
+tlen
+max_torque
+min_torque
+max_theta
+min_theta
+stress
+FatigueLifeNf
+fracturedlocs
+runoutcycles
+runouttime
+description
+pic1
+pic2
+pic3
+'''

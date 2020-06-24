@@ -161,7 +161,6 @@ class Rotating(BaseModel):
     pic1 : str
     pic2 : str
     pic3 : str
-    
     class Config:
         orm_mode = True
 
@@ -176,6 +175,52 @@ class VRotating(BaseModel):
     speed : float
     lp : float
     stress : float
+    runoutcycles : int
+    runouttime : int
+    description : str
+    pic1 : str
+    pic2 : str
+    pic3 : str
+    mname : str
+    class Config:
+        orm_mode = True
+
+class Torsion(BaseModel):
+    torsion_id : int 
+    sname : str
+    mid : int
+    diameter : float
+    tlen : float
+    max_torque : float
+    min_torque : float
+    max_theta : float
+    min_theta : float
+    stress : float
+    FatigueLifeNf : float
+    FracturedLocs : float
+    runoutcycles : int
+    runouttime : int
+    description : str
+    pic1 : str
+    pic2 : str
+    pic3 : str
+
+    class Config:
+        orm_mode = True
+
+class VTorsion(BaseModel):
+    torsion_id : int 
+    sname : str
+    mid : int
+    diameter : float
+    tlen : float
+    max_torque : float
+    min_torque : float
+    max_theta : float
+    min_theta : float
+    stress : float
+    FatigueLifeNf : float
+    FracturedLocs : float
     runoutcycles : int
     runouttime : int
     description : str

@@ -409,7 +409,7 @@ def get_analysis_pic_web_path(eid: int, db: Session = Depends(get_db), response_
 
 # ###################################################################################
 # 
-# Pages
+# Rotating
 #
 # ###################################################################################
 @app.get("/rotating/list")
@@ -439,14 +439,11 @@ def delete_rotating(rtid: int, db: Session = Depends(get_db)):
 
 @app.post("/newrt")
 def newrt(rotating: schemas.Rotating, db: Session = Depends(get_db)):
-    print(rotating)
-    crud.rotating_new(db, rotating)
-    return {"message": "ok"}
-    # try:
-    #     crud.rotating_new(db, rotating)
-    #     return {"message": "ok"}
-    # except:
-    #     return {"message": "bad"}
+    try:
+        crud.rotating_new(db, rotating)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
 
 @app.post("/updatert")
 def rotating_update(rotating: schemas.Rotating, db: Session = Depends(get_db)):
@@ -476,6 +473,80 @@ def rotating_get_one(rtid: int, db: Session = Depends(get_db)):
 def rotating_get_one_by_name(sname: str, db: Session = Depends(get_db)):
     rotating = crud.rotating_get_one_by_name(db, sname)
     return rotating
+
+
+# ###################################################################################
+# 
+# Torsion
+#
+# ###################################################################################
+@app.get("/torsion/list")
+async def torsion_list(request: Request):
+    return templates.TemplateResponse('torsion/list.html', {'request': request})
+
+@app.get("/torsion/new")
+async def torsion_new(request: Request):
+    return templates.TemplateResponse('torsion/new.html', {'request': request})
+
+@app.get("/torsion/modify/{torsion_id}")
+async def torsion_modify(request: Request, torsion_id : int):
+    return templates.TemplateResponse('torsion/modify.html', {'request': request, 'torsion_id': torsion_id})
+
+@app.get("/torsion/detail/{torsion_id}")
+async def torsion_detail(request: Request, torsion_id : int):
+    return templates.TemplateResponse('torsion/detail.html', {'request': request, 'torsion_id': torsion_id})
+
+@app.get("/torsion/nmodify/{sname}")
+async def torsion_nmodify(request: Request, sname : str):
+    return templates.TemplateResponse('torsion/nmodify.html', {'request': request, 'sname': sname})
+
+@app.get("/deltrs/{torsion_id}")
+def delete_torsion(torsion_id: int, db: Session = Depends(get_db)):
+    crud.torsion_delete(db, torsion_id)
+    return {"message": "ok"}
+
+@app.post("/newtrs")
+def newtrs(torsion: schemas.Torsion, db: Session = Depends(get_db)):
+    crud.torsion_new(db, torsion)
+    return {"message": "ok"}
+    '''
+    try:
+        crud.torsion_new(db, torsion)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+    '''
+
+@app.post("/updatetrs")
+def torsion_update(torsion: schemas.Torsion, db: Session = Depends(get_db)):
+    try:
+        crud.torsion_update(db, torsion)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.get("/vtorsion", response_model=List[schemas.VTorsion])
+def torsion_get_all(db: Session = Depends(get_db)):
+    torsion = crud.torsion_get_all(db)
+    return torsion
+
+@app.get("/vtorsion/{torsion_id}", response_model=schemas.VTorsion)
+def vtorsion_get_one(torsion_id: int, db: Session = Depends(get_db)):
+    torsion = crud.vtorsion_get_one(db, torsion_id)
+    return torsion
+
+@app.get("/torsion/{torsion_id}", response_model=schemas.Torsion)
+def torsion_get_one(torsion_id: int, db: Session = Depends(get_db)):
+    torsion = crud.torsion_get_one(db, torsion_id)
+    return torsion
+
+
+@app.get("/vtorsion/{sname}", response_model=schemas.VTorsion)
+def torsion_get_one_by_name(sname: str, db: Session = Depends(get_db)):
+    torsion = crud.torsion_get_one_by_name(db, sname)
+    return torsion
+
+
 
 
 # ###################################################################################
@@ -527,20 +598,20 @@ async def try_snames(db: Session = Depends(get_db)):
     sname = crud.get_all_sname(db)
     return sname
 
-@app.get("/upload")
-async def try_upload(request: Request):
-    return templates.TemplateResponse('upload.html', {'request': request})
+# @app.get("/upload")
+# async def try_upload(request: Request):
+#     return templates.TemplateResponse('upload.html', {'request': request})
 
 
 
 
-@app.post("/files/")
-async def create_files(files: List[bytes] = File(...)):
-    return {"file_sizes": [len(file) for file in files]}
+# @app.post("/files/")
+# async def create_files(files: List[bytes] = File(...)):
+#     return {"file_sizes": [len(file) for file in files]}
 
 
 @app.post("/uploadfiles/")
-async def create_upload_files(myfile: List[UploadFile] = File(...)):
+async def upload_rotating_files(myfile: List[UploadFile] = File(...)):
     for file in myfile:
         content = await file.read()
         with open('E:\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
@@ -548,15 +619,16 @@ async def create_upload_files(myfile: List[UploadFile] = File(...)):
 
     return {"filenames": [file.filename for file in myfile]}
 
-@app.put("/putfiles/")
-async def put_upload_files(files: List[UploadFile] = File(...)):
-    for file in files:
+@app.post("/uptorsion/")
+async def upload_torsion_files(myfile: List[UploadFile] = File(...)):
+    for file in myfile:
         content = await file.read()
-        with open('E:\\webapp\\images\\rotating\\' + file.filename, 'wb') as f:
+        with open('E:\\webapp\\images\\torsion\\' + file.filename, 'wb') as f:
             f.write(content)
 
-    return {"filenames": [file.filename for file in files]}
+    return {"filenames": [file.filename for file in myfile]}
 
+'''
 @app.get("/uuu")
 async def uuu():
     content = """
@@ -572,6 +644,7 @@ async def uuu():
 </body>
     """
     return HTMLResponse(content=content)
+'''
 
 if __name__ == '__main__':
     import uvicorn

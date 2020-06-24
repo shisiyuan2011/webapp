@@ -39,9 +39,9 @@
     <script src="/js/axios.min.js"></script>
     <script src="/js/vue-cookies.js"></script>
     <script src="/js/cloudlab.js"></script>
-    <!-- script type="text/javascript" language="JavaScript">
-      verify_token();
-    </script -->
+    <link href="/css/uploadfile.css" rel="stylesheet">
+    <script src="/js/jquery-1.10.1.min.js"></script>
+    <script src="/js/jquery.uploadfile.min.js"></script>
   </head>
   <body class="c-app">
     <!-- start left menu --> 
@@ -56,13 +56,6 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
             </svg> Dashboard
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -91,6 +84,13 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tooth Bending
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -220,8 +220,8 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="specimen/list">Specimen List</a></li>
-            <li class="breadcrumb-item active">New Specimen</li>
+            <li class="breadcrumb-item"><a href="torsion/list">Torsion Test List</a></li>
+            <li class="breadcrumb-item active">New Torsion Test</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -234,32 +234,77 @@
             <div class="fade-in">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Create A New Specimen 
+                  <i class="fa fa-align-justify"> </i> New Torsion Test
                 </div>
                 <div class="card-body">
-                  <form id = "new_spc">
+                  <form id = "new_torsion">
                     <div v-if="errors.length > 0" class="card-body">
                       <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
-                    </div> 
-                    <label for="spc.sname">Specimen Name</label>
-                    <input v-model="spc.sname" class="form-control" id="sname" type="text">
+                    </div>
 
-                    <label for="spc.radius">Radius</label>
-                    <input v-model="spc.radius" class="form-control" id="radius" type="numeric">
-                    
-                    <label for="spc.length">Length</label> <input v-model="spc.length" class="form-control" id="length" type="numeric">
-                    <label for="spc.mid">Material    </label> <br>
-                    <select v-model="spc.mid" class="form-control">
+                    <label for="torsion.sname">Specimen Name</label>
+                    <input v-model="torsion.sname" class="form-control" id="sname" type="text">
+
+                    <label for="torsion.mid">Material</label>
+                    <select v-model="torsion.mid" class="form-control">
                       <option value="0">Please Select A Material</option>
                       <option v-for="material in materials" v-bind:value="material.mid">
                         [[ material.mname ]]
                     </option>
                     </select>
-                    <label for="spc.memo">Memo</label>
-                    <input v-model="spc.memo" class="form-control" id="memo" type="textarea">
+
+                    <label for="torsion.diameter">Diameter(mm)</label>
+                    <input v-model="torsion.diameter" class="form-control" id="diameter" type="numeric">
+
+                    <label for="torsion.tlen">Length(mm)</label>
+                    <input v-model="torsion.tlen" class="form-control" id="moment" type="numeric">
+
+                    <label for="torsion.max_torque">Max Torque(Nm)</label>
+                    <input v-model="torsion.max_torque" class="form-control" id="moment" type="numeric" @input="calStress">
+
+                    <label for="torsion.min_torque">Min Torque(Nm)</label>
+                    <input v-model="torsion.min_torque" class="form-control" id="moment" type="numeric">
+
+                    <label for="torsion.max_theta">Max Theta(rad)</label>
+                    <input v-model="torsion.max_theta" class="form-control" id="moment" type="numeric"  @input="calStress">
+
+                    <label for="torsion.min_theta">Min Theta(rad)</label>
+                    <input v-model="torsion.min_theta" class="form-control" id="moment" type="numeric"  @input="calStress">
+
+                    <p><label for="torsion.stress">Stress(MPa)</label></p>
+                    <!-- input v-model="torsion.stress" class="form-control" id="stress" type="numeric" -->
+                    <p></p><span>[[ torsion.stress ]]</span></p>
+
+                    <label for="torsion.FatigueLifeNf">Fatigue Life Nf</label>
+                    <input v-model="torsion.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
+                    
+                    <label for="torsion.FracturedLocs">FracturedLocs</label>
+                    <input v-model="torsion.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
+                                        
+                    <label for="torsion.runoutcycles">Run Out Cycles</label>
+                    <input v-model="torsion.runoutcycles" class="form-control" id="runoutcycles" type="numeric">
+
+                    <label for="torsion.runouttime">Run Out Time</label>
+                    <input v-model="torsion.runouttime" class="form-control" id="runouttime" type="numeric">
+
+                    <label for="torsion.description">Description</label>
+                    <input v-model="torsion.description" class="form-control" id="description" type="textarea">
+
+                    <label for="torsion.pic1">Picture. Fractured Surfaces On Left</label><p>
+                    <div id="upload_pic1">Upload</div>
+                    <div id="status_1"></div></p>
+                     
+                    <label for="torsion.pic2">Picture. Fractured Surfaces On Right</label><p>
+                    <div id="upload_pic2">Upload</div>
+                    <div id="status_2"></div></p>
+
+                    <label for="torsion.pic3">Picture. Axis Direction</label><p>
+                    <div id="upload_pic3">Upload</div>
+                    <div id="status_3"></div></p>
+
                     <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkSpc">Create</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetSpc">Reset</button>
+                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkTorsion">Create</button>
+                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetTorsion">Reset</button>
                     </div>
                   </form>
                 </div>
@@ -281,18 +326,29 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var specimen = new Vue({
-        el: "#new_spc",
+      var newtrs = new Vue({
+        el: "#new_torsion",
         data: {
           errors: [],
-          spc: {
-            sid: 0,
-            sname: "",
-            mid: 0,
-            radius: 0,
-            length: 0,
-            memo: ""
-          },
+          torsion: {
+            torsion_id    : 0,
+            sname         : "",
+            mid           : 0,
+            diameter      : 0,
+            tlen          : 0,
+            max_torque    : 0,
+            min_torque    : 0,
+            max_theta     : 0,
+            min_theta     : 0,
+            stress        : 0,
+            FatigueLifeNf : 0,
+            FracturedLocs : 0,
+            runoutcycles  : 0,
+            runouttime    : 0,
+            description   : 0,
+            pic1          : "",
+            pic2          : "",
+            pic3          : ""          },
           materials: []
         },
         methods: {
@@ -345,23 +401,38 @@
             return result;
           },
           completedForm: function() {
-            result = this.mustBeString(this.spc.sname, "Specimen Name");
-            // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
-            result = result & this.grateThanZero(this.spc.radius, 'Radius');
-            result = result & this.grateThanZero(this.spc.length, 'Length');
-            result = result & this.mustInRange(this.spc.mid, 1, this.materials.length, 'Material');
+            result = true;
+            result = result & this.mustBeString(this.torsion.sname, "Specimen Name");
+            result = result & this.grateThanZero(this.torsion.mid, "Material");
+            result = result & this.mustBeNumeric(this.torsion.diameter,      "Diameter");
+            result = result & this.mustBeNumeric(this.torsion.tlen,          "Length");
+            result = result & this.mustBeNumeric(this.torsion.max_torque,    "Max Torque");
+            result = result & this.mustBeNumeric(this.torsion.min_torque,         "Min Torque");
+            result = result & this.mustBeNumeric(this.torsion.max_theta,         "Max Theta");
+            result = result & this.mustBeNumeric(this.torsion.min_theta,         "Min Theta");
+            result = result & this.mustBeNumeric(this.torsion.FatigueLifeNf, "Fatigue Life Nf");
+            result = result & this.mustBeNumeric(this.torsion.FracturedLocs, "Fractured Locs");
+            // result = result & this.mustBeNumeric(this.torsion.lp,            "lp");
+            // result = result & this.mustBeNumeric(this.torsion.stress,        "Stress");
+            result = result & this.mustBeNumeric(this.torsion.runoutcycles,  "Run Out Cycles");
+            result = result & this.mustBeNumeric(this.torsion.runouttime,    "Run Out Time");
+            // result = result & this.mustBeNumeric(this.torsion.description,   "Description");
+            // result = result & this.mustBeNumeric(this.torsion.pic1,          "Pic1");
+            // result = result & this.mustBeNumeric(this.torsion.pic2,          "Pic2");
+            // result = result & this.mustBeNumeric(this.torsion.pic3,          "Pic3");
+
             return result;
           },
-          checkSpc: function (e) {            
+          checkTorsion: function (e) {            
             this.errors = [];
             if (this.completedForm() == true) {
-              // console.log(this.spc);
+              console.log(this.torsion);
               axios
-              .post('/newspc', this.spc)
+              .post('/newtrs', this.torsion)
               .then(res => {
-                // console.log(res.data);
+                console.log(res.data);
                 if (res.data.message == "ok") {
-                  alert("Ok! A new specimen was created");
+                  alert("Ok! A new test was created");
                 } else {
                   alert("an error was occured");
                 }
@@ -372,15 +443,35 @@
             }
             e.preventDefault();
           },
-          resetSpc: function(e) {
+          resetTorsion: function(e) {
             this.errors = [];
-            this.spc.sid = 0;
-            this.spc.sname = "";
-            this.spc.radius = 0;
-            this.spc.length = 0;
-            this.spc.mid = 0;
-            this.spc.memo = "";
+            this.torsion.torsion_id    = 0;
+            this.torsion.sname         = "";
+            this.torsion.mid           = 0;
+            this.torsion.diameter      = 0;
+            this.torsion.tlen          = 0;
+            this.torsion.max_torque    = 0;
+            this.torsion.min_torque    = 0;
+            this.torsion.max_theta     = 0;
+            this.torsion.min_theta     = 0;
+            this.torsion.stress        = 0;
+            this.torsion.FatigueLifeNf = 0;
+            this.torsion.FracturedLocs = 0;
+            this.torsion.runoutcycles  = 0;
+            this.torsion.runouttime    = 0;
+            this.torsion.description   = 0;
+            this.torsion.pic1          = "";
+            this.torsion.pic2          = "";
+            this.torsion.pic3          = "";
             e.preventDefault();
+          },
+          calStress: function() {
+            if (this.torsion.lp != 0) {
+              var r = this.torsion.diameter / 2;
+              // var lp = .5 * 3.14159265 * r * r * r * r;
+              // this.torsion.stress = this.torsion.max_torque * r / lp;
+              this.torsion.stress = this.torsion.max_torque / (.5 * 3.1415926535897932384 * r * r * r);
+            }
           }
         },
         mounted() {
@@ -397,7 +488,67 @@
         },
         delimiters: ['[[',']]']
       });
-    </script>
 
+      $(document).ready(function()
+      {
+          var settings_1 = {
+              url: "/uptorsion",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                newtrs.torsion.pic1 = files[0];
+                $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                newtrs.torsion.pic1 = "";
+                $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_2 = {
+              url: "/uptorsion",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                newtrs.torsion.pic2 = files[0];
+                $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                newtrs.torsion.pic2 = "";
+                $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_3 = {
+              url: "/uptorsion",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                newtrs.torsion.pic3 = files[0];
+                $("#status_3").html("<font color='green'>Upload " + newtrs.torsion.pic3 + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {
+                newtrs.torsion.pic3 = "";
+                $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          $("#upload_pic1").uploadFile(settings_1);
+          $("#upload_pic2").uploadFile(settings_2);
+          $("#upload_pic3").uploadFile(settings_3);
+      });
+    </script>
   </body>
 </html>

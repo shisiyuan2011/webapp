@@ -309,3 +309,104 @@ pic1
 pic2
 pic3
 '''
+
+#######################################################################
+#
+# Torsion
+#
+#######################################################################
+def torsion_get_all(db: Session):
+    return db.query(models.VTorsion) \
+        .order_by(models.VTorsion.torsion_id.desc()).all()
+
+def vtorsion_get_one(db: Session, torsion_id: int):
+    return db.query(models.VTorsion) \
+            .filter(models.VTorsion.torsion_id == torsion_id).first()
+
+def torsion_get_one(db: Session, torsion_id: int):
+    trs = db.query(models.Torsion) \
+            .filter(models.Torsion.torsion_id == torsion_id).first()
+    l = len("/images/torsion/")
+    trs.pic1 = trs.pic1[l:]
+    trs.pic2 = trs.pic2[l:]
+    trs.pic3 = trs.pic3[l:]
+    return trs
+
+def torsion_get_one_by_name(db: Session, sname: int):
+    return db.query(models.VTorsion) \
+            .filter(models.VTorsion.sname == sname).first()
+
+def torsion_new(db: Session, trs: schemas.Torsion):
+    torsion = models.Torsion()
+    # torsion.torsion_id
+    torsion.sname         = trs.sname        
+    torsion.mid           = trs.mid          
+    torsion.diameter      = trs.diameter     
+    torsion.tlen          = trs.tlen         
+    torsion.max_torque    = trs.max_torque   
+    torsion.min_torque    = trs.min_torque   
+    torsion.max_theta     = trs.max_theta    
+    torsion.min_theta     = trs.min_theta    
+    torsion.stress        = trs.stress       
+    torsion.FatigueLifeNf = trs.FatigueLifeNf
+    torsion.FracturedLocs = trs.FracturedLocs
+    torsion.runoutcycles  = trs.runoutcycles 
+    torsion.runouttime    = trs.runouttime   
+    torsion.description   = trs.description  
+    torsion.pic1          = "/images/torsion/" + trs.pic1         
+    torsion.pic2          = "/images/torsion/" + trs.pic2         
+    torsion.pic3          = "/images/torsion/" + trs.pic3         
+
+    db.add(torsion)
+    db.commit()
+    db.refresh(torsion)
+
+def torsion_update(db: Session, trs: schemas.Torsion):
+    torsion = db.query(models.Torsion) \
+                .filter(models.Torsion.torsion_id == trs.torsion_id).first()
+    torsion.sname         = trs.sname        
+    torsion.mid           = trs.mid          
+    torsion.diameter      = trs.diameter     
+    torsion.tlen          = trs.tlen         
+    torsion.max_torque    = trs.max_torque   
+    torsion.min_torque    = trs.min_torque   
+    torsion.max_theta     = trs.max_theta    
+    torsion.min_theta     = trs.min_theta    
+    torsion.stress        = trs.stress       
+    torsion.FatigueLifeNf = trs.FatigueLifeNf
+    torsion.FracturedLocs = trs.FracturedLocs
+    torsion.runoutcycles  = trs.runoutcycles 
+    torsion.runouttime    = trs.runouttime   
+    torsion.description   = trs.description  
+    torsion.pic1          = "/images/torsion/" + trs.pic1         
+    torsion.pic2          = "/images/torsion/" + trs.pic2         
+    torsion.pic3          = "/images/torsion/" + trs.pic3         
+
+    db.commit()
+
+ 
+def torsion_delete(db: Session, torsion_id: int):
+    print(torsion_id)
+    torsion = db.query(models.Torsion) \
+                .filter(models.Torsion.torsion_id == torsion_id).first()
+
+    db.delete(torsion)
+    db.commit()
+''' Torsion
+torison_id
+sname
+mid
+diameter
+moment
+FatigueLifeNf
+FracturedLocs
+speed
+lp
+stress
+runoutcycles
+runouttime
+description
+pic1
+pic2
+pic3
+'''
