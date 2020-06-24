@@ -275,3 +275,48 @@ class Tension(BaseModel):
   pic3 : str
   class Config:
     orm_mode = True
+
+class Tooth(BaseModel):
+  tooth_id : int
+  sname : str
+  mid : int
+  nooftheeth : int
+  meanload : float
+  ampload : float
+  frequency : float
+  ratioofload : float
+  FatigueLifeNf : float
+  fracturemode : int
+  modulus : int
+  toothwidth : int
+  runoutcycles : int
+  runouttime : int
+  description : str
+  pic1 : str
+  pic2 : str
+  pic3 : str
+  class Config:
+    orm_mode = True
+
+class VTooth(BaseModel):
+  tooth_id : int
+  sname : str
+  mid : int
+  nooftheeth : int
+  meanload : float
+  ampload : float
+  frequency : float
+  ratioofload : float
+  FatigueLifeNf : float
+  fracturemode : int
+  modulus : int
+  toothwidth : int
+  runoutcycles : int
+  runouttime : int
+  description : str
+  pic1 : str
+  pic2 : str
+  pic3 : str
+  mname : str
+  class Config:
+    orm_mode = True

@@ -532,3 +532,88 @@ app.ModulusmmDropDown.ItemsData = {'1', '2', '3', '4'};
 app.FractureModeDropDown.Items = {'Normal', 'Anomal', 'Pefect', 'Breakage'};
 app.FractureModeDropDown.ItemsData = {'1', '2', '3', '4'};
 '''
+
+
+#######################################################################
+#
+# Tooth
+#
+#######################################################################
+def tooth_get_all(db: Session):
+    return db.query(models.VTooth) \
+        .order_by(models.VTooth.tooth_id.desc()).all()
+
+def vtooth_get_one(db: Session, tooth_id: int):
+    return db.query(models.VTooth) \
+            .filter(models.VTooth.tooth_id == tooth_id).first()
+
+def tooth_get_one(db: Session, tooth_id: int):
+    th = db.query(models.Tooth) \
+            .filter(models.Tooth.tooth_id == tooth_id).first()
+    l = len("/images/tooth/")
+    th.pic1 = th.pic1[l:]
+    th.pic2 = th.pic2[l:]
+    th.pic3 = th.pic3[l:]
+    return th
+
+def tooth_get_one_by_name(db: Session, sname: int):
+    return db.query(models.VTooth) \
+            .filter(models.VTooth.sname == sname).first()
+
+def tooth_new(db: Session, th: schemas.Tooth):
+    tooth = models.Tooth()
+    # tooth.tooth_id
+    tooth.sname         = th.sname
+    tooth.mid           = th.mid
+    tooth.nooftheeth    = th.nooftheeth
+    tooth.meanload      = th.meanload
+    tooth.ampload       = th.ampload
+    tooth.frequency     = th.frequency
+    tooth.ratioofload   = th.ratioofload
+    tooth.FatigueLifeNf = th.FatigueLifeNf
+    tooth.fracturemode  = th.fracturemode
+    tooth.modulus       = th.modulus
+    tooth.toothwidth    = th.toothwidth
+    tooth.runoutcycles  = th.runoutcycles
+    tooth.runouttime    = th.runouttime
+    tooth.description   = th.description
+    tooth.pic1          = "/images/tooth/" + th.pic1
+    tooth.pic2          = "/images/tooth/" + th.pic2
+    tooth.pic3          = "/images/tooth/" + th.pic3
+
+    db.add(tooth)
+    db.commit()
+    db.refresh(tooth)
+
+def tooth_update(db: Session, th: schemas.Tooth):
+    tooth = db.query(models.Tooth) \
+                .filter(models.Tooth.tooth_id == th.tooth_id).first()
+    tooth.sname         = th.sname
+    tooth.mid           = th.mid
+    tooth.nooftheeth    = th.nooftheeth
+    tooth.meanload      = th.meanload
+    tooth.ampload       = th.ampload
+    tooth.frequency     = th.frequency
+    tooth.ratioofload   = th.ratioofload
+    tooth.FatigueLifeNf = th.FatigueLifeNf
+    tooth.fracturemode  = th.fracturemode
+    tooth.modulus       = th.modulus
+    tooth.toothwidth    = th.toothwidth
+    tooth.runoutcycles  = th.runoutcycles
+    tooth.runouttime    = th.runouttime
+    tooth.description   = th.description
+    tooth.pic1          = "/images/tooth/" + th.pic1
+    tooth.pic2          = "/images/tooth/" + th.pic2
+    tooth.pic3          = "/images/tooth/" + th.pic3
+
+
+    db.commit()
+
+ 
+def tooth_delete(db: Session, tooth_id: int):
+    print(tooth_id)
+    tooth = db.query(models.Tooth) \
+                .filter(models.Tooth.tooth_id == tooth_id).first()
+
+    db.delete(tooth)
+    db.commit()

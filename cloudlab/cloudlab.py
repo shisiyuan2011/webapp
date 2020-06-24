@@ -611,6 +611,74 @@ def tension_get_one_by_name(sname: str, db: Session = Depends(get_db)):
     return tension
 
 
+# ###################################################################################
+# 
+# Tooth
+#
+# ###################################################################################
+@app.get("/tooth/list")
+async def tooth_list(request: Request):
+    return templates.TemplateResponse('tooth/list.html', {'request': request})
+
+@app.get("/tooth/new")
+async def tooth_new(request: Request):
+    return templates.TemplateResponse('tooth/new.html', {'request': request})
+
+@app.get("/tooth/modify/{tooth_id}")
+async def tooth_modify(request: Request, tooth_id : int):
+    return templates.TemplateResponse('tooth/modify.html', {'request': request, 'tooth_id': tooth_id})
+
+@app.get("/tooth/detail/{tooth_id}")
+async def tooth_detail(request: Request, tooth_id : int):
+    return templates.TemplateResponse('tooth/detail.html', {'request': request, 'tooth_id': tooth_id})
+
+@app.get("/tooth/nmodify/{sname}")
+async def tooth_nmodify(request: Request, sname : str):
+    return templates.TemplateResponse('tooth/nmodify.html', {'request': request, 'sname': sname})
+
+@app.get("/delth/{tooth_id}")
+def delete_tooth(tooth_id: int, db: Session = Depends(get_db)):
+    crud.tooth_delete(db, tooth_id)
+    return {"message": "ok"}
+
+@app.post("/newth")
+def newth(tooth: schemas.Tooth, db: Session = Depends(get_db)):
+    try:
+        crud.tooth_new(db, tooth)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.post("/updateth")
+def tooth_update(tooth: schemas.Tooth, db: Session = Depends(get_db)):
+    try:
+        crud.tooth_update(db, tooth)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.get("/vtooth", response_model=List[schemas.VTooth])
+def tooth_get_all(db: Session = Depends(get_db)):
+    tooth = crud.tooth_get_all(db)
+    return tooth
+
+@app.get("/vtooth/{tooth_id}", response_model=schemas.VTooth)
+def vtooth_get_one(tooth_id: int, db: Session = Depends(get_db)):
+    tooth = crud.vtooth_get_one(db, tooth_id)
+    return tooth
+
+@app.get("/tooth/{tooth_id}", response_model=schemas.Tooth)
+def tooth_get_one(tooth_id: int, db: Session = Depends(get_db)):
+    tooth = crud.tooth_get_one(db, tooth_id)
+    return tooth
+
+
+@app.get("/vtooth/{sname}", response_model=schemas.VTooth)
+def tooth_get_one_by_name(sname: str, db: Session = Depends(get_db)):
+    tooth = crud.tooth_get_one_by_name(db, sname)
+    return tooth
+
+
 
 # ###################################################################################
 # 
@@ -692,10 +760,19 @@ async def upload_torsion_files(myfile: List[UploadFile] = File(...)):
     return {"filenames": [file.filename for file in myfile]}
 
 @app.post("/uptension/")
-async def upload_torsion_files(myfile: List[UploadFile] = File(...)):
+async def upload_tension_files(myfile: List[UploadFile] = File(...)):
     for file in myfile:
         content = await file.read()
         with open('E:\\webapp\\images\\tension\\' + file.filename, 'wb') as f:
+            f.write(content)
+
+    return {"filenames": [file.filename for file in myfile]}
+
+@app.post("/uptooth/")
+async def upload_tooth_files(myfile: List[UploadFile] = File(...)):
+    for file in myfile:
+        content = await file.read()
+        with open('E:\\webapp\\images\\tooth\\' + file.filename, 'wb') as f:
             f.write(content)
 
     return {"filenames": [file.filename for file in myfile]}

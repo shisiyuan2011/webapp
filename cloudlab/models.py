@@ -327,3 +327,48 @@ class VTension(Base):
   pic2 = Column(String)
   pic3 = Column(String)
   mname = Column(String)
+
+class Tooth(Base):
+  __tablename__ = 'tooth'
+
+  tooth_id = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  nooftheeth = Column(Integer)
+  meanload = Column(Float)
+  ampload = Column(Float)
+  frequency = Column(Float)
+  ratioofload = Column(Float)
+  FatigueLifeNf = Column(Float)
+  fracturemode = Column(Integer)
+  modulus = Column(Integer)
+  toothwidth = Column(Integer)
+  runoutcycles = Column(Integer)
+  runouttime = Column(Integer)
+  description = Column(String)
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3   = Column(String)
+
+class VTooth(Base):
+  __tablename__ = 'v_tooth'
+
+  tooth_id = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  nooftheeth = Column(Integer)
+  meanload = Column(Float)
+  ampload = Column(Float)
+  frequency = Column(Float)
+  ratioofload = Column(Float)
+  FatigueLifeNf = Column(Float)
+  fracturemode = Column(Integer)
+  modulus = Column(Integer)
+  toothwidth = Column(Integer)
+  runoutcycles = Column(Integer)
+  runouttime = Column(Integer)
+  description = Column(String)
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3   = Column(String)
+  mname = Column(String)
