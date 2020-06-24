@@ -617,3 +617,22 @@ def tooth_delete(db: Session, tooth_id: int):
 
     db.delete(tooth)
     db.commit()
+'''
+sname
+mid
+nooftheeth
+meanload
+ampload
+frequency
+ratioofload
+FatigueLifeNf
+fracturemode
+modulus
+toothwidth
+runoutcycles
+runouttime
+description
+pic1
+pic2
+pic3
+'''

@@ -220,8 +220,8 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="tension/list">Tension Test List</a></li>
-            <li class="breadcrumb-item active">New Tension Test</li>
+            <li class="breadcrumb-item"><a href="tooth/list">GTB Test List</a></li>
+            <li class="breadcrumb-item active">New GTB Test</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -234,57 +234,71 @@
             <div class="fade-in">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> New Tension Test
+                  <i class="fa fa-align-justify"> </i> New Tooth Test
                 </div>
                 <div class="card-body">
-                  <form id = "new_tension">
+                  <form id = "new_tooth">
                     <div v-if="errors.length > 0" class="card-body">
                       <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
                     </div>
 
-                    <label for="tension.sname">Specimen Name</label>
-                    <input v-model="tension.sname" class="form-control" id="sname" type="text">
+                    <label for="tooth.sname">Gear Label</label>
+                    <input v-model="tooth.sname" class="form-control" id="sname" type="text">
 
-                    <label for="tension.mid">Material</label>
-                    <select v-model="tension.mid" class="form-control">
+                    <label for="tooth.mid">Material</label>
+                    <select v-model="tooth.mid" class="form-control">
                       <option value="0">Please Select A Material</option>
                       <option v-for="material in materials" v-bind:value="material.mid">
                         [[ material.mname ]]
                     </option>
                     </select>
 
-                    <label for="tension.diameter">Diameter(mm)</label>
-                    <input v-model="tension.diameter" class="form-control" id="diameter" type="numeric">
+                    <label for="tooth.nooftheeth">No of Teeth</label>
+                    <input v-model="tooth.nooftheeth" class="form-control" id="nooftheeth" type="numeric">
 
-                    <label for="tension.ktfactor">Kt Factor</label>
-                    <select v-model="tension.ktfactor" class="form-control" id="ktfactor" >
+                    <label for="tooth.toothwidth">Tooth Width(mm)</label>
+                    <select v-model="tooth.toothwidth" class="form-control" id="toothwidth" >
                       <option value="0">Please Select :</option>
-                      <option value="1">Smooth</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value="1">25</option>
+                      <option value="2">20</option>
                     </select>
 
-                    <label for="tension.meanload">Mean Load(KN)</label>
-                    <input v-model="tension.meanload" class="form-control" id="meanload" type="numeric" @input=calMaxLoad>
+                    <label for="tooth.modulus">Modulus(mm)</label>
+                    <select v-model="tooth.modulus" class="form-control" id="modulus" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">6</option>
+                      <option value="2">4</option>
+                      <option value="3">8</option>
+                      <option value="4">3</option>
+                    </select>
 
-                    <label for="tension.ampload">Amp Load(KN)</label>
-                    <input v-model="tension.ampload" class="form-control" id="ampload" type="numeric"  @input="calMaxLoad">
+                    <label for="tooth.meanload">Mean Load(KN)</label>
+                    <input v-model="tooth.meanload" class="form-control" id="meanload" type="numeric" @input=calMaxLoad>
 
-                    <label for="tension.maxload">Max Load(KN)</label>
-                    <p><div id="maxload">[[ tension.maxload ]]</div></p>
+                    <label for="tooth.ampload">Amp Load(KN)</label>
+                    <input v-model="tooth.ampload" class="form-control" id="ampload" type="numeric"  @input="calMaxLoad">
 
-                    <label for="tension.ratioofload">Ratio Of Load</label>
-                    <p><div id="ratioofload">[[ tension.ratioofload ]]</div></p>
+                    <label for="tooth.frequency">Frequency(Hz)</label>
+                    <input v-model="tooth.frequency" class="form-control" id="frequency" type="numeric">
 
-                    <label for="tension.FatigueLifeNf">Fatigue Life Nf</label>
-                    <input v-model="tension.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
-                    
-                    <label for="tension.FracturedLocs">FracturedLocs</label>
-                    <input v-model="tension.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
-                                        
-                    <label for="tension.runoutcycles">Run Out Cycles</label>
-                    <select v-model="tension.runoutcycles" class="form-control" id="runoutcycles" >
+                    <label for="tooth.ratioofload">Ratio Of Load</label>
+                    <!-- p><div id="ratioofload">[[ tooth.ratioofload ]]</div></p -->
+                    <input v-model="tooth.ratioofload" class="form-control" id="ratioofload" type="numeric">
+
+                    <label for="tooth.fracturemode">Fracture Mode</label>
+                    <select v-model="tooth.fracturemode" class="form-control" id="fracturemode" >
+                      <option value="0">Please Select :</option>
+                      <option value="1">Normal</option>
+                      <option value="2">Abnomal</option>
+                      <option value="3">Pefect</option>
+                      <option value="4">Breakage</option>
+                    </select>
+
+                    <label for="tooth.FatigueLifeNf">Fatigue Life Nf</label>
+                    <input v-model="tooth.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
+                                                            
+                    <label for="tooth.runoutcycles">Run Out Cycles</label>
+                    <select v-model="tooth.runoutcycles" class="form-control" id="runoutcycles" >
                       <option value="0">Please Select :</option>
                       <option value="1">1E6</option>
                       <option value="2">3E6</option>
@@ -292,8 +306,8 @@
                       <option value="4">5E7</option>
                     </select>
 
-                    <label for="tension.runouttime">Run Out Time</label>
-                    <select v-model="tension.runouttime" class="form-control" id="runouttime" >
+                    <label for="tooth.runouttime">Run Out Time</label>
+                    <select v-model="tooth.runouttime" class="form-control" id="runouttime" >
                       <option value="0">Please Select :</option>
                       <option value="1">NULL</option>
                       <option value="2">1</option>
@@ -301,24 +315,24 @@
                       <option value="4">3</option>
                     </select>
 
-                    <label for="tension.description">Description</label>
-                    <input v-model="tension.description" class="form-control" id="description" type="textarea">
+                    <label for="tooth.description">Description</label>
+                    <input v-model="tooth.description" class="form-control" id="description" type="textarea">
 
-                    <label for="tension.pic1">Picture. Fractured Surfaces On Left</label><p>
+                    <label for="tooth.pic1">Picture. Fractured Surfaces On Left</label><p>
                     <div id="upload_pic1">Upload</div>
                     <div id="status_1"></div></p>
                      
-                    <label for="tension.pic2">Picture. Fractured Surfaces On Right</label><p>
+                    <label for="tooth.pic2">Picture. Fractured Surfaces On Right</label><p>
                     <div id="upload_pic2">Upload</div>
                     <div id="status_2"></div></p>
 
-                    <label for="tension.pic3">Picture. Axis Direction</label><p>
+                    <label for="tooth.pic3">Picture. Axis Direction</label><p>
                     <div id="upload_pic3">Upload</div>
                     <div id="status_3"></div></p>
 
                     <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkTension">Create</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetTension">Reset</button>
+                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkTooth">Create</button>
+                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetTooth">Reset</button>
                     </div>
                   </form>
                 </div>
@@ -340,29 +354,29 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var newtns = new Vue({
-        el: "#new_tension",
+      var newth = new Vue({
+        el: "#new_tooth",
         data: {
           errors: [],
-          tension: {
-            tension_id    : 0,
+          tooth: {
+            tooth_id      : 0,
             sname         : "",
             mid           : 0,
-            diameter      : 0,
+            nooftheeth    : 0,
             meanload      : 0,
-            maxload       : 0,
-            FatigueLifeNf : 0,
-            FracturedLocs : 0,
-            ktfactor      : 0,
             ampload       : 0,
+            frequency     : 0,
             ratioofload   : 0,
+            FatigueLifeNf : 0,
+            fracturemode  : 0,
+            modulus       : 0,
+            toothwidth    : 0,
             runoutcycles  : 0,
             runouttime    : 0,
             description   : "",
             pic1          : "",
             pic2          : "",
-            pic3          : ""
-          },
+            pic3          : ""          },
           dsp: {
             maxload : 0,
             rol: 0
@@ -419,33 +433,35 @@
             return result;
           },
           completedForm: function() {
-            result = this.mustBeString(this.tension.sname, "Specimen Name");
-            result = result & this.grateThanZero(this.tension.mid,  "Material");
-            result = result & this.grateThanZero(this.tension.diameter,      "Diameter");
-            result = result & this.mustBeNumeric(this.tension.meanload,          "Mean Load");
-            // result = result & this.mustBeNumeric(this.tension.maxload,    "Max Load");
-            result = result & this.mustBeNumeric(this.tension.FatigueLifeNf, "Fatigue Life Nf");
-            result = result & this.mustBeNumeric(this.tension.FracturedLocs, "Fractured Locs");
-            // result = result & this.mustBeNumeric(this.tension.lp,            "lp");
-            // result = result & this.mustBeNumeric(this.tension.stress,        "Stress");
-            result = result & this.grateThanZero(this.tension.runoutcycles,  "Run Out Cycles");
-            result = result & this.grateThanZero(this.tension.runouttime,    "Run Out Time");
-            // result = result & this.mustBeNumeric(this.tension.description,   "Description");
-            // result = result & this.mustBeNumeric(this.tension.pic1,          "Pic1");
-            // result = result & this.mustBeNumeric(this.tension.pic2,          "Pic2");
-            // result = result & this.mustBeNumeric(this.tension.pic3,          "Pic3");
-            result = result & this.grateThanZero(this.tension.ktfactor,     "Kf Factor");
-            result = result & this.mustBeNumeric(this.tension.ampload, "Amp Load");
-            // result = result & this.mustBeNumeric(this.tension.ratioofload, "Ratio Of Load");
+            result = this.mustBeString(this.tooth.sname, "Specimen Name");
+            result = result & this.grateThanZero(this.tooth.mid,  "Material");
+            result = result & this.grateThanZero(this.tooth.nooftheeth,     "No. Of Theeth");
+            result = result & this.mustBeNumeric(this.tooth.meanload,          "Mean Load");
+            result = result & this.mustBeNumeric(this.tooth.ampload,    "Amp Load");
+            result = result & this.grateThanZero(this.tooth.frequency,     "Frequency");
+            // result = result & this.mustBeNumeric(this.tooth.maxload,    "Max Load");
+            result = result & this.grateThanZero(this.tooth.fracturemode,     "Fracture Mode");
+            result = result & this.grateThanZero(this.tooth.toothwidth,     "Tooth Width");
+            result = result & this.grateThanZero(this.tooth.modulus,     "Modulus");
+            result = result & this.mustBeNumeric(this.tooth.FatigueLifeNf, "Fatigue Life Nf");
+            // result = result & this.mustBeNumeric(this.tooth.lp,            "lp");
+            // result = result & this.mustBeNumeric(this.tooth.stress,        "Stress");
+            result = result & this.grateThanZero(this.tooth.runoutcycles,  "Run Out Cycles");
+            result = result & this.grateThanZero(this.tooth.runouttime,    "Run Out Time");
+            // result = result & this.mustBeNumeric(this.tooth.description,   "Description");
+            // result = result & this.mustBeNumeric(this.tooth.pic1,          "Pic1");
+            // result = result & this.mustBeNumeric(this.tooth.pic2,          "Pic2");
+            // result = result & this.mustBeNumeric(this.tooth.pic3,          "Pic3");
+            // result = result & this.mustBeNumeric(this.tooth.ratioofload, "Ratio Of Load");
 
             return result;
           },
-          checkTension: function (e) {            
+          checkTooth: function (e) {            
             this.errors = [];
             if (this.completedForm() == true) {
-              console.log(this.tension);
+              console.log(this.tooth);
               axios
-              .post('/newtns', this.tension)
+              .post('/newth', this.tooth)
               .then(res => {
                 console.log(res.data);
                 if (res.data.message == "ok") {
@@ -460,35 +476,36 @@
             }
             e.preventDefault();
           },
-          resetTension: function(e) {
+          resetTooth: function(e) {
             this.errors = [];
-            this.tension.tension_id    = 0;
-            this.tension.sname         = "";
-            this.tension.mid           = 0;
-            this.tension.diameter      = 0;
-            this.tension.meanload      = 0;
-            this.tension.maxload       = 0;
-            this.tension.FatigueLifeNf = 0;
-            this.tension.FracturedLocs = 0;
-            this.tension.ktfactor      = 0;
-            this.tension.ampload       = 0;
-            this.tension.ratioofload   = 0;
-            this.tension.runoutcycles  = 0;
-            this.tension.runouttime    = 0;
-            this.tension.description   = "";
-            this.tension.pic1          = "";
-            this.tension.pic2          = "";
-            this.tension.pic3          = "";
+            this.tooth.tooth_id      = 0;
+            this.tooth.sname         = "";
+            this.tooth.mid           = 0;
+            this.tooth.nooftheeth    = 0;
+            this.tooth.meanload      = 0;
+            this.tooth.ampload       = 0;
+            this.tooth.frequency     = 0;
+            this.tooth.ratioofload   = 0;
+            this.tooth.FatigueLifeNf = 0;
+            this.tooth.fracturemode  = 0;
+            this.tooth.modulus       = 0;
+            this.tooth.toothwidth    = 0;
+            this.tooth.runoutcycles  = 0;
+            this.tooth.runouttime    = 0;
+            this.tooth.description   = "";
+            this.tooth.pic1          = "";
+            this.tooth.pic2          = "";
+            this.tooth.pic3          = "";
             e.preventDefault();
           },
           calMaxLoad: function() {
-            this.tension.maxload = parseFloat(this.tension.meanload) + parseFloat(this.tension.ampload);
-            this.dsp.maxload = Math.round((this.tension.maxload + Number.EPSILON) * 1000) / 1000;
-            var minload = parseFloat(this.tension.meanload) - parseFloat(this.tension.ampload);
-            if (this.tension.maxload != 0) {
-              this.tension.ratioofload = minload / this.tension.maxload;
-              this.dsp.rol = Math.round((this.tension.ratioofload + Number.EPSILON) * 1000) / 1000;;
-            }
+            /*this.tooth.maxload = parseFloat(this.tooth.meanload) + parseFloat(this.tooth.ampload);
+            this.dsp.maxload = Math.round((this.tooth.maxload + Number.EPSILON) * 1000) / 1000;
+            var minload = parseFloat(this.tooth.meanload) - parseFloat(this.tooth.ampload);
+            if (this.tooth.maxload != 0) {
+              this.tooth.ratioofload = minload / this.tooth.maxload;
+              this.dsp.rol = Math.round((this.tooth.ratioofload + Number.EPSILON) * 1000) / 1000;;
+            }*/
           }
         },
         mounted() {
@@ -509,55 +526,55 @@
       $(document).ready(function()
       {
           var settings_1 = {
-              url: "/uptension",
+              url: "/uptooth",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                newtns.tension.pic1 = files[0];
+                newth.tooth.pic1 = files[0];
                 $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {       
-                newtns.tension.pic1 = "";
+                newth.tooth.pic1 = "";
                 $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }
 
           var settings_2 = {
-              url: "/uptension",
+              url: "/uptooth",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                newtns.tension.pic2 = files[0];
+                newth.tooth.pic2 = files[0];
                 $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {       
-                newtns.tension.pic2 = "";
+                newth.tooth.pic2 = "";
                 $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }
 
           var settings_3 = {
-              url: "/uptension",
+              url: "/uptooth",
               method: "POST",
               allowedTypes:"jpg,png,gif",
               fileName: "myfile",
               multiple: false,
               onSuccess:function(files,data,xhr)
               {
-                newtns.tension.pic3 = files[0];
-                $("#status_3").html("<font color='green'>Upload " + newtns.tension.pic3 + " is success</font>");
+                newth.tooth.pic3 = files[0];
+                $("#status_3").html("<font color='green'>Upload " + newth.tooth.pic3 + " is success</font>");
               },
               onError: function(files,status,errMsg)
               {
-                newtns.tension.pic3 = "";
+                newth.tooth.pic3 = "";
                 $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
               }
           }

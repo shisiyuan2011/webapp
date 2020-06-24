@@ -66,14 +66,14 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tension/list">
+          <a class="c-sidebar-nav-link" href="tooth/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Torsion Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tension/list">
+          <a class="c-sidebar-nav-link" href="tooth/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
@@ -221,7 +221,7 @@
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
             <li class="breadcrumb-item active">GTB Test List</li>
-            <li class="breadcrumb-item"><a href="tension/new">New GTB Test</a></li>
+            <li class="breadcrumb-item"><a href="tooth/new">New GTB Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -239,7 +239,7 @@
                   <i class="fa fa-align-justify"></i> GTB Test List
                 </div>
                 <div class="card-body">
-                  <table id="tension_list" name="tension_list" class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <table id="tooth_list" name="tooth_list" class="table table-responsive-sm table-bordered table-striped table-sm">
                     <thead>
                       <tr>
                         <th>Detail</th>
@@ -266,33 +266,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="tns in tension">
-                        <td><span class="badge badge-success"><a v-bind:href="'/tension/detail/' + tns.tension_id">[[ tns.tension_id ]]</a></span></td>
-                        <td>[[ tns.sname ]]</td>
-                        <td>[[ tns.mname ]]</td>
-                        <td>[[ tns.max_stress ]]</td>
-                        <td>[[ tns.min_stress ]]</td>
-                        <!-- td>[[ tns.diameter ]]</td>
-                        <td>[[ tns.moment ]]</td -->
-                        <td>[[ tns.FatigueLifeNf ]]</td>
-                        <!-- td>[[ tns.FracturedLocs ]]</td>
-                        <td>[[ tns.speed ]]</td>
-                        <td>[[ tns.lp ]]</td>
-                        <td>[[ tns.stress ]]</td>
-                        <td>[[ tns.runoutcycles ]]</td>
-                        <td>[[ tns.runouttime ]]</td>
-                        <td>[[ tns.description ]]</td>
-                        <td><img v-bind:src="[[ tns.pic1 ]]"></td>
-                        <td><img v-bind:src="[[ tns.pic2 ]]"></td>
-                        <td><img v-bind:src="[[ tns.pic3 ]]"></td -->
+                      <tr v-for="th in tooth">
+                        <td><span class="badge badge-success"><a v-bind:href="'/tooth/detail/' + th.tooth_id">[[ th.tooth_id ]]</a></span></td>
+                        <td>[[ th.sname ]]</td>
+                        <td>[[ th.mname ]]</td>
+                        <td></td>
+                        <td></td>
+                        <!-- td>[[ th.diameter ]]</td>
+                        <td>[[ th.moment ]]</td -->
+                        <td>[[ th.FatigueLifeNf ]]</td>
+                        <!-- td>[[ th.FracturedLocs ]]</td>
+                        <td>[[ th.speed ]]</td>
+                        <td>[[ th.lp ]]</td>
+                        <td>[[ th.stress ]]</td>
+                        <td>[[ th.runoutcycles ]]</td>
+                        <td>[[ th.runouttime ]]</td>
+                        <td>[[ th.description ]]</td>
+                        <td><img v-bind:src="[[ th.pic1 ]]"></td>
+                        <td><img v-bind:src="[[ th.pic2 ]]"></td>
+                        <td><img v-bind:src="[[ th.pic3 ]]"></td -->
                         <td>
-                          <span class="badge badge-warning"><a href="/tension/list">R</a></span>
+                          <span class="badge badge-warning"><a href="/tooth/list">R</a></span>
                         </td>
                         <td>
-                          <span class="badge badge-warning"><a v-bind:href="'/tension/modify/' + tns.tension_id">M</a></span>
+                          <span class="badge badge-warning"><a v-bind:href="'/tooth/modify/' + th.tooth_id">M</a></span>
                         </td>
                         <td>
-                          <button class="badge badge-secondary" @click="confirmDelete(tns.tension_id)">D</button>
+                          <button class="badge badge-secondary" @click="confirmDelete(th.tooth_id)">D</button>
                         </td>
                       </tr>
                     </tbody>
@@ -326,20 +326,20 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var vue_tns = new Vue({
-        el: "#tension_list",
+      var vue_th = new Vue({
+        el: "#tooth_list",
         data: {
-          tension: []
+          tooth: []
         },
         methods: {
-          confirmDelete: function(tension_id) {
+          confirmDelete: function(tooth_id) {
             if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
               axios
-              .get('/deltns/' + tension_id)
+              .get('/delth/' + tooth_id)
               .then(res => {
                 // console.log(res.data);
                 if (res.data.message == "ok") {
-                  alert("the tension test (id = " + tension_id + ") was deteleted");
+                  alert("The GTB test (id = " + tooth_id + ") was deteleted");
                   window.location.reload(true);
                 } else {
                   aletrs("An Error Occured!");
@@ -354,18 +354,20 @@
         mounted() {
           // verify_token();
           axios
-          .get('/vtension')
+          .get('/vtooth')
           .then(res => {
-            this.tension = res.data;
-            for (var i = 0; i < this.tension.length; ++i) {
-              if (this.tension[i].diameter != 0) {
-                var S = 3.14159265358979 * 0.25 * this.tension[i].diameter * this.tension[i].diameter;
-                var v = this.tension[i].maxload / S;
-                this.tension[i].max_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
-                v = (this.tension[i].meanload - this.tension[i].ampload) / S;
-                this.tension[i].min_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+            this.tooth = res.data;
+            /*
+            for (var i = 0; i < this.tooth.length; ++i) {
+              if (this.tooth[i].diameter != 0) {
+                var S = 3.14159265358979 * 0.25 * this.tooth[i].diameter * this.tooth[i].diameter;
+                var v = this.tooth[i].maxload / S;
+                this.tooth[i].max_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+                v = (this.tooth[i].meanload - this.tooth[i].ampload) / S;
+                this.tooth[i].min_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
               }
             }
+            */
           })
           .catch(err => {
             console.log(err);

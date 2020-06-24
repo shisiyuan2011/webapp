@@ -73,7 +73,7 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tension/list">
+          <a class="c-sidebar-nav-link" href="tooth/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
@@ -220,9 +220,9 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="tension/list">Tension Test List</a></li>
-            <li class="breadcrumb-item"><a href="tension/new">New Tension Test</a></li>
-            <li class="breadcrumb-item active">Tension Test Details</li>
+            <li class="breadcrumb-item"><a href="tooth/list">GTB Test List</a></li>
+            <li class="breadcrumb-item"><a href="tooth/new">New GTB Test</a></li>
+            <li class="breadcrumb-item active">GTB Test Details</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -234,40 +234,41 @@
           <div class="container-fluid">
             <div class="fade-in">
 
-              <div class="card" id="tension_detail">
+              <div class="card" id="tooth_detail">
                 <div class="card-body">
                   <div class="card-header">
-                    <i class="fa fa-align-justify"> </i>[[ tns.sname ]] 
-                    <span class="badge badge-success"><a class="page-link" href="tension/detail/{{ tension_id }}">Report</a></span>
-                    <span class="badge badge-warning"><a class="page-link" href="tension/modify/{{ tension_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="tension/detail/{{ tension_id }}">Delete</a></span>
+                    <i class="fa fa-align-justify"> </i>[[ th.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="tooth/modify/{{ tooth_id }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Delete</a></span>
                   </div>
                   <table class="table table-responsive-sm table-bordered table-striped table-sm">
                     <tbody> 
-                      <tr><td><i class="fa fa-align-justify"> ID </i></td> <td>[[ tns.tension_id ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Specimen Name </i></td> <td>[[ tns.sname ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Material </i></td> <td>[[ tns.mid ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Diameter(mm) </i></td> <td>[[ tns.diameter ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Kt Factor </i></td> <td>[[ tns.ktfactor ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Mean Load(KN) </i></td> <td>[[ tns.meanload ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Max Load(KN) </i></td> <td>[[ tns.maxload ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Amp Load(KN) </i></td> <td>[[ tns.ampload ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Ratio Of Load </i></td> <td>[[ tns.ratioofload ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Fatigue Life Nf </i></td> <td>[[ tns.FatigueLifeNf ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Fractured Locs </i></td> <td>[[ tns.FracturedLocs ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Run Out Cycles </i></td> <td>[[ tns.runoutcycles ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Run Out Time </i></td> <td>[[ tns.runouttime ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Description </i></td> <td>[[ tns.description ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Left </i></td><td><img v-bind:src="[[ tns.pic1 ]]"></td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Right </i></td> <td><img v-bind:src="[[ tns.pic2 ]]"></td></tr>
-                      <tr><td><i class="fa fa-align-justify"> Axis Direction </i></td> <td><img v-bind:src="[[ tns.pic3 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> ID </i></td> <td>[[ th.tooth_id ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Gear Label </i></td> <td>[[ th.sname ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Material </i></td> <td>[[ th.mid ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> No of Teeth </i></td> <td>[[ th.nooftheeth ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Tooth Width(mm) </i></td> <td>[[ dsp.tw ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Modulus(mm) </i></td> <td>[[ dsp.md ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fracture Mode </i></td> <td>[[ dsp.fm ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Mean Load(KN) </i></td> <td>[[ th.meanload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Frequency(Hz) </i></td> <td>[[ th.frequency ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Amp Load(KN) </i></td> <td>[[ th.ampload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Ratio Of Load </i></td> <td>[[ th.ratioofload ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fatigue Life Nf </i></td> <td>[[ th.FatigueLifeNf ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Cycles </i></td> <td>[[ dsp.roc ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Run Out Time </i></td> <td>[[ dsp.rot ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Description </i></td> <td>[[ th.description ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Left </i></td><td><img v-bind:src="[[ th.pic1 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Right </i></td> <td><img v-bind:src="[[ th.pic2 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Axis Direction </i></td> <td><img v-bind:src="[[ th.pic3 ]]"></td></tr>
                     </tbody>
                   </table>
                   <div class="card-footer">
-                    <i class="fa fa-align-justify"> </i>[[ tns.sname ]] 
-                    <span class="badge badge-success"><a class="page-link" href="tension/detail/{{ tension_id }}">Report</a></span>
-                    <span class="badge badge-warning"><a class="page-link" href="tension/modify/{{ tension_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="tension/detail/{{ tension_id }}">Delete</a></span>
+                    <i class="fa fa-align-justify"> </i>[[ th.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="tooth/modify/{{ tooth_id }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Delete</a></span>
                   </div>
                 </div>
               </div>
@@ -288,55 +289,54 @@
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var tension = new Vue({
-        el: "#tension_detail",
+      var tooth = new Vue({
+        el: "#tooth_detail",
         data: {
-          tns: {
-            tension_id    : 0,
+          th: {
+            tooth_id      : 0,
             sname         : "",
             mid           : 0,
-            diameter      : 0,
+            nooftheeth    : 0,
             meanload      : 0,
-            maxload       : 0,
-            FatigueLifeNf : 0,
-            FracturedLocs : 0,
-            ktfactor      : "",
             ampload       : 0,
+            frequency     : 0,
             ratioofload   : 0,
-            runoutcycles  : "",
-            runouttime    : "",
+            FatigueLifeNf : 0,
+            fracturemode  : 0,
+            modulus       : 0,
+            toothwidth    : 0,
+            runoutcycles  : 0,
+            runouttime    : 0,
             description   : "",
             pic1          : "",
             pic2          : "",
             pic3          : ""
+          },
+          dsp: {
+            roc: "",
+            rot: "",
+            fm: "",
+            md: "",
+            tw: 0
           }
         },
         mounted() {
           // verify_token();
           axios
-          .get('/vtension/{{ tension_id }}')
+          .get('/vtooth/{{ tooth_id }}')
           .then(res => {
             var roc = ['1E6', '3E6', '1E7', '5E7'];
             var rot = ['NULL', '1', '2', '3'];
-            var ktf = ['Smooth', '2', '3', '4'];
+            var tw = [25, 20];
+            var fm = ['Normal', 'Anomal', 'Pefect', 'Breakage'];
+            var md = ['6 ', '4', '8', '3'];
 
-            this.tns.tension_id    = res.data.tension_id   ;
-            this.tns.sname         = res.data.sname        ;
-            this.tns.mid           = res.data.mid          ;
-            this.tns.diameter      = res.data.diameter     ;
-            this.tns.meanload      = res.data.meanload     ;
-            this.tns.maxload       = res.data.maxload      ;
-            this.tns.FatigueLifeNf = res.data.FatigueLifeNf;
-            this.tns.FracturedLocs = res.data.FracturedLocs;
-            this.tns.ampload       = res.data.ampload      ;
-            this.tns.ratioofload   = res.data.ratioofload  ;
-            this.tns.description   = res.data.description  ;
-            this.tns.pic1          = res.data.pic1         ;
-            this.tns.pic2          = res.data.pic2         ;
-            this.tns.pic3          = res.data.pic3         ;
-            this.tns.ktfactor      = ktf[res.data.ktfactor     - 1];
-            this.tns.runoutcycles  = roc[res.data.runoutcycles - 1];
-            this.tns.runouttime    = rot[res.data.runouttime   - 1];
+            this.th = res.data;
+            this.dsp.roc = roc[this.th.runoutcycles - 1];
+            this.dsp.rot = rot[this.th.runouttime - 1];
+            this.dsp.tw = tw[this.th.toothwidth - 1];
+            this.dsp.fm = fm[this.th.fracturemode - 1];
+            this.dsp.md = md[this.th.modulus - 1];
           })
           .catch(err => {
             console.log(err);
