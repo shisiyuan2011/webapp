@@ -270,8 +270,8 @@
                         <td><span class="badge badge-success"><a v-bind:href="'/tension/detail/' + tns.tension_id">[[ tns.tension_id ]]</a></span></td>
                         <td>[[ tns.sname ]]</td>
                         <td>[[ tns.mname ]]</td>
-                        <td></td>
-                        <td></td>
+                        <td>[[ tns.max_stress ]]</td>
+                        <td>[[ tns.min_stress ]]</td>
                         <!-- td>[[ tns.diameter ]]</td>
                         <td>[[ tns.moment ]]</td -->
                         <td>[[ tns.FatigueLifeNf ]]</td>
@@ -357,6 +357,15 @@
           .get('/vtension')
           .then(res => {
             this.tension = res.data;
+            for (var i = 0; i < this.tension.length; ++i) {
+              if (this.tension[i].diameter != 0) {
+                var S = 3.14159265358979 * 0.25 * this.tension[i].diameter * this.tension[i].diameter;
+                var v = this.tension[i].maxload / S;
+                this.tension[i].max_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+                v = (this.tension[i].meanload - this.tension[i].ampload) / S;
+                this.tension[i].min_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
+              }
+            }
           })
           .catch(err => {
             console.log(err);

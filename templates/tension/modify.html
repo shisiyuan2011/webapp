@@ -224,7 +224,7 @@
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
             <li class="breadcrumb-item"><a href="tension/list">Tension Test List</a></li>
-            <li class="breadcrumb-item active"><a href="tension/new">Tension RB Test</a></li>
+            <li class="breadcrumb-item active"><a href="tension/new">Tension Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -275,10 +275,10 @@
                     <input v-model="tension.ampload" class="form-control" id="ampload" type="numeric"  @input="calMaxLoad">
 
                     <label for="tension.maxload">Max Load(KN)</label>
-                    <p><div id="maxload">[[ tension.maxload ]]</div></p>
+                    <p><div id="maxload">[[ dsp.maxload ]]</div></p>
 
                     <label for="tension.ratioofload">Ratio Of Load</label>
-                    <p><div id="ratioofload">[[ tension.ratioofload ]]</div></p>
+                    <p><div id="ratioofload">[[ dsp.rol ]]</div></p>
 
                     <label for="tension.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="tension.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
@@ -365,6 +365,10 @@
             pic1          : "",
             pic2          : "",
             pic3          : ""
+          },
+          dsp: {
+            maxload : 0,
+            rol: 0
           },
           materials: []
         },
@@ -482,9 +486,12 @@
           },
           calMaxLoad: function() {
             this.tension.maxload = parseFloat(this.tension.meanload) + parseFloat(this.tension.ampload);
+            this.dsp.maxload = Math.round((this.tension.maxload + Number.EPSILON) * 1000) / 1000;
             var minload = parseFloat(this.tension.meanload) - parseFloat(this.tension.ampload);
-            if (this.tension.maxload != 0)
+            if (this.tension.maxload != 0) {
               this.tension.ratioofload = minload / this.tension.maxload;
+              this.dsp.rol = Math.round((this.tension.ratioofload + Number.EPSILON) * 1000) / 1000;;
+            }
           }
         },
         mounted() {
@@ -503,6 +510,8 @@
           .then(res => {
             this.tension = res.data;
             // console.log(this.exp);
+            this.dsp.maxload = Math.round((this.tension.maxload + Number.EPSILON) * 1000) / 1000;
+            this.dsp.rol = Math.round((this.tension.ratioofload + Number.EPSILON) * 1000) / 1000;;
           })
           .catch(err => {
             console.log(err);

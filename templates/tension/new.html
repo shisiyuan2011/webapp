@@ -363,6 +363,10 @@
             pic2          : "",
             pic3          : ""
           },
+          dsp: {
+            maxload : 0,
+            rol: 0
+          },
           materials: []
         },
         methods: {
@@ -479,9 +483,12 @@
           },
           calMaxLoad: function() {
             this.tension.maxload = parseFloat(this.tension.meanload) + parseFloat(this.tension.ampload);
+            this.dsp.maxload = Math.round((this.tension.maxload + Number.EPSILON) * 1000) / 1000;
             var minload = parseFloat(this.tension.meanload) - parseFloat(this.tension.ampload);
-            if (this.tension.maxload != 0)
+            if (this.tension.maxload != 0) {
               this.tension.ratioofload = minload / this.tension.maxload;
+              this.dsp.rol = Math.round((this.tension.ratioofload + Number.EPSILON) * 1000) / 1000;;
+            }
           }
         },
         mounted() {
