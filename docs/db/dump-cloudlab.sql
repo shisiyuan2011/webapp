@@ -109,8 +109,49 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (1,'GCr15','High-carbon chromium bearing steel','GB/T 18254-2016','高碳铬轴承钢'),(2,'QT800','Nodular Cast Iron','','球墨铸铁'),(8,'NewMaterial','NewMaterial','NewMaterial','NewMaterial');
+INSERT INTO `material` VALUES (1,'GCr15','High-carbon chromium bearing steel','GB/T 18254-2016','高碳铬轴承钢'),(2,'QT800','Nodular Cast Iron','','球墨铸铁'),(8,'18CrNiMo7-6','Gear steel','ISO 6336','???????');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mb`
+--
+
+DROP TABLE IF EXISTS `mb`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mb` (
+  `mbid` int unsigned NOT NULL AUTO_INCREMENT,
+  `sname` varchar(255) NOT NULL DEFAULT '',
+  `mid` int unsigned NOT NULL,
+  `loadtype` int NOT NULL DEFAULT '0',
+  `diameter` double NOT NULL DEFAULT '0',
+  `slen` double NOT NULL DEFAULT '0',
+  `load_speed` double NOT NULL DEFAULT '0',
+  `strain_rate` double NOT NULL DEFAULT '0',
+  `uts` double NOT NULL DEFAULT '0',
+  `mb_yield` double NOT NULL DEFAULT '0',
+  `area_red` double NOT NULL DEFAULT '0',
+  `elongation` double NOT NULL DEFAULT '0',
+  `strength_co_k` double NOT NULL DEFAULT '0',
+  `harden_n` double NOT NULL DEFAULT '0',
+  `modul` double NOT NULL DEFAULT '0',
+  `pic1` varchar(512) DEFAULT '',
+  `pic2` varchar(512) DEFAULT '',
+  `pic3` varchar(512) DEFAULT '',
+  PRIMARY KEY (`mbid`),
+  KEY `fk_mb_material` (`mid`),
+  CONSTRAINT `fk_mb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Mechanics Behavior Test';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mb`
+--
+
+LOCK TABLES `mb` WRITE;
+/*!40000 ALTER TABLE `mb` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mb` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -232,7 +273,7 @@ CREATE TABLE `rotating` (
   PRIMARY KEY (`rtid`),
   KEY `fk_rotating_material` (`mid`),
   CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,6 +282,7 @@ CREATE TABLE `rotating` (
 
 LOCK TABLES `rotating` WRITE;
 /*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
+INSERT INTO `rotating` VALUES (14,'RB-1',8,6,2,400000,0,3000,63.61725116250001,94.31404045852229,1,1,'','/images/rotating/','/images/rotating/','/images/rotating/');
 /*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,7 +313,7 @@ CREATE TABLE `specimen` (
 
 LOCK TABLES `specimen` WRITE;
 /*!40000 ALTER TABLE `specimen` DISABLE KEYS */;
-INSERT INTO `specimen` VALUES (1,'S1-GCr15',1,3,20,''),(2,'S2-GCr15',1,3,20,''),(3,'S3-GCr15',1,3,20,''),(4,'S4-GCr15',1,3,20,''),(5,'S5-GCr15',1,3,20,''),(6,'S6-GCr15',1,3,20,''),(7,'S7-GCr15',1,3,20,''),(8,'S2-QT800',2,3,20,''),(9,'S3-QT800',2,3,20,''),(10,'S5-QT800',2,3,20,''),(11,'S6-QT800',2,3,20,''),(12,'S7-QT800',2,3,20,''),(13,'S8-QT800',2,3,20,'What is this? 中文'),(26,'q',1,222,22,'ds');
+INSERT INTO `specimen` VALUES (1,'S1-GCr15',1,3,20,''),(2,'S2-GCr15',1,3,20,''),(3,'S3-GCr15',1,3,20,''),(4,'S4-GCr15',1,3,20,''),(5,'S5-GCr15',1,3,20,''),(6,'S6-GCr15',1,3,20,''),(7,'S7-GCr15',1,3,20,''),(8,'S2-QT800',2,3,20,''),(9,'S3-QT800',2,3,20,''),(10,'S5-QT800',2,3,20,''),(11,'S6-QT800',2,3,20,''),(12,'S7-QT800',2,3,20,''),(13,'S8-QT800',2,3,20,'What is this? 中文');
 /*!40000 ALTER TABLE `specimen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +334,7 @@ CREATE TABLE `tension` (
   `FatigueLifeNf` double NOT NULL DEFAULT '0',
   `FracturedLocs` double NOT NULL DEFAULT '0',
   `ktfactor` int NOT NULL DEFAULT '0',
-  `ampload` int NOT NULL DEFAULT '0',
+  `ampload` double NOT NULL DEFAULT '0',
   `ratioofload` double NOT NULL DEFAULT '0',
   `runoutcycles` int NOT NULL DEFAULT '0',
   `runouttime` int NOT NULL DEFAULT '0',
@@ -303,7 +345,7 @@ CREATE TABLE `tension` (
   PRIMARY KEY (`tension_id`),
   KEY `torison_fk` (`mid`) USING BTREE,
   CONSTRAINT `fk_pp_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,6 +354,7 @@ CREATE TABLE `tension` (
 
 LOCK TABLES `tension` WRITE;
 /*!40000 ALTER TABLE `tension` DISABLE KEYS */;
+INSERT INTO `tension` VALUES (2,'Tension_1',2,6,17.5,25,30000,0,2,7.5,0.4,1,1,'','/images/tension/无标题1.png','/images/tension/','/images/tension/'),(3,'TT-01',8,6,20,30,100000,0,2,10,0.3333333333333333,1,1,'','/images/tension/','/images/tension/','/images/tension/');
 /*!40000 ALTER TABLE `tension` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +371,7 @@ CREATE TABLE `tooth` (
   `mid` int unsigned NOT NULL DEFAULT '0',
   `nooftheeth` int NOT NULL DEFAULT '0',
   `meanload` double NOT NULL DEFAULT '0',
-  `ampload` int NOT NULL DEFAULT '0',
+  `ampload` double NOT NULL DEFAULT '0',
   `frequency` double NOT NULL DEFAULT '0',
   `ratioofload` double NOT NULL DEFAULT '0',
   `FatigueLifeNf` double NOT NULL DEFAULT '0',
@@ -344,7 +387,7 @@ CREATE TABLE `tooth` (
   PRIMARY KEY (`tooth_id`),
   KEY `torison_fk` (`mid`) USING BTREE,
   CONSTRAINT `fk_tb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GEAR TOOTH TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='GEAR TOOTH TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -353,6 +396,7 @@ CREATE TABLE `tooth` (
 
 LOCK TABLES `tooth` WRITE;
 /*!40000 ALTER TABLE `tooth` DISABLE KEYS */;
+INSERT INTO `tooth` VALUES (2,'G1',8,2,20,10,80,0,300000,1,1,1,2,1,'','/images/tooth/','/images/tooth/','/images/tooth/'),(3,'G1',8,4,30,15,90,0,500000,1,1,1,1,1,'','/images/tooth/','/images/tooth/','/images/tooth/');
 /*!40000 ALTER TABLE `tooth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,7 +429,7 @@ CREATE TABLE `torsion` (
   PRIMARY KEY (`torsion_id`),
   KEY `fk_torison_material` (`mid`),
   CONSTRAINT `fk_torison_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -394,7 +438,7 @@ CREATE TABLE `torsion` (
 
 LOCK TABLES `torsion` WRITE;
 /*!40000 ALTER TABLE `torsion` DISABLE KEYS */;
-INSERT INTO `torsion` VALUES (8,'TF_01',1,6,40,45,-35,3,-3,1.061032953945969,0,0,0,0,'0','/images/torsion/无标题1.png','/images/torsion/','/images/torsion/'),(9,'TF-02',2,6,40,40,-40,-4,4,0.943140403507528,33300,0,0,0,'0','/images/torsion/无标题.png','/images/torsion/','/images/torsion/');
+INSERT INTO `torsion` VALUES (11,'tf_02',2,6,20,45,-45,2,2,1061.032953945969,30405,0,1,2,'0','/images/torsion/','/images/torsion/','/images/torsion/');
 /*!40000 ALTER TABLE `torsion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -476,6 +520,36 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `length`,
  1 AS `mname`,
  1 AS `memo`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_mb`
+--
+
+DROP TABLE IF EXISTS `v_mb`;
+/*!50001 DROP VIEW IF EXISTS `v_mb`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_mb` AS SELECT 
+ 1 AS `mbid`,
+ 1 AS `sname`,
+ 1 AS `mid`,
+ 1 AS `loadtype`,
+ 1 AS `diameter`,
+ 1 AS `slen`,
+ 1 AS `load_speed`,
+ 1 AS `strain_rate`,
+ 1 AS `uts`,
+ 1 AS `mb_yield`,
+ 1 AS `area_red`,
+ 1 AS `elongation`,
+ 1 AS `strength_co_k`,
+ 1 AS `harden_n`,
+ 1 AS `modul`,
+ 1 AS `mname`,
+ 1 AS `pic1`,
+ 1 AS `pic2`,
+ 1 AS `pic3`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -590,6 +664,65 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `mname`,
  1 AS `sid`,
  1 AS `mid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_tension`
+--
+
+DROP TABLE IF EXISTS `v_tension`;
+/*!50001 DROP VIEW IF EXISTS `v_tension`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_tension` AS SELECT 
+ 1 AS `tension_id`,
+ 1 AS `sname`,
+ 1 AS `mid`,
+ 1 AS `diameter`,
+ 1 AS `meanload`,
+ 1 AS `maxload`,
+ 1 AS `FatigueLifeNf`,
+ 1 AS `FracturedLocs`,
+ 1 AS `ktfactor`,
+ 1 AS `ampload`,
+ 1 AS `ratioofload`,
+ 1 AS `runoutcycles`,
+ 1 AS `runouttime`,
+ 1 AS `description`,
+ 1 AS `pic1`,
+ 1 AS `pic2`,
+ 1 AS `pic3`,
+ 1 AS `mname`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_tooth`
+--
+
+DROP TABLE IF EXISTS `v_tooth`;
+/*!50001 DROP VIEW IF EXISTS `v_tooth`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_tooth` AS SELECT 
+ 1 AS `tooth_id`,
+ 1 AS `sname`,
+ 1 AS `mid`,
+ 1 AS `nooftheeth`,
+ 1 AS `meanload`,
+ 1 AS `ampload`,
+ 1 AS `frequency`,
+ 1 AS `ratioofload`,
+ 1 AS `FatigueLifeNf`,
+ 1 AS `fracturemode`,
+ 1 AS `modulus`,
+ 1 AS `toothwidth`,
+ 1 AS `runoutcycles`,
+ 1 AS `runouttime`,
+ 1 AS `description`,
+ 1 AS `pic1`,
+ 1 AS `pic2`,
+ 1 AS `pic3`,
+ 1 AS `mname`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -747,6 +880,24 @@ DELIMITER ;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_mb`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_mb`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`cloudlab`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_mb` AS select `mb`.`mbid` AS `mbid`,`mb`.`sname` AS `sname`,`mb`.`mid` AS `mid`,`mb`.`loadtype` AS `loadtype`,`mb`.`diameter` AS `diameter`,`mb`.`slen` AS `slen`,`mb`.`load_speed` AS `load_speed`,`mb`.`strain_rate` AS `strain_rate`,`mb`.`uts` AS `uts`,`mb`.`mb_yield` AS `mb_yield`,`mb`.`area_red` AS `area_red`,`mb`.`elongation` AS `elongation`,`mb`.`strength_co_k` AS `strength_co_k`,`mb`.`harden_n` AS `harden_n`,`mb`.`modul` AS `modul`,`m`.`mname` AS `mname`,`mb`.`pic1` AS `pic1`,`mb`.`pic2` AS `pic2`,`mb`.`pic3` AS `pic3` from (`mb` join `material` `m` on((`mb`.`mid` = `m`.`mid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_rdp_exp`
 --
 
@@ -819,6 +970,42 @@ DELIMITER ;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_tension`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_tension`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`cloudlab`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_tension` AS select `t`.`tension_id` AS `tension_id`,`t`.`sname` AS `sname`,`t`.`mid` AS `mid`,`t`.`diameter` AS `diameter`,`t`.`meanload` AS `meanload`,`t`.`maxload` AS `maxload`,`t`.`FatigueLifeNf` AS `FatigueLifeNf`,`t`.`FracturedLocs` AS `FracturedLocs`,`t`.`ktfactor` AS `ktfactor`,`t`.`ampload` AS `ampload`,`t`.`ratioofload` AS `ratioofload`,`t`.`runoutcycles` AS `runoutcycles`,`t`.`runouttime` AS `runouttime`,`t`.`description` AS `description`,`t`.`pic1` AS `pic1`,`t`.`pic2` AS `pic2`,`t`.`pic3` AS `pic3`,`m`.`mname` AS `mname` from (`tension` `t` join `material` `m` on((`t`.`mid` = `m`.`mid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_tooth`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_tooth`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`cloudlab`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_tooth` AS select `t`.`tooth_id` AS `tooth_id`,`t`.`sname` AS `sname`,`t`.`mid` AS `mid`,`t`.`nooftheeth` AS `nooftheeth`,`t`.`meanload` AS `meanload`,`t`.`ampload` AS `ampload`,`t`.`frequency` AS `frequency`,`t`.`ratioofload` AS `ratioofload`,`t`.`FatigueLifeNf` AS `FatigueLifeNf`,`t`.`fracturemode` AS `fracturemode`,`t`.`modulus` AS `modulus`,`t`.`toothwidth` AS `toothwidth`,`t`.`runoutcycles` AS `runoutcycles`,`t`.`runouttime` AS `runouttime`,`t`.`description` AS `description`,`t`.`pic1` AS `pic1`,`t`.`pic2` AS `pic2`,`t`.`pic3` AS `pic3`,`m`.`mname` AS `mname` from (`tooth` `t` join `material` `m` on((`t`.`mid` = `m`.`mid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_torsion`
 --
 
@@ -845,4 +1032,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-24 14:16:48
+-- Dump completed on 2020-06-25 11:03:09

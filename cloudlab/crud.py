@@ -636,3 +636,109 @@ pic1
 pic2
 pic3
 '''
+
+
+#######################################################################
+#
+# MB
+#
+#######################################################################
+def mb_get_all(db: Session):
+    return db.query(models.VMB) \
+        .order_by(models.VMB.mbid.desc()).all()
+
+def vmb_get_one(db: Session, mbid: int):
+    return db.query(models.VMB) \
+            .filter(models.VMB.mbid == mbid).first()
+
+def mb_get_one(db: Session, mbid: int):
+    mb = db.query(models.MB) \
+            .filter(models.MB.mbid == mbid).first()
+    l = len("/images/mb/")
+    mb.pic1 = mb.pic1[l:]
+    mb.pic2 = mb.pic2[l:]
+    mb.pic3 = mb.pic3[l:]
+    return mb
+
+def mb_get_one_by_name(db: Session, sname: int):
+    return db.query(models.VMB) \
+            .filter(models.VMB.sname == sname).first()
+
+def mb_new(db: Session, qmb: schemas.MB):
+    mb = models.MB()
+    # mb.mbid
+    mb.sname         = qmb.sname
+    mb.mid           = qmb.mid
+    mb.nooftheeth    = qmb.nooftheeth
+    mb.meanload      = qmb.meanload
+    mb.ampload       = qmb.ampload
+    mb.frequency     = qmb.frequency
+    mb.ratioofload   = qmb.ratioofload
+    mb.FatigueLifeNf = qmb.FatigueLifeNf
+    mb.fracturemode  = qmb.fracturemode
+    mb.modulus       = qmb.modulus
+    mb.mbwidth       = qmb.mbwidth
+    mb.runoutcycles  = qmb.runoutcycles
+    mb.runouttime    = qmb.runouttime
+    mb.description   = qmb.description
+    mb.pic1          = "/images/mb/" + qmb.pic1
+    mb.pic2          = "/images/mb/" + qmb.pic2
+    mb.pic3          = "/images/mb/" + qmb.pic3
+
+    db.add(mb)
+    db.commit()
+    db.refresh(mb)
+
+def mb_update(db: Session, qmb: schemas.MB):
+    mb = db.query(models.MB) \
+                .filter(models.MB.mbid == qmb.mbid).first()
+    mb.sname         = qmb.sname
+    mb.mid           = qmb.mid
+    mb.nooftheeth    = qmb.nooftheeth
+    mb.meanload      = qmb.meanload
+    mb.ampload       = qmb.ampload
+    mb.frequency     = qmb.frequency
+    mb.ratioofload   = qmb.ratioofload
+    mb.FatigueLifeNf = qmb.FatigueLifeNf
+    mb.fracturemode  = qmb.fracturemode
+    mb.modulus       = qmb.modulus
+    mb.mbwidth    = qmb.mbwidth
+    mb.runoutcycles  = qmb.runoutcycles
+    mb.runouttime    = qmb.runouttime
+    mb.description   = qmb.description
+    mb.pic1          = "/images/mb/" + qmb.pic1
+    mb.pic2          = "/images/mb/" + qmb.pic2
+    mb.pic3          = "/images/mb/" + qmb.pic3
+
+
+    db.commit()
+
+ 
+def mb_delete(db: Session, mbid: int):
+    mb = db.query(models.MB) \
+                .filter(models.MB.mbid == mbid).first()
+
+    db.delete(mb)
+    db.commit()
+
+
+'''
+mbid
+sname
+mid
+loadtype
+diameter
+slen
+load_speed
+strain_rate
+uts
+yield
+area_red
+elongation
+strength_co_k
+harden_n
+modul
+pic1
+pic2
+pic3
+'''

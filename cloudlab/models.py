@@ -372,3 +372,49 @@ class VTooth(Base):
   pic2 = Column(String)
   pic3   = Column(String)
   mname = Column(String)
+
+
+class MB(Base):
+  __tablename__ = 'mb'
+
+  mbid = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  loadtype = Column(Integer)
+  diameter = Column(Float)
+  slen = Column(Float)
+  load_speed = Column(Float)
+  strain_rate = Column(Float)
+  uts = Column(Float)
+  mb_yield = Column(Float)
+  area_red = Column(Float)
+  elongation = Column(Float)
+  strength_co_k = Column(Float)
+  harden_n = Column(Float)
+  modul = Column(Float)
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3   = Column(String)
+
+class VMB(Base):
+  __tablename__ = 'v_mb'
+
+  mbid = Column(Integer, primary_key=True, index=True)
+  sname = Column(String)
+  mid = Column(Integer)
+  loadtype = Column(Integer)
+  diameter = Column(Float)
+  slen = Column(Float)
+  load_speed = Column(Float)
+  strain_rate = Column(Float)
+  uts = Column(Float)
+  mb_yield = Column(Float)
+  area_red = Column(Float)
+  elongation = Column(Float)
+  strength_co_k = Column(Float)
+  harden_n = Column(Float)
+  modul = Column(Float)
+  mname = Column(String) 
+  pic1 = Column(String)
+  pic2 = Column(String)
+  pic3   = Column(String)

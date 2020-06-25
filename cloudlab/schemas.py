@@ -320,3 +320,48 @@ class VTooth(BaseModel):
   mname : str
   class Config:
     orm_mode = True
+
+class MB(BaseModel):
+  mbid : int
+  sname : str
+  mid : int
+  loadtype : int
+  diameter : float
+  slen : float
+  load_speed : float
+  strain_rate : float
+  uts : float
+  mb_yield : float
+  area_red : float
+  elongation : float
+  strength_co_k : float
+  harden_n : float
+  modul : float
+  pic1 : str
+  pic2 : str
+  pic3   : str
+  class Config:
+    orm_mode = True
+
+class VMB(BaseModel):
+  mbid : int
+  sname : str
+  mid : int
+  loadtype : int
+  diameter : float
+  slen : float
+  load_speed : float
+  strain_rate : float
+  uts : float
+  mb_yield : float
+  area_red : float
+  elongation : float
+  strength_co_k : float
+  harden_n : float
+  modul : float
+  mname : str 
+  pic1 : str
+  pic2 : str
+  pic3   : str
+  class Config:
+    orm_mode = True
