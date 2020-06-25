@@ -679,6 +679,74 @@ def tooth_get_one_by_name(sname: str, db: Session = Depends(get_db)):
     return tooth
 
 
+# ###################################################################################
+# 
+# MB
+#
+# ###################################################################################
+@app.get("/mb/list")
+async def mb_list(request: Request):
+    return templates.TemplateResponse('mb/list.html', {'request': request})
+
+@app.get("/mb/new")
+async def mb_new(request: Request):
+    return templates.TemplateResponse('mb/new.html', {'request': request})
+
+@app.get("/mb/modify/{mbid}")
+async def mb_modify(request: Request, mbid : int):
+    return templates.TemplateResponse('mb/modify.html', {'request': request, 'mbid': mbid})
+
+@app.get("/mb/detail/{mbid}")
+async def mb_detail(request: Request, mbid : int):
+    return templates.TemplateResponse('mb/detail.html', {'request': request, 'mbid': mbid})
+
+@app.get("/mb/nmodify/{sname}")
+async def mb_nmodify(request: Request, sname : str):
+    return templates.TemplateResponse('mb/nmodify.html', {'request': request, 'sname': sname})
+
+@app.get("/delmb/{mbid}")
+def delete_mb(mbid: int, db: Session = Depends(get_db)):
+    crud.mb_delete(db, mbid)
+    return {"message": "ok"}
+
+@app.post("/new_mb")
+def new_mb(mb: schemas.MB, db: Session = Depends(get_db)):
+    try:
+        crud.mb_new(db, mb)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.post("/updatemb")
+def mb_update(mb: schemas.MB, db: Session = Depends(get_db)):
+    try:
+        crud.mb_update(db, mb)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
+@app.get("/vmb", response_model=List[schemas.VMB])
+def mb_get_all(db: Session = Depends(get_db)):
+    mb = crud.mb_get_all(db)
+    return mb
+
+@app.get("/vmb/{mbid}", response_model=schemas.VMB)
+def vmb_get_one(mbid: int, db: Session = Depends(get_db)):
+    mb = crud.vmb_get_one(db, mbid)
+    return mb
+
+@app.get("/mb/{mbid}", response_model=schemas.MB)
+def mb_get_one(mbid: int, db: Session = Depends(get_db)):
+    mb = crud.mb_get_one(db, mbid)
+    return mb
+
+
+@app.get("/vmb/{sname}", response_model=schemas.VMB)
+def mb_get_one_by_name(sname: str, db: Session = Depends(get_db)):
+    mb = crud.mb_get_one_by_name(db, sname)
+    return mb
+
+
 
 # ###################################################################################
 # 
@@ -773,6 +841,15 @@ async def upload_tooth_files(myfile: List[UploadFile] = File(...)):
     for file in myfile:
         content = await file.read()
         with open('E:\\webapp\\images\\tooth\\' + file.filename, 'wb') as f:
+            f.write(content)
+
+    return {"filenames": [file.filename for file in myfile]}
+
+@app.post("/upmb/")
+async def upload_mb_files(myfile: List[UploadFile] = File(...)):
+    for file in myfile:
+        content = await file.read()
+        with open('E:\\webapp\\images\\mb\\' + file.filename, 'wb') as f:
             f.write(content)
 
     return {"filenames": [file.filename for file in myfile]}

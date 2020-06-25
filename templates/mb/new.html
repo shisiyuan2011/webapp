@@ -39,9 +39,9 @@
     <script src="/js/axios.min.js"></script>
     <script src="/js/vue-cookies.js"></script>
     <script src="/js/cloudlab.js"></script>
-    <!-- script type="text/javascript" language="JavaScript">
-      verify_token();
-    </script -->
+    <link href="/css/uploadfile.css" rel="stylesheet">
+    <script src="/js/jquery-1.10.1.min.js"></script>
+    <script src="/js/jquery.uploadfile.min.js"></script>
   </head>
   <body class="c-app">
     <!-- start left menu --> 
@@ -56,13 +56,6 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
             </svg> Dashboard
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -98,6 +91,13 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Mechanics Behavior Test
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -223,12 +223,12 @@
             </div>
           </li>
         </ul>
-        <div class="c-subheader px-3">
+      <div class="c-subheader px-3">
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="experiment/list">Experiments List</a></li>
-            <li class="breadcrumb-item active">New Experiment</li>
+            <li class="breadcrumb-item"><a href="mb/list">MB Test List</a></li>
+            <li class="breadcrumb-item active">New MB Test</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -241,48 +241,81 @@
             <div class="fade-in">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Create A New Experiment 
+                  <i class="fa fa-align-justify"> </i> New MB Test
                 </div>
                 <div class="card-body">
-                  <form id = "new_exp">
+                  <form id = "new_mb">
                     <div v-if="errors.length > 0" class="card-body">
                       <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
-                    </div> 
-                    <label for="exp.ename">Experiment Name</label>
-                    <input v-model="exp.ename" class="form-control" id="ename" type="text">
-
-                    <label for="exp.frequncy">Frequncy</label>
-                    <input v-model="exp.frequncy" class="form-control" id="frequncy" type="numeric">
+                    </div>
                     
-                    <label for="exp.sampling">Sampling</label> <input v-model="exp.sampling" class="form-control" id="sampling" type="numeric">
-                    <label for="exp.H"       >H       </label> <input v-model="exp.H"        class="form-control" id="H"        type="text">
-                    <label for="exp.cycles">Cycles  </label> <input v-model="exp.cycles"   class="form-control" id="cycles"   type="text">
-                    <label for="exp.datatype">DataType</label>  <p></p>
-                    <select v-model="exp.datatype" id="datatype" class="form-control">
-                      <option value="0">Please Select A Data Format</option>
-                      <option v-bind:value="1">Type1, 12 Columns</option>
-                      <option v-bind:value="2">Type2, 3 Columns</option>
-                    </select>
-                    <label for="exp.datapath">Data Files Path</label> <input v-model="exp.datapath" class="form-control" id="datapath" type="text" placeholder="Please input a folder path">
-                    <label for="exp.rawpath">Raw Files Path  </label> <input v-model="exp.rawpath"  class="form-control" id="rawpath"  type="text" placeholder="Please input a folder path">
-                    <label for="sid">Specimen    </label> <br>
-                    <select v-model="exp.sid" class="form-control">
-                      <option value="0">Please Select A Specimen</option>
-                      <option v-for="specimen in specimens" v-bind:value="specimen.sid">
-                        [[ specimen.sname ]]
+                    <label for="mb.sname">Specimen Name</label>
+                    <input v-model="mb.sname" class="form-control" id="sname" type="text">
+
+                    <label for="mb.mid">Material</label>
+                    <select v-model="mb.mid" class="form-control">
+                      <option value="0">Please Select A Material</option>
+                      <option v-for="material in materials" v-bind:value="material.mid">
+                        [[ material.mname ]]
                     </option>
                     </select>
-                    <div v-if="exp.sid > 0" class="card-body">
-                      <span class="text-muted">Sid: [[ specimens[exp.sid - 1].sid ]]      </span>, 
-                      <span class="text-muted">Radius: [[ specimens[exp.sid - 1].radius ]]</span>, 
-                      <span class="text-muted">Length: [[ specimens[exp.sid - 1].length ]]</span>, 
-                      <span class="text-muted">Meterial: [[ specimens[exp.sid - 1].mname ]] </span>
-                    </div>
-                    <label for="exp.memo">Memo</label>
-                    <input v-model="exp.memo" class="form-control" id="memo" type="textarea">
+
+                    <label for="mb.loadtype">Load Type</label>
+                    <select v-model="mb.loadtype" class="form-control">
+                      <option value="0">Please Select :</option>
+                      <option value="1">Torsion</option>
+                      <option value="2">Tension</option>
+                    </option>
+                    </select>
+
+                    <label for="mb.diameter">Diameter(mm)</label>
+                    <input v-model="mb.diameter" class="form-control" id="diameter" type="numeric">
+
+                    <label for="mb.slen">Length(mm)</label>
+                    <input v-model="mb.slen" class="form-control" id="slen" type="numeric">
+
+                    <label for="mb.load_speed">Load Speed(mm/s)</label>
+                    <input v-model="mb.load_speed" class="form-control" id="load_speed" type="numeric">
+
+                    <label for="mb.strain_rate">Strain Rate</label>
+                    <input v-model="mb.strain_rate" class="form-control" id="strain_rate" type="numeric">
+                    
+                    <label for="mb.uts">UTS(MPa)</label>
+                    <input v-model="mb.uts" class="form-control" id="uts" type="numeric">
+
+                    <label for="mb.mb_yield">Yield(Mpa)</label>
+                    <input v-model="mb.mb_yield" class="form-control" id="mb_yield" type="numeric">
+
+                    <label for="mb.area_red">Area Red.(%d)</label>
+                    <input v-model="mb.area_red" class="form-control" id="area_red" type="numeric">
+
+                    <label for="mb.elongation">Elogation(%)</label>
+                    <input v-model="mb.elongation" class="form-control" id="elongation" type="numeric">
+
+                    <label for="mb.strength_co_k">Strength Co. K</label>
+                    <input v-model="mb.strength_co_k" class="form-control" id="strength_co_k" type="numeric">
+
+                    <label for="mb.harden_n">Harden Exp. n</label>
+                    <input v-model="mb.harden_n" class="form-control" id="harden_n" type="numeric">
+
+                    <label for="mb.modul">Elastic Modulus(MPa)</label>
+                    <input v-model="mb.modul" class="form-control" id="modul" type="numeric">
+
+                    <label for="mb.pic1">Picture. Fractured Surfaces On Left</label><p>
+                    <div id="upload_pic1">Upload</div>
+                    <div id="status_1"></div></p>
+                     
+                    <label for="mb.pic2">Picture. Fractured Surfaces On Right</label><p>
+                    <div id="upload_pic2">Upload</div>
+                    <div id="status_2"></div></p>
+
+                    <label for="mb.pic3">Picture. Axis Direction</label><p>
+                    <div id="upload_pic3">Upload</div>
+                    <div id="status_3"></div></p>
+
                     <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkExp">Create</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetExp">Reset</button>
+                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkMB">Create</button>
+                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetMB">Reset</button>
                     </div>
                   </form>
                 </div>
@@ -300,30 +333,39 @@
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
     <!-- Plugins and scripts required by this view-->
-    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <!-- script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script -->
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var experiment = new Vue({
-        el: "#new_exp",
+      var new_mb = new Vue({
+        el: "#new_mb",
         data: {
           errors: [],
-          exp: {
-            eid: 0,
-            ename: "",
-            etime: Date.now(),
-            frequncy: 0.1,
-            sampling: 16,
-            H: 0,
-            cycles: 0,
-            datatype: 0,
-            datapath: "",
-            rawpath: "",
-            sid: 0,
-            uid: 1,
-            memo: ""
+          mb: {
+            mbid          : 0,
+            sname         : "",
+            mid           : 0,
+            loadtype      : 0,
+            diameter      : 0,
+            slen          : 0,
+            load_speed    : 0,
+            strain_rate   : 0,
+            uts           : 0,
+            mb_yield      : 0,
+            area_red      : 0,
+            elongation    : 0,
+            strength_co_k : 0,
+            harden_n      : 0,
+            modul         : 0,
+            pic1          : "",
+            pic2          : "",
+            pic3          : ""
           },
-          specimens: []
+          dsp: {
+            maxload : 0,
+            rol: 0
+          },
+          materials: []
         },
         methods: {
           grateThanZero(numeric, varname) {
@@ -375,29 +417,39 @@
             return result;
           },
           completedForm: function() {
-            result = this.mustBeString(this.exp.ename, "Experiment Name");
-            // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
-            result = result & this.grateThanZero(this.exp.frequncy, 'Frequency');
-            result = result & this.grateThanZero(this.exp.sampling, 'Sampling');
-            result = result & this.grateThanZero(this.exp.H, 'H');
-            result = result & this.grateThanZero(this.exp.cycles, 'Clycles');
-            result = result & this.mustInRange(this.exp.datatype, 1, 2, 'DataType');
-            result = result & this.mustBeString(this.exp.datapath, 'DataPath');
-            result = result & this.mustBeString(this.exp.rawpath, 'RawPath');
-            result = result & this.mustInRange(this.exp.sid, 1, this.specimens.length, 'Specimen');
+            result = this.mustBeString(this.mb.sname, "Specimen Name");
+            result = result & this.grateThanZero(this.mb.mid,  "Material");
+            result = result & this.grateThanZero(this.mb.loadtype      , "Load Type           ");
+            result = result & this.mustBeNumeric(this.mb.diameter      , "Diameter(mm)        ");
+            result = result & this.mustBeNumeric(this.mb.slen          , "Length(mm)          ");
+            result = result & this.mustBeNumeric(this.mb.load_speed    , "Load Speed(mm/s)    ");
+            result = result & this.mustBeNumeric(this.mb.strain_rate   , "Strain Rate         ");
+            result = result & this.mustBeNumeric(this.mb.uts           , "UTS(MPa)            ");
+            result = result & this.mustBeNumeric(this.mb.mb_yield      , "Yield(Mpa)          ");
+            result = result & this.mustBeNumeric(this.mb.area_red      , "Area Red.(%d)       ");
+            result = result & this.mustBeNumeric(this.mb.elongation    , "Elogation(%)        ");
+            result = result & this.mustBeNumeric(this.mb.strength_co_k , "Strength Co. K      ");
+            result = result & this.mustBeNumeric(this.mb.harden_n      , "Harden Exp. n       ");
+            result = result & this.mustBeNumeric(this.mb.modul         , "Elastic Modulus(MPa)");
+
+            // result = result & this.mustBeNumeric(this.mb.pic1,          "Pic1");
+            // result = result & this.mustBeNumeric(this.mb.pic1,          "Pic1");
+            // result = result & this.mustBeNumeric(this.mb.pic2,          "Pic2");
             return result;
           },
-          checkExp: function (e) {            
+          checkMB: function (e) {            
             this.errors = [];
             if (this.completedForm() == true) {
-              this.exp.etime = Date.now();
+              console.log(this.mb);
               axios
-              .post('/newexp', this.exp)
+              .post('/new_mb', this.mb)
               .then(res => {
-                if (res.data.message == "ok")
-                  alert("Ok! A new experiment was created");
-                else
+                console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("Ok! A new test was created");
+                } else {
                   alert("An Error Occured");
+                }
               }).catch(function (err) {
                 console.log(err);
                 alert("An Error Occured");
@@ -405,31 +457,36 @@
             }
             e.preventDefault();
           },
-          resetExp: function(e) {
+          resetMB: function(e) {
             this.errors = [];
-            this.exp.eid = 0;
-            this.exp.ename = "";
-            this.exp.frequncy = 0.1;
-            this.exp.sampling = 16;
-            this.exp.H = 0;
-            this.exp.cycles = 0;
-            this.exp.datatype = 0;
-            this.exp.datapath = "";
-            this.exp.rawpath = "";
-            this.exp.sid = 0;
-            this.exp.uid = 1;
-            this.exp.memo = "";
-            this.exp.etime = Date.now();
+            this.mb.mbid          = 0;
+            this.mb.sname         = "";
+            this.mb.mid           = 0;
+            this.mb.loadtype      = 0;
+            this.mb.diameter      = 0;
+            this.mb.slen          = 0;
+            this.mb.load_speed    = 0;
+            this.mb.strain_rate   = 0;
+            this.mb.uts           = 0;
+            this.mb.mb_yield      = 0;
+            this.mb.area_red      = 0;
+            this.mb.elongation    = 0;
+            this.mb.strength_co_k = 0;
+            this.mb.harden_n      = 0;
+            this.mb.modul         = 0;
+            this.mb.pic1          = "";
+            this.mb.pic2          = "";
+            this.mb.pic3          = "";
             e.preventDefault();
           }
         },
         mounted() {
           // verify_token();
           axios
-          .get('/vspecimen')
+          .get('/material')
           .then(res => {
-            this.specimens = res.data;
-            // console.log(this.specimens);
+            this.materials = res.data;
+            // console.log(this.materials);
           })
           .catch(err => {
             console.log(err);
@@ -437,7 +494,67 @@
         },
         delimiters: ['[[',']]']
       });
-    </script>
 
+      $(document).ready(function()
+      {
+          var settings_1 = {
+              url: "/upmb",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                new_mb.mb.pic1 = files[0];
+                $("#status_1").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                new_mb.mb.pic1 = "";
+                $("#status_1").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_2 = {
+              url: "/upmb",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                new_mb.mb.pic2 = files[0];
+                $("#status_2").html("<font color='green'>Upload " + files[0] + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {       
+                new_mb.mb.pic2 = "";
+                $("#status_2").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          var settings_3 = {
+              url: "/upmb",
+              method: "POST",
+              allowedTypes:"jpg,png,gif",
+              fileName: "myfile",
+              multiple: false,
+              onSuccess:function(files,data,xhr)
+              {
+                new_mb.mb.pic3 = files[0];
+                $("#status_3").html("<font color='green'>Upload " + new_mb.mb.pic3 + " is success</font>");
+              },
+              onError: function(files,status,errMsg)
+              {
+                new_mb.mb.pic3 = "";
+                $("#status_3").html("<font color='red'>Upload " + files[0] + " is Failed</font>");
+              }
+          }
+
+          $("#upload_pic1").uploadFile(settings_1);
+          $("#upload_pic2").uploadFile(settings_2);
+          $("#upload_pic3").uploadFile(settings_3);
+      });
+    </script>
   </body>
 </html>

@@ -59,13 +59,6 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link" href="rotating/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -80,14 +73,14 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tension/list">
+          <a class="c-sidebar-nav-link" href="mb/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tooth/list">
+          <a class="c-sidebar-nav-link" href="mb/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Gear Tooth Bending
@@ -98,6 +91,13 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Mechanics Behavior Test
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -227,8 +227,9 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="experiment/list">Experiments List</a></li>
-            <li class="breadcrumb-item active">New Experiment</li>
+            <li class="breadcrumb-item"><a href="mb/list">MB Test List</a></li>
+            <li class="breadcrumb-item"><a href="mb/new">New MB Test</a></li>
+            <li class="breadcrumb-item active">MB Test Details</li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
@@ -239,52 +240,43 @@
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
-              <div class="card">
-                <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Create A New Experiment 
-                </div>
-                <div class="card-body">
-                  <form id = "new_exp">
-                    <div v-if="errors.length > 0" class="card-body">
-                      <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
-                    </div> 
-                    <label for="exp.ename">Experiment Name</label>
-                    <input v-model="exp.ename" class="form-control" id="ename" type="text">
 
-                    <label for="exp.frequncy">Frequncy</label>
-                    <input v-model="exp.frequncy" class="form-control" id="frequncy" type="numeric">
-                    
-                    <label for="exp.sampling">Sampling</label> <input v-model="exp.sampling" class="form-control" id="sampling" type="numeric">
-                    <label for="exp.H"       >H       </label> <input v-model="exp.H"        class="form-control" id="H"        type="text">
-                    <label for="exp.cycles">Cycles  </label> <input v-model="exp.cycles"   class="form-control" id="cycles"   type="text">
-                    <label for="exp.datatype">DataType</label>  <p></p>
-                    <select v-model="exp.datatype" id="datatype" class="form-control">
-                      <option value="0">Please Select A Data Format</option>
-                      <option v-bind:value="1">Type1, 12 Columns</option>
-                      <option v-bind:value="2">Type2, 3 Columns</option>
-                    </select>
-                    <label for="exp.datapath">Data Files Path</label> <input v-model="exp.datapath" class="form-control" id="datapath" type="text" placeholder="Please input a folder path">
-                    <label for="exp.rawpath">Raw Files Path  </label> <input v-model="exp.rawpath"  class="form-control" id="rawpath"  type="text" placeholder="Please input a folder path">
-                    <label for="sid">Specimen    </label> <br>
-                    <select v-model="exp.sid" class="form-control">
-                      <option value="0">Please Select A Specimen</option>
-                      <option v-for="specimen in specimens" v-bind:value="specimen.sid">
-                        [[ specimen.sname ]]
-                    </option>
-                    </select>
-                    <div v-if="exp.sid > 0" class="card-body">
-                      <span class="text-muted">Sid: [[ specimens[exp.sid - 1].sid ]]      </span>, 
-                      <span class="text-muted">Radius: [[ specimens[exp.sid - 1].radius ]]</span>, 
-                      <span class="text-muted">Length: [[ specimens[exp.sid - 1].length ]]</span>, 
-                      <span class="text-muted">Meterial: [[ specimens[exp.sid - 1].mname ]] </span>
-                    </div>
-                    <label for="exp.memo">Memo</label>
-                    <input v-model="exp.memo" class="form-control" id="memo" type="textarea">
-                    <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkExp">Create</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetExp">Reset</button>
-                    </div>
-                  </form>
+              <div class="card" id="mb_detail">
+                <div class="card-body">
+                  <div class="card-header">
+                    <i class="fa fa-align-justify"> </i>[[ mb.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="mb/detail/{{ mbid }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="mb/modify/{{ mbid }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="mb/detail/{{ mbid }}">Delete</a></span>
+                  </div>
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <tbody> 
+                      <tr><td><i class="fa fa-align-justify">ID                  </i></td><td>[[ mb.mbid          ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Specimen Name       </i></td><td>[[ mb.sname         ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Material            </i></td><td>[[ mb.mname         ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Load Type           </i></td><td>[[ mb.loadtype      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Diameter(mm)        </i></td><td>[[ mb.diameter      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Length(mm)          </i></td><td>[[ mb.slen          ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Load Speed(mm/s)    </i></td><td>[[ mb.load_speed    ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Strain Rate         </i></td><td>[[ mb.strain_rate   ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">UTS(MPa)            </i></td><td>[[ mb.uts           ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Yield(Mpa)          </i></td><td>[[ mb.mb_yield      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Area Red.(%d)       </i></td><td>[[ mb.area_red      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Elogation(%)        </i></td><td>[[ mb.elongation    ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Strength Co. K      </i></td><td>[[ mb.strength_co_k ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Harden Exp. n       </i></td><td>[[ mb.harden_n      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Elastic Modulus(MPa)</i></td><td>[[ mb.modul         ]]</td></tr>                      
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Left </i></td><td><img v-bind:src="[[ mb.pic1 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Fractured Surfaces On Right </i></td> <td><img v-bind:src="[[ mb.pic2 ]]"></td></tr>
+                      <tr><td><i class="fa fa-align-justify"> Axis Direction </i></td> <td><img v-bind:src="[[ mb.pic3 ]]"></td></tr>
+                    </tbody>
+                  </table>
+                  <div class="card-footer">
+                    <i class="fa fa-align-justify"> </i>[[ mb.sname ]] 
+                    <span class="badge badge-success"><a class="page-link" href="mb/detail/{{ mbid }}">Report</a></span>
+                    <span class="badge badge-warning"><a class="page-link" href="mb/modify/{{ mbid }}">Modify</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" href="mb/detail/{{ mbid }}">Delete</a></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -300,136 +292,44 @@
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
     <!-- Plugins and scripts required by this view-->
-    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <!-- script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script -->
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var experiment = new Vue({
-        el: "#new_exp",
+      var vue_mb = new Vue({
+        el: "#mb_detail",
         data: {
-          errors: [],
-          exp: {
-            eid: 0,
-            ename: "",
-            etime: Date.now(),
-            frequncy: 0.1,
-            sampling: 16,
-            H: 0,
-            cycles: 0,
-            datatype: 0,
-            datapath: "",
-            rawpath: "",
-            sid: 0,
-            uid: 1,
-            memo: ""
+          mb: {
+            mbid          : 0,
+            sname         : "",
+            mid           : 0,
+            loadtype      : 0,
+            diameter      : 0,
+            slen          : 0,
+            load_speed    : 0,
+            strain_rate   : 0,
+            uts           : 0,
+            mb_yield      : 0,
+            area_red      : 0,
+            elongation    : 0,
+            strength_co_k : 0,
+            harden_n      : 0,
+            modul         : 0,
+            pic1          : "",
+            pic2          : "",
+            pic3          : ""
           },
-          specimens: []
-        },
-        methods: {
-          grateThanZero(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric <= 0) {
-              this.errors.push({'message': varname + ' must be a valid number grate than zero.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeNumeric(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            }
-            return result;
-          },
-          mustInRange(numeric, themin, themax, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric < themin || numeric > themax) {
-              this.errors.push({'message': varname + ' must be in ' + themin + 
-                                ' and ' + themax + '.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeString(thestr, varname) {
-            result = true;
-            if (thestr == null || thestr == "") {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            }
-            return result;
-          },
-          completedForm: function() {
-            result = this.mustBeString(this.exp.ename, "Experiment Name");
-            // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
-            result = result & this.grateThanZero(this.exp.frequncy, 'Frequency');
-            result = result & this.grateThanZero(this.exp.sampling, 'Sampling');
-            result = result & this.grateThanZero(this.exp.H, 'H');
-            result = result & this.grateThanZero(this.exp.cycles, 'Clycles');
-            result = result & this.mustInRange(this.exp.datatype, 1, 2, 'DataType');
-            result = result & this.mustBeString(this.exp.datapath, 'DataPath');
-            result = result & this.mustBeString(this.exp.rawpath, 'RawPath');
-            result = result & this.mustInRange(this.exp.sid, 1, this.specimens.length, 'Specimen');
-            return result;
-          },
-          checkExp: function (e) {            
-            this.errors = [];
-            if (this.completedForm() == true) {
-              this.exp.etime = Date.now();
-              axios
-              .post('/newexp', this.exp)
-              .then(res => {
-                if (res.data.message == "ok")
-                  alert("Ok! A new experiment was created");
-                else
-                  alert("An Error Occured");
-              }).catch(function (err) {
-                console.log(err);
-                alert("An Error Occured");
-              });
-            }
-            e.preventDefault();
-          },
-          resetExp: function(e) {
-            this.errors = [];
-            this.exp.eid = 0;
-            this.exp.ename = "";
-            this.exp.frequncy = 0.1;
-            this.exp.sampling = 16;
-            this.exp.H = 0;
-            this.exp.cycles = 0;
-            this.exp.datatype = 0;
-            this.exp.datapath = "";
-            this.exp.rawpath = "";
-            this.exp.sid = 0;
-            this.exp.uid = 1;
-            this.exp.memo = "";
-            this.exp.etime = Date.now();
-            e.preventDefault();
-          }
+          load_type : ""
         },
         mounted() {
           // verify_token();
           axios
-          .get('/vspecimen')
+          .get('/vmb/{{ mbid }}')
           .then(res => {
-            this.specimens = res.data;
-            // console.log(this.specimens);
+            var lt = ['Torsion', 'Tension'];
+
+            this.mb = res.data;
+            this.load_type = lt[this.mb.load_type - 1];
           })
           .catch(err => {
             console.log(err);

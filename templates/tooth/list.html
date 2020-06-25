@@ -87,6 +87,13 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="mb/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> Mechanics Behavior Test
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link" href="experiment/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -270,8 +277,8 @@
                         <td><span class="badge badge-success"><a v-bind:href="'/tooth/detail/' + th.tooth_id">[[ th.tooth_id ]]</a></span></td>
                         <td>[[ th.sname ]]</td>
                         <td>[[ th.mname ]]</td>
-                        <td></td>
-                        <td></td>
+                        <td>[[ th.max_stress ]]</td>
+                        <td>[[ th.min_stress ]]</td>
                         <!-- td>[[ th.diameter ]]</td>
                         <td>[[ th.moment ]]</td -->
                         <td>[[ th.FatigueLifeNf ]]</td>
@@ -357,17 +364,16 @@
           .get('/vtooth')
           .then(res => {
             this.tooth = res.data;
-            /*
             for (var i = 0; i < this.tooth.length; ++i) {
-              if (this.tooth[i].diameter != 0) {
-                var S = 3.14159265358979 * 0.25 * this.tooth[i].diameter * this.tooth[i].diameter;
-                var v = this.tooth[i].maxload / S;
+              if (this.tooth[i].toothwidth != 0 && this.tooth[i].modulus != 0) {
+                var maxload = this.tooth[i].meanload + this.tooth[i].ampload;
+                var minload = this.tooth[i].meanload - this.tooth[i].ampload;
+                var v = maxload / (this.tooth[i].toothwidth * this.tooth[i].modulus); // * 1000;
                 this.tooth[i].max_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
-                v = (this.tooth[i].meanload - this.tooth[i].ampload) / S;
+                v = minload / (this.tooth[i].toothwidth * this.tooth[i].modulus);     // * 1000;
                 this.tooth[i].min_stress = Math.round((v + Number.EPSILON) * 1000) / 1000;
               }
             }
-            */
           })
           .catch(err => {
             console.log(err);

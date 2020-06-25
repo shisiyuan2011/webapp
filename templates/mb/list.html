@@ -44,7 +44,7 @@
     </script -->
   </head>
   <body class="c-app">
-    <!-- start left menu --> 
+    <!-- statrs left menu --> 
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
       <div class="c-sidebar-brand d-lg-down-none">
         <img class="c-sidebar-brand-full" width="140" height="46" alt="CloudLab Logo" src="/assets/brand/bit-cloud-lab.png">
@@ -59,13 +59,6 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="experiment/list">
-            <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> LCF
-          </a>
-        </li>
-        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
           <a class="c-sidebar-nav-link" href="rotating/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
@@ -73,21 +66,21 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="torsion/list">
+          <a class="c-sidebar-nav-link" href="mb/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Torsion Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tension/list">
+          <a class="c-sidebar-nav-link" href="mb/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tooth/list">
+          <a class="c-sidebar-nav-link" href="mb/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Gear Tooth Bending
@@ -98,6 +91,13 @@
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Mechanics Behavior Test
+          </a>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+          <a class="c-sidebar-nav-link" href="experiment/list">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
+            </svg> LCF
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -117,7 +117,7 @@
         <li class="c-sidebar-nav-item">
           <a class="c-sidebar-nav-link" href="main">
             <svg class="c-sidebar-nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chart-pie"></use>
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-chatrs-pie"></use>
             </svg> Predict
           </a>
         </li>
@@ -183,7 +183,7 @@
               <svg class="c-icon">
                 <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
               </svg></a></li>
-          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="main" role="button" aria-haspopup="true" aria-expanded="false">
+          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="main" role="button" aria-haspopup="true" aria-vue_trsanded="false">
               <div class="c-avatar"><img class="c-avatar-img" src="/assets/img/avatars/6.jpg" alt="user@email.com"></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">
@@ -227,64 +227,93 @@
           <!-- Breadcrumb-->
           <ol class="breadcrumb border-0 m-0">
             <li class="breadcrumb-item"><a href="main">Home</a></li>
-            <li class="breadcrumb-item"><a href="experiment/list">Experiments List</a></li>
-            <li class="breadcrumb-item active">New Experiment</li>
+            <li class="breadcrumb-item active">MB Test List</li>
+            <li class="breadcrumb-item"><a href="mb/new">New MB Test</a></li>
             <!-- Breadcrumb Menu-->
           </ol>
         </div>
       </header>
       <!-- end header --> ]
-      <!-- start main body -->
+      <!-- statrs main body -->
       <div class="c-body">
         <main class="c-main">
           <div class="container-fluid">
             <div class="fade-in">
+              <!-- List all vue_trseriment -->
+
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-align-justify"> </i> Create A New Experiment 
+                  <i class="fa fa-align-justify"></i> MB Test List
                 </div>
                 <div class="card-body">
-                  <form id = "new_exp">
-                    <div v-if="errors.length > 0" class="card-body">
-                      <div v-for="error in errors" :key="error.message" class="alert alert-danger" role="alert">[[ error.message ]]</div>
-                    </div> 
-                    <label for="exp.ename">Experiment Name</label>
-                    <input v-model="exp.ename" class="form-control" id="ename" type="text">
-
-                    <label for="exp.frequncy">Frequncy</label>
-                    <input v-model="exp.frequncy" class="form-control" id="frequncy" type="numeric">
-                    
-                    <label for="exp.sampling">Sampling</label> <input v-model="exp.sampling" class="form-control" id="sampling" type="numeric">
-                    <label for="exp.H"       >H       </label> <input v-model="exp.H"        class="form-control" id="H"        type="text">
-                    <label for="exp.cycles">Cycles  </label> <input v-model="exp.cycles"   class="form-control" id="cycles"   type="text">
-                    <label for="exp.datatype">DataType</label>  <p></p>
-                    <select v-model="exp.datatype" id="datatype" class="form-control">
-                      <option value="0">Please Select A Data Format</option>
-                      <option v-bind:value="1">Type1, 12 Columns</option>
-                      <option v-bind:value="2">Type2, 3 Columns</option>
-                    </select>
-                    <label for="exp.datapath">Data Files Path</label> <input v-model="exp.datapath" class="form-control" id="datapath" type="text" placeholder="Please input a folder path">
-                    <label for="exp.rawpath">Raw Files Path  </label> <input v-model="exp.rawpath"  class="form-control" id="rawpath"  type="text" placeholder="Please input a folder path">
-                    <label for="sid">Specimen    </label> <br>
-                    <select v-model="exp.sid" class="form-control">
-                      <option value="0">Please Select A Specimen</option>
-                      <option v-for="specimen in specimens" v-bind:value="specimen.sid">
-                        [[ specimen.sname ]]
-                    </option>
-                    </select>
-                    <div v-if="exp.sid > 0" class="card-body">
-                      <span class="text-muted">Sid: [[ specimens[exp.sid - 1].sid ]]      </span>, 
-                      <span class="text-muted">Radius: [[ specimens[exp.sid - 1].radius ]]</span>, 
-                      <span class="text-muted">Length: [[ specimens[exp.sid - 1].length ]]</span>, 
-                      <span class="text-muted">Meterial: [[ specimens[exp.sid - 1].mname ]] </span>
-                    </div>
-                    <label for="exp.memo">Memo</label>
-                    <input v-model="exp.memo" class="form-control" id="memo" type="textarea">
-                    <div class="card-footer">
-                      <button class="btn btn-sm btn-primary" type="button" v-on:click="checkExp">Create</button>
-                      <button class="btn btn-sm btn-danger" type="button" v-on:click="resetExp">Reset</button>
-                    </div>
-                  </form>
+                  <table id="mb_list" name="mb_list" class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Detail</th>
+                        <th>Specimen Name</th>
+                        <th>Material</th>
+                        <!-- th>Diameter</th>
+                        <th>Moment</th -->
+                        <th>UTS(MPa))</th>
+                        <th>Yield(Mpa)</th>
+                        <th>Fatigue Life Nf</th>
+                        <!-- th>Fractured Locs</th>
+                        <th>Speed</th>
+                        <th>lp</th>
+                        <th>Stress</th>
+                        <th>Run out Cycles</th>
+                        <th>Run Out Time</th>
+                        <th>Desc</th>
+                        <th>Pic1</th>
+                        <th>Pic2</th>
+                        <th>Pic3</th -->
+                        <th>Repotrs</th>
+                        <th>Modify</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="th in mb">
+                        <td><span class="badge badge-success"><a v-bind:href="'/mb/detail/' + th.mbid">[[ th.mbid ]]</a></span></td>
+                        <td>[[ th.sname ]]</td>
+                        <td>[[ th.mname ]]</td>
+                        <td>[[ th.uts ]]</td>
+                        <td>[[ th.mb_yield ]]</td>
+                        <!-- td>[[ th.diameter ]]</td>
+                        <td>[[ th.moment ]]</td -->
+                        <td>[[ th.FatigueLifeNf ]]</td>
+                        <!-- td>[[ th.FracturedLocs ]]</td>
+                        <td>[[ th.speed ]]</td>
+                        <td>[[ th.lp ]]</td>
+                        <td>[[ th.stress ]]</td>
+                        <td>[[ th.runoutcycles ]]</td>
+                        <td>[[ th.runouttime ]]</td>
+                        <td>[[ th.description ]]</td>
+                        <td><img v-bind:src="[[ th.pic1 ]]"></td>
+                        <td><img v-bind:src="[[ th.pic2 ]]"></td>
+                        <td><img v-bind:src="[[ th.pic3 ]]"></td -->
+                        <td>
+                          <span class="badge badge-warning"><a href="/mb/list">R</a></span>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning"><a v-bind:href="'/mb/modify/' + th.mbid">M</a></span>
+                        </td>
+                        <td>
+                          <button class="badge badge-secondary" @click="confirmDelete(th.mbid)">D</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- nav> SPLIT PAGES
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">4</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav -->
                 </div>
               </div>
             </div>
@@ -300,136 +329,41 @@
     <script src="/vendors/@coreui/icons/js/svgxuse.min.js"></script>
     <!--<![endif]-->
     <!-- Plugins and scripts required by this view-->
-    <script src="/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js"></script>
+    <!-- script src="/vendors/@coreui/chatrsjs/js/coreui-chatrsjs.bundle.js"></script -->
     <script src="/vendors/@coreui/utils/js/coreui-utils.js"></script>
 
     <script type="text/javascript" language="JavaScript">
-      var experiment = new Vue({
-        el: "#new_exp",
+      var vue_mb = new Vue({
+        el: "#mb_list",
         data: {
-          errors: [],
-          exp: {
-            eid: 0,
-            ename: "",
-            etime: Date.now(),
-            frequncy: 0.1,
-            sampling: 16,
-            H: 0,
-            cycles: 0,
-            datatype: 0,
-            datapath: "",
-            rawpath: "",
-            sid: 0,
-            uid: 1,
-            memo: ""
-          },
-          specimens: []
+          mb: []
         },
         methods: {
-          grateThanZero(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric <= 0) {
-              this.errors.push({'message': varname + ' must be a valid number grate than zero.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeNumeric(numeric, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            }
-            return result;
-          },
-          mustInRange(numeric, themin, themax, varname) {
-            result = true;
-            if (numeric == null) {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            } else if (isNaN(numeric)) {
-              this.errors.push({'message': varname + ' must be a valid number.'});
-              result = false;
-            } else if (numeric < themin || numeric > themax) {
-              this.errors.push({'message': varname + ' must be in ' + themin + 
-                                ' and ' + themax + '.'});
-              result = false;
-            }
-            return result;
-          },
-          mustBeString(thestr, varname) {
-            result = true;
-            if (thestr == null || thestr == "") {
-              this.errors.push({'message': varname + ' is required.'});
-              result = false;
-            }
-            return result;
-          },
-          completedForm: function() {
-            result = this.mustBeString(this.exp.ename, "Experiment Name");
-            // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
-            result = result & this.grateThanZero(this.exp.frequncy, 'Frequency');
-            result = result & this.grateThanZero(this.exp.sampling, 'Sampling');
-            result = result & this.grateThanZero(this.exp.H, 'H');
-            result = result & this.grateThanZero(this.exp.cycles, 'Clycles');
-            result = result & this.mustInRange(this.exp.datatype, 1, 2, 'DataType');
-            result = result & this.mustBeString(this.exp.datapath, 'DataPath');
-            result = result & this.mustBeString(this.exp.rawpath, 'RawPath');
-            result = result & this.mustInRange(this.exp.sid, 1, this.specimens.length, 'Specimen');
-            return result;
-          },
-          checkExp: function (e) {            
-            this.errors = [];
-            if (this.completedForm() == true) {
-              this.exp.etime = Date.now();
+          confirmDelete: function(mbid) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
               axios
-              .post('/newexp', this.exp)
+              .get('/delmb/' + mbid)
               .then(res => {
-                if (res.data.message == "ok")
-                  alert("Ok! A new experiment was created");
-                else
-                  alert("An Error Occured");
-              }).catch(function (err) {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("The mechanics behavior test (id = " + mbid + ") was deteleted");
+                  window.location.reload(true);
+                } else {
+                  aletrs("An Error Occured!");
+                }
+              })
+              .catch(err => {
                 console.log(err);
-                alert("An Error Occured");
               });
             }
-            e.preventDefault();
-          },
-          resetExp: function(e) {
-            this.errors = [];
-            this.exp.eid = 0;
-            this.exp.ename = "";
-            this.exp.frequncy = 0.1;
-            this.exp.sampling = 16;
-            this.exp.H = 0;
-            this.exp.cycles = 0;
-            this.exp.datatype = 0;
-            this.exp.datapath = "";
-            this.exp.rawpath = "";
-            this.exp.sid = 0;
-            this.exp.uid = 1;
-            this.exp.memo = "";
-            this.exp.etime = Date.now();
-            e.preventDefault();
           }
         },
         mounted() {
           // verify_token();
           axios
-          .get('/vspecimen')
+          .get('/vmb')
           .then(res => {
-            this.specimens = res.data;
-            // console.log(this.specimens);
+            this.mb = res.data;
           })
           .catch(err => {
             console.log(err);
