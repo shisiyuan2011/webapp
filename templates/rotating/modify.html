@@ -444,6 +444,7 @@
                 console.log(res.data);
                 if (res.data.message == "ok") {
                   alert("Ok! The test was modified");
+                  document.location = "/rotating/detail/{{ rtid }}";
                 } else {
                   alert("An error occured");
                 }
