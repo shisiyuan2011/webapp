@@ -330,10 +330,10 @@
               .then(res => {
                 // console.log(res.data);
                 if (res.data.message == "ok") {
-                  alert("the speicimen (id = " + sid + ") was deteleted");
+                  alert("the specimen (id = " + sid + ") was deteleted");
                   window.location.reload(true);
                 } else {
-                  alert("An Error Occured!");
+                  alert("Can not remove this specimen, because it is in use!");
                 }
               })
               .catch(err => {

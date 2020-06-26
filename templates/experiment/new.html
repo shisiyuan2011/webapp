@@ -394,9 +394,10 @@
               axios
               .post('/newexp', this.exp)
               .then(res => {
-                if (res.data.message == "ok")
+                if (res.data.message == "ok") {
                   alert("Ok! A new experiment was created");
-                else
+                  document.location = "/experiment/list";
+                } else
                   alert("An Error Occured");
               }).catch(function (err) {
                 console.log(err);

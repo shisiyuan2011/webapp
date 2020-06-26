@@ -335,6 +335,8 @@
                 if (res.data.message == "ok") {
                   alert("the experiment (id = " + eid + ") was deteleted");
                   window.location.reload(true);
+                } else {
+                  alert("An Error Occured");
                 }
               })
               .catch(err => {

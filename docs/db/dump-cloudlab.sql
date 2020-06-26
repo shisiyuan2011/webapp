@@ -142,7 +142,7 @@ CREATE TABLE `mb` (
   PRIMARY KEY (`mbid`),
   KEY `fk_mb_material` (`mid`),
   CONSTRAINT `fk_mb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Mechanics Behavior Test';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Mechanics Behavior Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,6 +151,7 @@ CREATE TABLE `mb` (
 
 LOCK TABLES `mb` WRITE;
 /*!40000 ALTER TABLE `mb` DISABLE KEYS */;
+INSERT INTO `mb` VALUES (4,'MT_01',8,2,5.8,20,9,9,899,700,12,5,788,0.02,207000,'/images/mb/','/images/mb/无标题1.png','/images/mb/');
 /*!40000 ALTER TABLE `mb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +274,7 @@ CREATE TABLE `rotating` (
   PRIMARY KEY (`rtid`),
   KEY `fk_rotating_material` (`mid`),
   CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +283,7 @@ CREATE TABLE `rotating` (
 
 LOCK TABLES `rotating` WRITE;
 /*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
-INSERT INTO `rotating` VALUES (14,'RB-1',8,6,2,400000,0,3000,63.61725116250001,94.31404045852229,1,1,'','/images/rotating/','/images/rotating/','/images/rotating/');
+INSERT INTO `rotating` VALUES (16,'RB_01',8,6.1,5,392039,10,3000,67.96561299791975,224.3781719509653,2,1,'This data is faked and just used for testing !!!!!','/images/rotating/无标题1.png','/images/rotating/','/images/rotating/');
 /*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +305,7 @@ CREATE TABLE `specimen` (
   UNIQUE KEY `unique_sname` (`sname`) USING BTREE,
   KEY `fk_specimen_material` (`mid`) USING BTREE,
   CONSTRAINT `fk_specimen_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,7 +346,7 @@ CREATE TABLE `tension` (
   PRIMARY KEY (`tension_id`),
   KEY `torison_fk` (`mid`) USING BTREE,
   CONSTRAINT `fk_pp_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='PULL AND PUSH TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,7 +355,7 @@ CREATE TABLE `tension` (
 
 LOCK TABLES `tension` WRITE;
 /*!40000 ALTER TABLE `tension` DISABLE KEYS */;
-INSERT INTO `tension` VALUES (2,'Tension_1',2,6,17.5,25,30000,0,2,7.5,0.4,1,1,'','/images/tension/无标题1.png','/images/tension/','/images/tension/'),(3,'TT-01',8,6,20,30,100000,0,2,10,0.3333333333333333,1,1,'','/images/tension/','/images/tension/','/images/tension/');
+INSERT INTO `tension` VALUES (4,'Tension',8,10,45,72,593879,1,1,27,0.25,2,1,'The testing rig is that labeled as QBT-200','/images/tension/无标题2.png','/images/tension/','/images/tension/');
 /*!40000 ALTER TABLE `tension` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,7 +388,7 @@ CREATE TABLE `tooth` (
   PRIMARY KEY (`tooth_id`),
   KEY `torison_fk` (`mid`) USING BTREE,
   CONSTRAINT `fk_tb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='GEAR TOOTH TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='GEAR TOOTH TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,7 +397,7 @@ CREATE TABLE `tooth` (
 
 LOCK TABLES `tooth` WRITE;
 /*!40000 ALTER TABLE `tooth` DISABLE KEYS */;
-INSERT INTO `tooth` VALUES (2,'G1',8,2,20,10,80,0,300000,1,1,1,2,1,'','/images/tooth/','/images/tooth/','/images/tooth/'),(3,'G1',8,4,30,15,90,0,500000,1,1,1,1,1,'','/images/tooth/','/images/tooth/','/images/tooth/');
+INSERT INTO `tooth` VALUES (6,'Gear_01',8,1,55,25,90,0.1,894803,1,1,1,4,1,'','/images/tooth/无标题1.png','/images/tooth/','/images/tooth/');
 /*!40000 ALTER TABLE `tooth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +430,7 @@ CREATE TABLE `torsion` (
   PRIMARY KEY (`torsion_id`),
   KEY `fk_torison_material` (`mid`),
   CONSTRAINT `fk_torison_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +439,7 @@ CREATE TABLE `torsion` (
 
 LOCK TABLES `torsion` WRITE;
 /*!40000 ALTER TABLE `torsion` DISABLE KEYS */;
-INSERT INTO `torsion` VALUES (11,'tf_02',2,6,20,45,-45,2,2,1061.032953945969,30405,0,1,2,'0','/images/torsion/','/images/torsion/','/images/torsion/');
+INSERT INTO `torsion` VALUES (12,'Torsion_01',8,6.1,20,35,20,2.3,2.1,785.3236009310156,135000,10,1,1,'This data is faked and used for website testing!','/images/torsion/无标题.png','/images/torsion/','/images/torsion/');
 /*!40000 ALTER TABLE `torsion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1032,4 +1033,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-25 11:03:09
+-- Dump completed on 2020-06-25 18:21:29

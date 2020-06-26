@@ -350,8 +350,12 @@ async def mtr_nmodify(request: Request, mname : str):
 
 @app.get("/delmtr/{mid}")
 def delete_material(mid: int, db: Session = Depends(get_db)):
-    crud.mtr_delete(db, mid)
-    return {"message": "ok"}
+    try:
+        crud.mtr_delete(db, mid)
+        return {"message": "ok"}
+    except:
+        return {"message": "bad"}
+
 
 @app.post("/newmtr")
 def newmtr(mtr: schemas.Material, db: Session = Depends(get_db)):

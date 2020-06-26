@@ -356,7 +356,7 @@
             // .exp.sampling && this.exp.cycles && this.exp.datatype && this.exp.datapath && this.exp.rawpath && this.exp.sid > 0)
             result = result & this.grateThanZero(this.spc.radius, 'Radius');
             result = result & this.grateThanZero(this.spc.length, 'Length');
-            result = result & this.mustInRange(this.spc.mid, 1, this.materials.length, 'Material');
+            result = result & this.grateThanZero(this.spc.mid, 'Material');
             return result;
           },
           checkSpc: function (e) {            
@@ -369,6 +369,7 @@
                 // console.log(res.data);
                 if (res.data.message == "ok") {
                   alert("Ok! A new specimen was created");
+                  document.location='/specimen/list';
                 } else {
                   alert("An Error Occured");
                 }

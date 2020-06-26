@@ -356,9 +356,10 @@
               axios
               .post('/newmtr', this.mtr)
               .then(res => {
-                if (res.data.message == "ok")
+                if (res.data.message == "ok") {
                   alert("Ok! A new material was created");
-                else
+                  document.location = "/material/list";
+                } else
                   alert("An Error Occured");
               }).catch(function (err) {
                 console.log(err);
