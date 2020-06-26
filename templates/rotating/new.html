@@ -263,16 +263,16 @@
                     <label for="rotating.diameter">Diameter(mm)</label>
                     <input v-model="rotating.diameter" class="form-control" id="diameter" type="numeric"  @input="calLz">
 
-                    <label for="rotating.moment">Moment(N.mm)</label>
+                    <label for="rotating.moment">Moment(N.m)</label>
                     <input v-model="rotating.moment" class="form-control" id="moment" type="numeric"  @input="calStress">
                     
                     <label for="rotating.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="rotating.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
                     
-                    <label for="rotating.FracturedLocs">FracturedLocs</label>
+                    <label for="rotating.FracturedLocs">Fractured Locs From Fixed End(mm) From Fixed End(mm)</label>
                     <input v-model="rotating.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
                     
-                    <label for="rotating.speed">Speed</label>
+                    <label for="rotating.speed">Speed(rpm)</label>
                     <input v-model="rotating.speed" class="form-control" id="speed" type="numeric">
                     
                     <label for="rotating.lp">lz</label><p>
@@ -355,8 +355,8 @@
             speed : 0,
             lp : 0,
             stress : 0,
-            runoutcycles : 0,
-            runouttime : 0,
+            runoutcycles : 2,
+            runouttime : 1,
             description : "",
             pic1 : "",
             pic2 : "",
@@ -419,7 +419,7 @@
             result = result & this.grateThanZero(this.rotating.diameter,      "Diameter");
             result = result & this.grateThanZero(this.rotating.moment,        "Moment");
             result = result & this.mustBeNumeric(this.rotating.FatigueLifeNf, "Fatigue Life Nf");
-            result = result & this.mustBeNumeric(this.rotating.FracturedLocs, "Fractured Locs");
+            result = result & this.mustBeNumeric(this.rotating.FracturedLocs, "Fractured Locs From Fixed End(mm)");
             result = result & this.mustBeNumeric(this.rotating.speed,         "Speed");
             // result = result & this.mustBeNumeric(this.rotating.lp,            "lp");
             // result = result & this.mustBeNumeric(this.rotating.stress,        "Stress");
@@ -465,8 +465,8 @@
             this.rotating.speed = 0;
             this.rotating.lp = 0;
             this.rotating.stress = 0;
-            this.rotating.runoutcycles = 0;
-            this.rotating.runouttime = 0;
+            this.rotating.runoutcycles = 2;
+            this.rotating.runouttime = 1;
             this.rotating.description = "";
             this.rotating.pic1 = "";
             this.rotating.pic2 = "";

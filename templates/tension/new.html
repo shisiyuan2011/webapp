@@ -287,7 +287,7 @@
                     <label for="tension.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="tension.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
                     
-                    <label for="tension.FracturedLocs">FracturedLocs</label>
+                    <label for="tension.FracturedLocs">Fractured Locs From Fixed End(mm)</label>
                     <input v-model="tension.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
                                         
                     <label for="tension.runoutcycles">Run Out Cycles</label>
@@ -360,7 +360,7 @@
             maxload       : 0,
             FatigueLifeNf : 0,
             FracturedLocs : 0,
-            ktfactor      : 0,
+            ktfactor      : 1,
             ampload       : 0,
             ratioofload   : 0,
             runoutcycles  : 0,
@@ -432,7 +432,7 @@
             result = result & this.mustBeNumeric(this.tension.meanload,          "Mean Load");
             // result = result & this.mustBeNumeric(this.tension.maxload,    "Max Load");
             result = result & this.mustBeNumeric(this.tension.FatigueLifeNf, "Fatigue Life Nf");
-            result = result & this.mustBeNumeric(this.tension.FracturedLocs, "Fractured Locs");
+            result = result & this.mustBeNumeric(this.tension.FracturedLocs, "Fractured Locs From Fixed End(mm)");
             // result = result & this.mustBeNumeric(this.tension.lp,            "lp");
             // result = result & this.mustBeNumeric(this.tension.stress,        "Stress");
             result = result & this.grateThanZero(this.tension.runoutcycles,  "Run Out Cycles");
@@ -478,7 +478,7 @@
             this.tension.maxload       = 0;
             this.tension.FatigueLifeNf = 0;
             this.tension.FracturedLocs = 0;
-            this.tension.ktfactor      = 0;
+            this.tension.ktfactor      = 1;
             this.tension.ampload       = 0;
             this.tension.ratioofload   = 0;
             this.tension.runoutcycles  = 0;

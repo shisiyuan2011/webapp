@@ -260,7 +260,7 @@
                     </option>
                     </select>
 
-                    <label for="tooth.nooftheeth">No of Teeth</label>
+                    <label for="tooth.nooftheeth">No. of Teethh</label>
                     <input v-model="tooth.nooftheeth" class="form-control" id="nooftheeth" type="numeric">
 
                     <label for="tooth.toothwidth">Tooth Width(mm)</label>
@@ -289,8 +289,8 @@
                     <input v-model="tooth.frequency" class="form-control" id="frequency" type="numeric">
 
                     <label for="tooth.ratioofload">Ratio Of Load</label>
-                    <!-- p><div id="ratioofload">[[ tooth.ratioofload ]]</div></p -->
-                    <input v-model="tooth.ratioofload" class="form-control" id="ratioofload" type="numeric">
+                    <p><div id="ratioofload">[[ dsp.rol ]]</div></p>
+                    <!-- input v-model="tooth.ratioofload" class="form-control" id="ratioofload" type="numeric" -->
 
                     <label for="tooth.fracturemode">Fracture Mode</label>
                     <select v-model="tooth.fracturemode" class="form-control" id="fracturemode" >
@@ -377,7 +377,7 @@
             FatigueLifeNf : 0,
             fracturemode  : 0,
             modulus       : 0,
-            toothwidth    : 0,
+            toothwidth    : 1,
             runoutcycles  : 0,
             runouttime    : 0,
             description   : "",
@@ -497,7 +497,7 @@
             this.tooth.FatigueLifeNf = 0;
             this.tooth.fracturemode  = 0;
             this.tooth.modulus       = 0;
-            this.tooth.toothwidth    = 0;
+            this.tooth.toothwidth    = 1;
             this.tooth.runoutcycles  = 0;
             this.tooth.runouttime    = 0;
             this.tooth.description   = "";
@@ -507,13 +507,12 @@
             e.preventDefault();
           },
           calMaxLoad: function() {
-            /*this.tooth.maxload = parseFloat(this.tooth.meanload) + parseFloat(this.tooth.ampload);
-            this.dsp.maxload = Math.round((this.tooth.maxload + Number.EPSILON) * 1000) / 1000;
+            this.tooth.maxload = parseFloat(this.tooth.meanload) + parseFloat(this.tooth.ampload);
             var minload = parseFloat(this.tooth.meanload) - parseFloat(this.tooth.ampload);
             if (this.tooth.maxload != 0) {
               this.tooth.ratioofload = minload / this.tooth.maxload;
               this.dsp.rol = Math.round((this.tooth.ratioofload + Number.EPSILON) * 1000) / 1000;;
-            }*/
+            }
           }
         },
         mounted() {

@@ -263,7 +263,7 @@
                     <label for="torsion.diameter">Diameter(mm)</label>
                     <input v-model="torsion.diameter" class="form-control" id="diameter" type="numeric">
 
-                    <label for="torsion.tlen">Length(mm)</label>
+                    <label for="torsion.tlen">Effect Length(mm)</label>
                     <input v-model="torsion.tlen" class="form-control" id="moment" type="numeric">
 
                     <label for="torsion.max_torque">Max Torque(Nm)</label>
@@ -285,7 +285,7 @@
                     <label for="torsion.FatigueLifeNf">Fatigue Life Nf</label>
                     <input v-model="torsion.FatigueLifeNf" class="form-control" id="FatigueLifeNf" type="numeric">
                     
-                    <label for="torsion.FracturedLocs">FracturedLocs</label>
+                    <label for="torsion.FracturedLocs">Fractured Locs From Fixed End(mm)</label>
                     <input v-model="torsion.FracturedLocs" class="form-control" id="FracturedLocs" type="numeric">
                                         
                     <label for="torsion.runoutcycles">Run Out Cycles</label>
@@ -430,7 +430,7 @@
             result = result & this.grateThanZero(this.torsion.max_theta,         "Max Theta");
             result = result & this.mustBeNumeric(this.torsion.min_theta,         "Min Theta");
             result = result & this.mustBeNumeric(this.torsion.FatigueLifeNf, "Fatigue Life Nf");
-            result = result & this.mustBeNumeric(this.torsion.FracturedLocs, "Fractured Locs");
+            result = result & this.mustBeNumeric(this.torsion.FracturedLocs, "Fractured Locs From Fixed End(mm)");
             // result = result & this.mustBeNumeric(this.torsion.lp,            "lp");
             // result = result & this.mustBeNumeric(this.torsion.stress,        "Stress");
             result = result & this.grateThanZero(this.torsion.runoutcycles,  "Run Out Cycles");
