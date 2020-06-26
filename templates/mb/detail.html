@@ -254,7 +254,7 @@
                       <tr><td><i class="fa fa-align-justify">ID                  </i></td><td>[[ mb.mbid          ]]</td></tr>
                       <tr><td><i class="fa fa-align-justify">Specimen Name       </i></td><td>[[ mb.sname         ]]</td></tr>
                       <tr><td><i class="fa fa-align-justify">Material            </i></td><td>[[ mb.mname         ]]</td></tr>
-                      <tr><td><i class="fa fa-align-justify">Load Type           </i></td><td>[[ mb.loadtype      ]]</td></tr>
+                      <tr><td><i class="fa fa-align-justify">Load Type           </i></td><td>[[ load_type      ]]</td></tr>
                       <tr><td><i class="fa fa-align-justify">Diameter(mm)        </i></td><td>[[ mb.diameter      ]]</td></tr>
                       <tr><td><i class="fa fa-align-justify">Length(mm)          </i></td><td>[[ mb.slen          ]]</td></tr>
                       <tr><td><i class="fa fa-align-justify">Load Speed(mm/s)    </i></td><td>[[ mb.load_speed    ]]</td></tr>
@@ -349,7 +349,7 @@
             var lt = ['Torsion', 'Tension'];
 
             this.mb = res.data;
-            this.load_type = lt[this.mb.load_type - 1];
+            this.load_type = lt[this.mb.loadtype - 1];
           })
           .catch(err => {
             console.log(err);

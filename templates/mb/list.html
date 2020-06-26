@@ -66,21 +66,21 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="mb/list">
+          <a class="c-sidebar-nav-link" href="torsion/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Torsion Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="mb/list">
+          <a class="c-sidebar-nav-link" href="tension/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="mb/list">
+          <a class="c-sidebar-nav-link" href="tooth/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Gear Tooth Bending
@@ -256,7 +256,7 @@
                         <th>Moment</th -->
                         <th>UTS(MPa))</th>
                         <th>Yield(Mpa)</th>
-                        <th>Fatigue Life Nf</th>
+                        <th>LoadType</th>
                         <!-- th>Fractured Locs From Fixed End(mm)</th>
                         <th>Speed</th>
                         <th>lp</th>
@@ -281,7 +281,7 @@
                         <td>[[ th.mb_yield ]]</td>
                         <!-- td>[[ th.diameter ]]</td>
                         <td>[[ th.moment ]]</td -->
-                        <td>[[ th.FatigueLifeNf ]]</td>
+                        <td>[[ th.str_load_type ]]</td>
                         <!-- td>[[ th.FracturedLocs ]]</td>
                         <td>[[ th.speed ]]</td>
                         <td>[[ th.lp ]]</td>
@@ -364,6 +364,11 @@
           .get('/vmb')
           .then(res => {
             this.mb = res.data;
+            var lt = ['Torsion', 'Tension'];
+
+            for (var i = 0; i < this.mb.length; ++i) {
+              this.mb[i].str_load_type = lt[this.mb[i].loadtype - 1];
+            }
           })
           .catch(err => {
             console.log(err);

@@ -66,14 +66,14 @@
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tooth/list">
+          <a class="c-sidebar-nav-link" href="torsion/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Torsion Test
           </a>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-          <a class="c-sidebar-nav-link" href="tooth/list">
+          <a class="c-sidebar-nav-link" href="tension/list">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Tension Test
@@ -275,7 +275,7 @@
                     <tbody>
                       <tr v-for="th in tooth">
                         <td><span class="badge badge-success"><a v-bind:href="'/tooth/detail/' + th.tooth_id">[[ th.tooth_id ]]</a></span></td>
-                        <td>[[ th.sname ]]</td>
+                        <td>[[ th.sname ]] [[ th.nooftheeth ]]</td>
                         <td>[[ th.mname ]]</td>
                         <td>[[ th.max_stress ]]</td>
                         <td>[[ th.min_stress ]]</td>

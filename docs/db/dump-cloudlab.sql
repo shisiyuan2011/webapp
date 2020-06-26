@@ -80,7 +80,7 @@ CREATE TABLE `experiment` (
 
 LOCK TABLES `experiment` WRITE;
 /*!40000 ALTER TABLE `experiment` DISABLE KEYS */;
-INSERT INTO `experiment` VALUES (1,'GCr15测试1','2020-06-08 18:10:35',1,1,0.1,32,20,3087,1,'E:\\试验数据\\韩福宁\\GCr15\\S1-H20-N3087','E:\\试验数据\\韩福宁\\GCr15\\S1-H20-N3087',''),(2,'GCr15 测试2','2020-06-08 18:10:35',2,1,0.1,32,15,7141,1,'E:\\试验数据\\韩福宁\\GCr15\\S2-H15-N7141','E:\\试验数据\\韩福宁\\GCr15\\S2-H15-N7141',''),(3,'GCr15 测试3','2020-06-08 18:10:35',3,1,0.1,32,10,39534,1,'E:\\试验数据\\韩福宁\\GCr15\\S3-H10-N39534','E:\\试验数据\\韩福宁\\GCr15\\S3-H10-N39534',''),(4,'GCr15 测试4','2020-06-08 18:10:35',4,1,0.1,32,25,1640,1,'E:\\试验数据\\韩福宁\\GCr15\\S4-H25-N1640','E:\\试验数据\\韩福宁\\GCr15\\S4-H25-N1640',''),(5,'GCr15 测试5','2020-06-08 18:10:35',5,1,0.1,32,30,1279,1,'E:\\试验数据\\韩福宁\\GCr15\\S5-H30-N1279','E:\\试验数据\\韩福宁\\GCr15\\S5-H30-N1279',''),(6,'GCr15 测试6','2020-06-08 18:10:35',6,1,0.1,32,35,1250,1,'E:\\试验数据\\韩福宁\\GCr15\\S6-H35-N1250','E:\\试验数据\\韩福宁\\GCr15\\S6-H35-N1250',''),(8,'QT800 测试1','2020-06-08 18:10:35',8,1,0.1,16,36,743,2,'E:\\试验数据\\韩福宁\\QT800\\S2H36N743_20191210\\Data','E:\\试验数据\\韩福宁\\QT800\\S2H36N743_20191210',''),(9,'QT800 测试2','2020-06-08 18:10:35',9,1,0.1,16,34,954,2,'E:\\试验数据\\韩福宁\\QT800\\S3H34N954_20191210\\Data','E:\\试验数据\\韩福宁\\QT800\\S3H34N954_20191210',''),(10,'QT800 测试3','2020-06-08 18:10:35',10,1,0.1,16,38,366,2,'E:\\试验数据\\韩福宁\\QT800\\S5H38N366_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S5H38N366_20191212',''),(11,'QT800 测试4','2020-06-08 18:10:35',11,1,0.1,16,32,1298,2,'E:\\试验数据\\韩福宁\\QT800\\S6H32N1298_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S6H32N1298_20191212',''),(12,'QT800 测试5','2020-06-08 18:10:35',12,1,0.1,16,30,1029,2,'E:\\试验数据\\韩福宁\\QT800\\S7H30N1029_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S7H30N1029_20191212',''),(13,'QT800 测试6','2020-06-08 18:10:35',13,1,0.1,16,25,2951,2,'E:\\试验数据\\韩福宁\\QT800\\S8H25N2951_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S8H25N2951_20191212','');
+INSERT INTO `experiment` VALUES (1,'GCr15测试1','2020-06-08 18:10:35',1,1,0.1,32,20,3087,1,'E:\\试验数据\\韩福宁\\GCr15\\S1-H20-N3087','E:\\试验数据\\韩福宁\\GCr15\\S1-H20-N3087',''),(2,'GCr15 测试2','2020-06-08 18:10:35',2,1,0.1,32,15,7141,1,'E:\\试验数据\\韩福宁\\GCr15\\S2-H15-N7141','E:\\试验数据\\韩福宁\\GCr15\\S2-H15-N7141',''),(3,'GCr15 测试3','2020-06-08 18:10:35',3,1,0.1,32,10,39534,1,'E:\\试验数据\\韩福宁\\GCr15\\S3-H10-N39534','E:\\试验数据\\韩福宁\\GCr15\\S3-H10-N39534',''),(4,'GCr15 测试4','2020-06-08 18:10:35',4,1,0.1,32,25,1640,1,'E:\\试验数据\\韩福宁\\GCr15\\S4-H25-N1640','E:\\试验数据\\韩福宁\\GCr15\\S4-H25-N1640',''),(5,'GCr15 测试5','2020-06-08 18:10:35',5,1,0.1,32,30,1279,1,'E:\\试验数据\\韩福宁\\GCr15\\S5-H30-N1279','E:\\试验数据\\韩福宁\\GCr15\\S5-H30-N1279',''),(6,'GCr15 测试6','2020-06-08 18:10:35',6,1,0.1,32,35,1250,1,'E:\\试验数据\\韩福宁\\GCr15\\S6-H35-N1250','E:\\试验数据\\韩福宁\\GCr15\\S6-H35-N1250',''),(8,'QT800 测试1','2020-06-08 18:10:35',8,1,0.1,16,36,743,2,'E:\\试验数据\\韩福宁\\QT800\\S2H36N743_20191210\\Data','E:\\试验数据\\韩福宁\\QT800\\S2H36N743_20191210',''),(9,'QT800 测试2','2020-06-08 18:10:35',9,1,0.1,16,34,954,2,'E:\\试验数据\\韩福宁\\QT800\\S3H34N954_20191210\\Data','E:\\试验数据\\韩福宁\\QT800\\S3H34N954_20191210',''),(10,'QT800 测试3','2020-06-08 18:10:35',10,1,0.1,16,38,366,2,'E:\\试验数据\\韩福宁\\QT800\\S5H38N366_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S5H38N366_20191212',''),(11,'QT800 测试4','2020-06-08 18:10:35',11,1,0.1,16,32,1298,2,'E:\\试验数据\\韩福宁\\QT800\\S6H32N1298_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S6H32N1298_20191212',''),(12,'QT800 测试5','2020-06-08 18:10:35',12,1,0.1,16,30,1029,2,'E:\\试验数据\\韩福宁\\QT800\\S7H30N1029_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S7H30N1029_20191212',''),(13,'QT800 测试6','2020-06-26 11:55:00',13,1,0.1,16,25,2951,2,'E:\\试验数据\\韩福宁\\QT800\\S8H25N2951_20191212\\Data','E:\\试验数据\\韩福宁\\QT800\\S8H25N2951_20191212','asfasf');
 /*!40000 ALTER TABLE `experiment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `material` (
   PRIMARY KEY (`mid`) USING BTREE,
   UNIQUE KEY `unique_mname` (`mname`) USING BTREE,
   UNIQUE KEY `unique_en_name` (`en_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (1,'GCr15','High-carbon chromium bearing steel','GB/T 18254-2016','高碳铬轴承钢'),(2,'QT800','Nodular Cast Iron','','球墨铸铁'),(8,'18CrNiMo7-6','Gear steel','ISO 6336','???????');
+INSERT INTO `material` VALUES (1,'GCr15','High-carbon chromium bearing steel','GB/T 18254-2016','高碳铬轴承钢'),(2,'QT800','Nodular Cast Iron','','球墨铸铁'),(8,'18CrNiMo7-6','Gear steel','ISO 6336','');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `mb` (
   PRIMARY KEY (`mbid`),
   KEY `fk_mb_material` (`mid`),
   CONSTRAINT `fk_mb_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Mechanics Behavior Test';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Mechanics Behavior Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `mb` (
 
 LOCK TABLES `mb` WRITE;
 /*!40000 ALTER TABLE `mb` DISABLE KEYS */;
-INSERT INTO `mb` VALUES (4,'MT_01',8,2,5.8,20,9,9,899,700,12,5,788,0.02,207000,'/images/mb/','/images/mb/无标题1.png','/images/mb/');
+INSERT INTO `mb` VALUES (4,'MT_01',8,2,5.8,20,9,9,899,700,12,5,788,0.02,207000,'/images/mb/','/images/mb/无标题1.png','/images/mb/'),(5,'MB_002',8,1,5.5,20,1,1,600,500,19,3,555,0.02,207000,'/images/mb/','/images/mb/','/images/mb/'),(6,'aaaaa',8,2,0,0,0,0,0,0,0,0,0,0,0,'/images/mb/','/images/mb/','/images/mb/TTT-300x158.jpg'),(7,'aaaaabbb',8,2,0,0,0,0,0,0,0,0,0,0,0,'/images/mb/','/images/mb/','/images/mb/TTT-300x158.jpg'),(8,'ccc',2,2,0,0,0,0,0,0,0,0,0,0,0,'/images/mb/pia300.jpg','/images/mb/','/images/mb/');
 /*!40000 ALTER TABLE `mb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `rotating` (
   PRIMARY KEY (`rtid`),
   KEY `fk_rotating_material` (`mid`),
   CONSTRAINT `fk_rotating_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='ROTATING AND BENDING TEST';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +283,7 @@ CREATE TABLE `rotating` (
 
 LOCK TABLES `rotating` WRITE;
 /*!40000 ALTER TABLE `rotating` DISABLE KEYS */;
-INSERT INTO `rotating` VALUES (16,'RB_01',8,6.1,5,392039,10,3000,67.96561299791975,224.3781719509653,2,1,'This data is faked and just used for testing !!!!!','/images/rotating/无标题1.png','/images/rotating/','/images/rotating/');
+INSERT INTO `rotating` VALUES (16,'RB_01',8,6.1,5,392039,10,3000,67.96561299791975,224.3781719509653,2,1,'This data is faked and just used for testing !!!!!','/images/rotating/无标题1.png','/images/rotating/','/images/rotating/'),(17,'RB-002',8,5.8,2,29800,12,3800,55.549719777116245,104.41096774693929,1,1,'','/images/rotating/','/images/rotating/','/images/rotating/');
 /*!40000 ALTER TABLE `rotating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +305,7 @@ CREATE TABLE `specimen` (
   UNIQUE KEY `unique_sname` (`sname`) USING BTREE,
   KEY `fk_specimen_material` (`mid`) USING BTREE,
   CONSTRAINT `fk_specimen_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -397,7 +397,7 @@ CREATE TABLE `tooth` (
 
 LOCK TABLES `tooth` WRITE;
 /*!40000 ALTER TABLE `tooth` DISABLE KEYS */;
-INSERT INTO `tooth` VALUES (6,'Gear_01',8,1,55,25,90,0.1,894803,1,1,1,4,1,'','/images/tooth/无标题1.png','/images/tooth/','/images/tooth/');
+INSERT INTO `tooth` VALUES (6,'Gear_01',8,1,55,25,90,0.375,894803,1,1,1,4,1,'','/images/tooth/无标题1.png','/images/tooth/','/images/tooth/');
 /*!40000 ALTER TABLE `tooth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,7 +430,7 @@ CREATE TABLE `torsion` (
   PRIMARY KEY (`torsion_id`),
   KEY `fk_torison_material` (`mid`),
   CONSTRAINT `fk_torison_material` FOREIGN KEY (`mid`) REFERENCES `material` (`mid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Torison Test';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -439,7 +439,7 @@ CREATE TABLE `torsion` (
 
 LOCK TABLES `torsion` WRITE;
 /*!40000 ALTER TABLE `torsion` DISABLE KEYS */;
-INSERT INTO `torsion` VALUES (12,'Torsion_01',8,6.1,20,35,20,2.3,2.1,785.3236009310156,135000,10,1,1,'This data is faked and used for website testing!','/images/torsion/无标题.png','/images/torsion/','/images/torsion/');
+INSERT INTO `torsion` VALUES (12,'Torsion_01',8,6.1,20,35,20,2.3,2.1,785.3236009310156,135000,10,1,1,'This data is faked and used for website testing!','/images/torsion/无标题.png','/images/torsion/','/images/torsion/'),(13,'torsion_002',8,6.05,30,65,-45,2.5,-1.5,1494.9179018104026,3509,22,1,1,'0','/images/torsion/无标题1.png','/images/torsion/pia300.jpg','/images/torsion/TTT-300x158.jpg');
 /*!40000 ALTER TABLE `torsion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1033,4 +1033,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-25 18:21:29
+-- Dump completed on 2020-06-26 14:23:28
