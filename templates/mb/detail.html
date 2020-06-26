@@ -247,7 +247,7 @@
                     <i class="fa fa-align-justify"> </i>[[ mb.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="mb/detail/{{ mbid }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="mb/modify/{{ mbid }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="mb/detail/{{ mbid }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ mbid }})">Delete</a></span>
                   </div>
                   <table class="table table-responsive-sm table-bordered table-striped table-sm">
                     <tbody> 
@@ -275,7 +275,7 @@
                     <i class="fa fa-align-justify"> </i>[[ mb.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="mb/detail/{{ mbid }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="mb/modify/{{ mbid }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="mb/detail/{{ mbid }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ mbid }})">Delete</a></span>
                   </div>
                 </div>
               </div>
@@ -320,6 +320,26 @@
             pic3          : ""
           },
           load_type : ""
+        },
+        methods: {
+          confirmDelete: function(mbid) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/delmb/' + mbid)
+              .then(res => {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("The mechanics behavior test (id = " + mbid + ") was deteleted");
+                  document.location = "/mb/list";
+                } else {
+                  aletrs("An Error Occured!");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
+          }
         },
         mounted() {
           // verify_token();

@@ -247,7 +247,7 @@
                     <i class="fa fa-align-justify"> </i>[[ trs.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="torsion/detail/{{ torsion_id }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="torsion/modify/{{ torsion_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="torsion/detail/{{ torsion_id }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ torsion_id }})">Delete</a></span>
                   </div>
                   <table class="table table-responsive-sm table-bordered table-striped table-sm">
                     <tbody>
@@ -273,7 +273,7 @@
                     <i class="fa fa-align-justify"> </i>[[ trs.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="torsion/detail/{{ torsion_id }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="torsion/modify/{{ torsion_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="torsion/detail/{{ torsion_id }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ torsion_id }})">Delete</a></span>
                   </div>
                 </div>
               </div>
@@ -314,6 +314,26 @@
             pic1 : "",
             pic2 : "",
             pic3 : ""
+          }
+        },
+        methods: {
+          confirmDelete: function(torsion_id) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/deltrs/' + torsion_id)
+              .then(res => {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("the torsion test (id = " + torsion_id + ") was deteleted");
+                  document.location = "/torsion/list";
+                } else {
+                  aletrs("An Error Occured!");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
           }
         },
         mounted() {

@@ -247,7 +247,7 @@
                     <i class="fa fa-align-justify"> </i>[[ th.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="tooth/modify/{{ tooth_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ tooth_id }})">Delete</a></span>
                   </div>
                   <table class="table table-responsive-sm table-bordered table-striped table-sm">
                     <tbody> 
@@ -275,7 +275,7 @@
                     <i class="fa fa-align-justify"> </i>[[ th.sname ]] 
                     <span class="badge badge-success"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="tooth/modify/{{ tooth_id }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="tooth/detail/{{ tooth_id }}">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ tooth_id }})">Delete</a></span>
                   </div>
                 </div>
               </div>
@@ -327,7 +327,27 @@
             tw: 0
           }
         },
-        mounted() {
+        methods: {
+          confirmDelete: function(tooth_id) {
+            if (confirm('Are you sure?\nPress OK will delete the test! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/delth/' + tooth_id)
+              .then(res => {
+                // console.log(res.data);
+                if (res.data.message == "ok") {
+                  alert("The GTB test (id = " + tooth_id + ") was deteleted");
+                  document.location = "/tooth/list";
+                } else {
+                  aletrs("An Error Occured!");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
+          }
+        },
+       mounted() {
           // verify_token();
           axios
           .get('/vtooth/{{ tooth_id }}')

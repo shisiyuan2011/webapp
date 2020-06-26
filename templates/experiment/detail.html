@@ -246,7 +246,7 @@
                   <i class="fa fa-align-justify"> </i> [[ exp.ename ]] 
                     <span class="badge badge-success"><a class="page-link" href="hloops/{{ eid }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="experiment/modify/{{ eid }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="#">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ eid }})">Delete</a></span>
                 </div>
                 <div class="card-body">
                   <table class="table table-responsive-sm table-bordered table-striped table-sm">
@@ -272,7 +272,7 @@
                     <i class="fa fa-align-justify"> </i>[[ exp.ename ]] 
                     <span class="badge badge-success"><a class="page-link" href="hloops/{{ eid }}">Report</a></span>
                     <span class="badge badge-warning"><a class="page-link" href="experiment/modify/{{ eid }}">Modify</a></span>
-                    <span class="badge badge-secondary"><a class="page-link" href="#">Delete</a></span>
+                    <span class="badge badge-secondary"><a class="page-link" @click="confirmDelete({{ eid }})">Delete</a></span>
                   </div>
                 </div>
               </div>
@@ -298,6 +298,25 @@
         data: {
           exp: null
         },
+        methods: {
+          confirmDelete: function (eid) {
+            if (confirm('Are you sure?\nPress OK will delete the experiment! If you do not want to delte, press Cancel please!\nFor testing, Please delete your own test case, do not delete the original data, thank you!')) {
+              axios
+              .get('/delexp/' + eid)
+              .then(res => {
+                if (res.data.message == "ok") {
+                  alert("the experiment (id = " + eid + ") was deteleted");
+                  document.location = "/experiment/list";
+                } else {
+                  alert("An Error Occured");
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            }
+        },
+      },
         mounted() {
           // verify_token();
           axios
